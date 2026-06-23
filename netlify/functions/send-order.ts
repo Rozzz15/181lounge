@@ -45,45 +45,62 @@ function buildTelegramMessage(data: OrderRequest): string {
   });
 
   const lines: string[] = [];
-  lines.push('🛒 *NEW ORDER*');
+  lines.push('═══════════════════════');
+  lines.push('🛒  *N E W   O R D E R*');
+  lines.push('═══════════════════════');
   lines.push('');
-  lines.push(`🪑 Table: *${data.tableNumber}*`);
-  lines.push(`👤 *${data.customerName}*`);
-  if (data.customerPhone) lines.push(`📱 ${formatPhone(data.customerPhone)}`);
-  if (data.customerEmail) lines.push(`📧 ${data.customerEmail}`);
-  lines.push(`💳 Payment: *${data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet'}*`);
+  lines.push(`🪑  Table *${data.tableNumber}*`);
+  lines.push(`👤  *${data.customerName}*`);
+  if (data.customerPhone) lines.push(`📱  ${formatPhone(data.customerPhone)}`);
+  if (data.customerEmail) lines.push(`📧  ${data.customerEmail}`);
+  lines.push(`💳  *${data.paymentMethod === 'cash' ? '💵 Cash' : '📱 E-Wallet'}*`);
   lines.push('');
+  lines.push('───────────────────────');
 
   const dineInItems = data.items.filter((i) => i.orderType === 'dine-in');
   const takeOutItems = data.items.filter((i) => i.orderType === 'take-out');
 
   if (dineInItems.length > 0) {
-    lines.push('🍽️ *DINE IN*');
+    lines.push('');
+    lines.push('🍽️  *D I N E   I N*');
+    lines.push('');
     dineInItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
-      lines.push(`  • ${item.name} x${item.quantity} — ${formatPrice(lineTotal)}`);
+      lines.push(`  ${item.name}`);
+      lines.push(`    x${item.quantity}  ${formatPrice(lineTotal)}`);
       if (item.specialRequest) lines.push(`    📝 _${item.specialRequest}_`);
+      lines.push('');
     });
     const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push(`  Subtotal: *${formatPrice(dineInSubtotal)}*`);
+    lines.push(`  ─── Subtotal: *${formatPrice(dineInSubtotal)}*`);
     lines.push('');
+    lines.push('───────────────────────');
   }
 
   if (takeOutItems.length > 0) {
-    lines.push('📦 *TAKE OUT*');
+    lines.push('');
+    lines.push('📦  *T A K E   O U T*');
+    lines.push('');
     takeOutItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
-      lines.push(`  • ${item.name} x${item.quantity} — ${formatPrice(lineTotal)}`);
+      lines.push(`  ${item.name}`);
+      lines.push(`    x${item.quantity}  ${formatPrice(lineTotal)}`);
       if (item.specialRequest) lines.push(`    📝 _${item.specialRequest}_`);
+      lines.push('');
     });
     const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push(`  Subtotal: *${formatPrice(takeOutSubtotal)}*`);
+    lines.push(`  ─── Subtotal: *${formatPrice(takeOutSubtotal)}*`);
     lines.push('');
+    lines.push('───────────────────────');
   }
 
-  lines.push(`💰 *TOTAL: ${formatPrice(data.total)}*`);
-  lines.push('📍 35 Mamatid, Cabuyao');
-  lines.push(`🕐 ${timestamp}`);
+  lines.push('');
+  lines.push(`💰  *T O T A L:  ${formatPrice(data.total)}*`);
+  lines.push('');
+  lines.push('📍  35 Mamatid, Cabuyao');
+  lines.push(`🕐  ${timestamp}`);
+  lines.push('');
+  lines.push('═══════════════════════');
 
   return lines.join('\n');
 }
