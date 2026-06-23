@@ -16,7 +16,7 @@ interface OrderRequest {
   tableNumber: string;
   customerPhone?: string;
   customerEmail?: string;
-  requests?: string;
+  paymentMethod: 'cash' | 'ewallet';
   total: number;
 }
 
@@ -51,7 +51,7 @@ function buildTelegramMessage(data: OrderRequest): string {
   lines.push(`👤 *${data.customerName}*`);
   if (data.customerPhone) lines.push(`📱 ${formatPhone(data.customerPhone)}`);
   if (data.customerEmail) lines.push(`📧 ${data.customerEmail}`);
-  if (data.requests) lines.push(`📝 ${data.requests}`);
+  lines.push(`💳 Payment: *${data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet'}*`);
   lines.push('');
 
   const dineInItems = data.items.filter((i) => i.orderType === 'dine-in');

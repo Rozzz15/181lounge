@@ -62,6 +62,7 @@ function sendOrderPlugin() {
             ];
             if (data.customerPhone) lines.push(`📱 ${data.customerPhone}`);
             if (data.customerEmail) lines.push(`📧 ${data.customerEmail}`);
+            lines.push(`💳 Payment: *${data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet'}*`);
             lines.push('');
 
             if (dineInItems.length) {

@@ -17,6 +17,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [tableNumber, setTableNumber] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'ewallet'>('cash');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -42,6 +43,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
           tableNumber: tableNumber.trim(),
           customerPhone: phone.trim() || undefined,
           customerEmail: email.trim() || undefined,
+          paymentMethod,
           total,
         }),
       });
@@ -69,6 +71,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     setTableNumber('');
     setPhone('');
     setEmail('');
+    setPaymentMethod('cash');
     setStatus('idle');
     setErrorMessage('');
     onClose();
@@ -280,13 +283,46 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       </div>
                     </div>
 
-                    {/* Payment Note */}
-                    <div className="flex items-start gap-3 p-3 rounded-xl bg-[#525A40]/5 border border-[#525A40]/10">
-                      <CreditCard className="w-5 h-5 text-[#525A40] mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-sm font-semibold text-[#44362A]">Payment at the Counter</p>
-                        <p className="text-xs text-[#948D82]">Pay when you pick up your order. Cash and GCash accepted.</p>
+                    {/* Payment Method */}
+                    <div className="space-y-3">
+                      <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider">
+                        Payment Method
+                      </h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod('cash')}
+                          className={`flex items-center gap-2 p-3 rounded-xl border-2 transition-all ${
+                            paymentMethod === 'cash'
+                              ? 'border-[#525A40] bg-[#525A40]/5'
+                              : 'border-[#e8e2da] bg-transparent hover:border-[#c5beb5]'
+                          }`}
+                        >
+                          <span className="text-lg">💵</span>
+                          <span className={`text-sm font-semibold ${paymentMethod === 'cash' ? 'text-[#525A40]' : 'text-[#948D82]'}`}>
+                            Cash
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod('ewallet')}
+                          className={`flex items-center gap-2 p-3 rounded-xl border-2 transition-all ${
+                            paymentMethod === 'ewallet'
+                              ? 'border-[#525A40] bg-[#525A40]/5'
+                              : 'border-[#e8e2da] bg-transparent hover:border-[#c5beb5]'
+                          }`}
+                        >
+                          <span className="text-lg">📱</span>
+                          <span className={`text-sm font-semibold ${paymentMethod === 'ewallet' ? 'text-[#525A40]' : 'text-[#948D82]'}`}>
+                            E-Wallet
+                          </span>
+                        </button>
                       </div>
+                      <p className="text-xs text-[#948D82]">
+                        {paymentMethod === 'cash'
+                          ? 'Pay with cash when you pick up your order.'
+                          : 'Pay via GCash, Maya, or other e-wallets at the counter.'}
+                      </p>
                     </div>
 
                     {/* Error */}
