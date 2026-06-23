@@ -209,14 +209,17 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       <div className="grid grid-cols-2 gap-3">
                         <div className="relative">
                           <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
-                          <input
-                            type="text"
-                            placeholder="Table #"
+                          <select
                             value={tableNumber}
                             onChange={(e) => setTableNumber(e.target.value)}
                             required
-                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
-                          />
+                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all appearance-none"
+                          >
+                            <option value="" disabled>Table #</option>
+                            {Array.from({ length: 12 }, (_, i) => (
+                              <option key={i + 1} value={String(i + 1)}>Table {i + 1}</option>
+                            ))}
+                          </select>
                         </div>
                         <div className="relative">
                           <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
