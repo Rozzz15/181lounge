@@ -225,10 +225,10 @@ function CartItemCard({
 }) {
   return (
     <motion.div
-      layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, x: 50 }}
+      exit={{ opacity: 0, height: 0, marginBottom: 0, paddingTop: 0, paddingBottom: 0, overflow: 'hidden' }}
+      transition={{ duration: 0.2 }}
       className="flex gap-3 p-3 rounded-xl bg-[#F3F0E8]/50"
     >
       <img
