@@ -1,0 +1,264 @@
+'use client';
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, User, Phone, Loader2, CheckCircle2, AlertCircle, Store, Package } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useCart } from '@/context/cart-context';
+import { formatPrice } from '@/lib/utils';
+
+interface CheckoutModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
+  const { items, total, clearCart } = useCart();
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const dineInItems = items.filter((i) => i.orderType === 'dine-in');
+  const takeOutItems = items.filter((i) => i.orderType === 'take-out');
+  const dineInTotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const takeOutTotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !phone.trim()) return;
+
+    setStatus('loading');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/send-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items,
+          customerName: name.trim(),
+          customerPhone: phone.trim(),
+          total,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send order');
+      }
+
+      setStatus('success');
+      clearCart();
+
+      setTimeout(() => {
+        handleClose();
+      }, 2500);
+    } catch (err) {
+      setStatus('error');
+      setErrorMessage(err instanceof Error ? err.message : 'Something went wrong');
+    }
+  };
+
+  const handleClose = () => {
+    setName('');
+    setPhone('');
+    setStatus('idle');
+    setErrorMessage('');
+    onClose();
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-[60] bg-black/50"
+            onClick={handleClose}
+          />
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+          >
+            <div
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {status === 'success' ? (
+                <div className="p-8 text-center">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', damping: 15 }}
+                  >
+                    <CheckCircle2 className="w-16 h-16 text-[#525A40] mx-auto mb-4" />
+                  </motion.div>
+                  <h3 className="font-heading text-xl font-bold text-[#44362A] mb-2">
+                    Order Sent!
+                  </h3>
+                  <p className="text-sm text-[#948D82]">
+                    Your order has been sent to 181 Lounge. We&apos;ll prepare it shortly!
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  {/* Header */}
+                  <div className="flex items-center justify-between p-6 border-b border-[#e8e2da]">
+                    <div>
+                      <h2 className="font-heading text-lg font-bold text-[#44362A]">
+                        Checkout
+                      </h2>
+                      <p className="text-xs text-[#948D82]">
+                        {items.length} {items.length === 1 ? 'item' : 'items'} — {formatPrice(total)}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleClose}
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-[#948D82] hover:bg-[#F3F0E8] transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="p-6 space-y-5">
+                    {/* Order Summary */}
+                    <div className="space-y-3">
+                      {dineInItems.length > 0 && (
+                        <div className="bg-[#F3F0E8]/50 rounded-xl p-3">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Store className="w-4 h-4 text-[#525A40]" />
+                            <span className="font-heading text-xs font-bold text-[#44362A] uppercase tracking-wider">
+                              Dine In
+                            </span>
+                          </div>
+                          {dineInItems.map((item) => (
+                            <div key={`${item.id}-dine-in`} className="flex justify-between text-sm py-1">
+                              <span className="text-[#44362A]">
+                                {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
+                              </span>
+                              <span className="font-semibold text-[#525A40]">
+                                {formatPrice(item.price * item.quantity)}
+                              </span>
+                            </div>
+                          ))}
+                          <div className="mt-2 pt-2 border-t border-[#e8e2da] flex justify-between text-sm">
+                            <span className="text-[#948D82]">Subtotal</span>
+                            <span className="font-bold text-[#525A40]">{formatPrice(dineInTotal)}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {takeOutItems.length > 0 && (
+                        <div className="bg-[#F3F0E8]/50 rounded-xl p-3">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Package className="w-4 h-4 text-[#927557]" />
+                            <span className="font-heading text-xs font-bold text-[#44362A] uppercase tracking-wider">
+                              Take Out
+                            </span>
+                          </div>
+                          {takeOutItems.map((item) => (
+                            <div key={`${item.id}-take-out`} className="flex justify-between text-sm py-1">
+                              <span className="text-[#44362A]">
+                                {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
+                              </span>
+                              <span className="font-semibold text-[#525A40]">
+                                {formatPrice(item.price * item.quantity)}
+                              </span>
+                            </div>
+                          ))}
+                          <div className="mt-2 pt-2 border-t border-[#e8e2da] flex justify-between text-sm">
+                            <span className="text-[#948D82]">Subtotal</span>
+                            <span className="font-bold text-[#525A40]">{formatPrice(takeOutTotal)}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex justify-between items-center pt-2 border-t border-[#e8e2da]">
+                        <span className="font-heading text-base font-bold text-[#44362A]">Total</span>
+                        <span className="font-heading text-lg font-bold text-[#525A40]">
+                          {formatPrice(total)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Customer Info */}
+                    <div className="space-y-3">
+                      <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider">
+                        Your Info
+                      </h4>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
+                        <input
+                          type="text"
+                          placeholder="Your name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          required
+                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                        />
+                      </div>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
+                        <input
+                          type="tel"
+                          placeholder="Phone number"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          required
+                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Error */}
+                    {status === 'error' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-center gap-2 p-3 rounded-xl bg-red-50 text-red-600 text-sm"
+                      >
+                        <AlertCircle className="w-4 h-4 shrink-0" />
+                        {errorMessage}
+                      </motion.div>
+                    )}
+
+                    {/* Submit */}
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      disabled={status === 'loading' || !name.trim() || !phone.trim()}
+                      className="w-full bg-[#525A40] hover:bg-[#44362A] disabled:opacity-50"
+                    >
+                      {status === 'loading' ? (
+                        <span className="flex items-center gap-2">
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Sending Order...
+                        </span>
+                      ) : (
+                        'Place Order'
+                      )}
+                    </Button>
+
+                    <p className="text-xs text-center text-[#948D82]">
+                      Pickup at 35 Mamatid, Cabuyao, Philippines
+                    </p>
+                  </div>
+                </form>
+              )}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
