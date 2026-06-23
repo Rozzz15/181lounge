@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Phone, Loader2, CheckCircle2, AlertCircle, Store, Package } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/cart-context';
 import { formatPrice } from '@/lib/utils';
 
@@ -233,11 +232,10 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     )}
 
                     {/* Submit */}
-                    <Button
+                    <button
                       type="submit"
-                      variant="primary"
                       disabled={status === 'loading' || !name.trim() || !phone.trim()}
-                      className="w-full bg-[#525A40] hover:bg-[#44362A] disabled:opacity-50"
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white hover:scale-[1.02] active:scale-[0.98] h-11 px-6 text-base w-full bg-[#525A40] hover:bg-[#44362A] disabled:opacity-50"
                     >
                       {status === 'loading' ? (
                         <span className="flex items-center gap-2">
@@ -247,7 +245,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       ) : (
                         'Place Order'
                       )}
-                    </Button>
+                    </button>
 
                     <p className="text-xs text-center text-[#948D82]">
                       Pickup at 35 Mamatid, Cabuyao, Philippines
