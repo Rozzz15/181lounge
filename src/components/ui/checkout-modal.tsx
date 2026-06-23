@@ -12,12 +12,11 @@ interface CheckoutModalProps {
 }
 
 export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
-  const { items, total, clearCart } = useCart();
+  const { items, total, clearCart, updateSpecialRequest } = useCart();
   const [name, setName] = useState('');
   const [tableNumber, setTableNumber] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [requests, setRequests] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -43,7 +42,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
           tableNumber: tableNumber.trim(),
           customerPhone: phone.trim() || undefined,
           customerEmail: email.trim() || undefined,
-          requests: requests.trim() || undefined,
           total,
         }),
       });
@@ -71,7 +69,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     setTableNumber('');
     setPhone('');
     setEmail('');
-    setRequests('');
     setStatus('idle');
     setErrorMessage('');
     onClose();
@@ -139,7 +136,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   </div>
 
                   <div className="p-6 space-y-5">
-                    {/* Order Summary */}
+                    {/* Order Summary with per-item requests */}
                     <div className="space-y-3">
                       {dineInItems.length > 0 && (
                         <div className="bg-[#F3F0E8]/50 rounded-xl p-3">
@@ -150,13 +147,25 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                             </span>
                           </div>
                           {dineInItems.map((item) => (
-                            <div key={`${item.id}-dine-in`} className="flex justify-between text-sm py-1">
-                              <span className="text-[#44362A]">
-                                {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
-                              </span>
-                              <span className="font-semibold text-[#525A40]">
-                                {formatPrice(item.price * item.quantity)}
-                              </span>
+                            <div key={`${item.id}-dine-in`} className="py-2">
+                              <div className="flex justify-between text-sm">
+                                <span className="text-[#44362A]">
+                                  {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
+                                </span>
+                                <span className="font-semibold text-[#525A40]">
+                                  {formatPrice(item.price * item.quantity)}
+                                </span>
+                              </div>
+                              <div className="relative mt-1.5">
+                                <MessageSquare className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[#c5beb5]" />
+                                <input
+                                  type="text"
+                                  placeholder="Special request..."
+                                  value={item.specialRequest || ''}
+                                  onChange={(e) => updateSpecialRequest(item.id, item.orderType, e.target.value)}
+                                  className="w-full pl-7 pr-3 py-1.5 rounded-lg bg-white/70 border border-[#e8e2da] text-xs text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-1 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                                />
+                              </div>
                             </div>
                           ))}
                           <div className="mt-2 pt-2 border-t border-[#e8e2da] flex justify-between text-sm">
@@ -175,13 +184,25 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                             </span>
                           </div>
                           {takeOutItems.map((item) => (
-                            <div key={`${item.id}-take-out`} className="flex justify-between text-sm py-1">
-                              <span className="text-[#44362A]">
-                                {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
-                              </span>
-                              <span className="font-semibold text-[#525A40]">
-                                {formatPrice(item.price * item.quantity)}
-                              </span>
+                            <div key={`${item.id}-take-out`} className="py-2">
+                              <div className="flex justify-between text-sm">
+                                <span className="text-[#44362A]">
+                                  {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
+                                </span>
+                                <span className="font-semibold text-[#525A40]">
+                                  {formatPrice(item.price * item.quantity)}
+                                </span>
+                              </div>
+                              <div className="relative mt-1.5">
+                                <MessageSquare className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[#c5beb5]" />
+                                <input
+                                  type="text"
+                                  placeholder="Special request..."
+                                  value={item.specialRequest || ''}
+                                  onChange={(e) => updateSpecialRequest(item.id, item.orderType, e.target.value)}
+                                  className="w-full pl-7 pr-3 py-1.5 rounded-lg bg-white/70 border border-[#e8e2da] text-xs text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-1 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                                />
+                              </div>
                             </div>
                           ))}
                           <div className="mt-2 pt-2 border-t border-[#e8e2da] flex justify-between text-sm">
@@ -256,18 +277,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                             className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
                           />
                         </div>
-                      </div>
-
-                      {/* Special Requests */}
-                      <div className="relative">
-                        <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-[#948D82]" />
-                        <textarea
-                          placeholder="Special requests (optional)"
-                          value={requests}
-                          onChange={(e) => setRequests(e.target.value)}
-                          rows={2}
-                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all resize-none"
-                        />
                       </div>
                     </div>
 

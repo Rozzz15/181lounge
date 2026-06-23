@@ -62,17 +62,22 @@ function sendOrderPlugin() {
             ];
             if (data.customerPhone) lines.push(`📱 ${data.customerPhone}`);
             if (data.customerEmail) lines.push(`📧 ${data.customerEmail}`);
-            if (data.requests) lines.push(`📝 ${data.requests}`);
             lines.push('');
 
             if (dineInItems.length) {
               lines.push('🍽️ *DINE IN*');
-              dineInItems.forEach((i: any) => lines.push(`  • ${i.name} x${i.quantity} — ₱${(i.price * i.quantity).toFixed(2)}`));
+              dineInItems.forEach((i: any) => {
+                lines.push(`  • ${i.name} x${i.quantity} — ₱${(i.price * i.quantity).toFixed(2)}`);
+                if (i.specialRequest) lines.push(`    📝 _${i.specialRequest}_`);
+              });
               lines.push(`  Subtotal: *₱${dineInItems.reduce((s: number, i: any) => s + i.price * i.quantity, 0).toFixed(2)}*`, '');
             }
             if (takeOutItems.length) {
               lines.push('📦 *TAKE OUT*');
-              takeOutItems.forEach((i: any) => lines.push(`  • ${i.name} x${i.quantity} — ₱${(i.price * i.quantity).toFixed(2)}`));
+              takeOutItems.forEach((i: any) => {
+                lines.push(`  • ${i.name} x${i.quantity} — ₱${(i.price * i.quantity).toFixed(2)}`);
+                if (i.specialRequest) lines.push(`    📝 _${i.specialRequest}_`);
+              });
               lines.push(`  Subtotal: *₱${takeOutItems.reduce((s: number, i: any) => s + i.price * i.quantity, 0).toFixed(2)}*`, '');
             }
 

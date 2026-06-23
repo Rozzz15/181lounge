@@ -7,6 +7,7 @@ interface CartItem {
   image: string;
   quantity: number;
   orderType: 'dine-in' | 'take-out';
+  specialRequest?: string;
 }
 
 interface OrderRequest {
@@ -61,6 +62,7 @@ function buildTelegramMessage(data: OrderRequest): string {
     dineInItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
       lines.push(`  • ${item.name} x${item.quantity} — ${formatPrice(lineTotal)}`);
+      if (item.specialRequest) lines.push(`    📝 _${item.specialRequest}_`);
     });
     const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     lines.push(`  Subtotal: *${formatPrice(dineInSubtotal)}*`);
@@ -72,6 +74,7 @@ function buildTelegramMessage(data: OrderRequest): string {
     takeOutItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
       lines.push(`  • ${item.name} x${item.quantity} — ${formatPrice(lineTotal)}`);
+      if (item.specialRequest) lines.push(`    📝 _${item.specialRequest}_`);
     });
     const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     lines.push(`  Subtotal: *${formatPrice(takeOutSubtotal)}*`);
