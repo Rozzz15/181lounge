@@ -62,15 +62,11 @@ function sendOrderPlugin() {
               timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit', hour12: true,
             });
 
-            const pad = (s: string, len: number) => s + ' '.repeat(Math.max(0, len - s.length));
-            const tb = String(data.tableNumber);
             const lines: string[] = [
-              '╔═══════════════════════════╗',
-              '║                           ║',
-              `║    🛒  *NEW ORDER*        ║`,
-              `║    Table *${pad(tb, 2)}*               ║`,
-              '║                           ║',
-              '╚═══════════════════════════╝',
+              '━━━━━━━━━━━━━━━━━━━━━━━━',
+              '',
+              '🛒  *NEW ORDER*',
+              `🪑  Table *${data.tableNumber}*`,
               '',
               `👤  *${data.customerName}*`,
             ];
@@ -78,45 +74,39 @@ function sendOrderPlugin() {
             if (data.customerEmail) lines.push(`📧  ${data.customerEmail}`);
             lines.push(`💳  *${data.paymentMethod === 'cash' ? '💵  Cash' : '📱  E-Wallet'}*`);
             lines.push('');
-            lines.push('───────────────────────────');
+            lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
 
             if (dineInItems.length) {
-              lines.push('', '☕  *DINE IN*', '');
+              lines.push('', '☕  *D I N E   I N*', '');
               dineInItems.forEach((i: any) => {
-                lines.push('  ┌─────────────────────────');
-                lines.push(`  │  *${i.name}*`);
-                lines.push(`  │  Qty: ${i.quantity}    ₱${(i.price * i.quantity).toFixed(2)}`);
-                if (i.specialRequest) lines.push(`  │  📝 _${i.specialRequest}_`);
-                lines.push('  └─────────────────────────');
+                lines.push(`  •  *${i.name}*`);
+                lines.push(`      x${i.quantity}  ──  ₱${(i.price * i.quantity).toFixed(2)}`);
+                if (i.specialRequest) lines.push(`      📝 _${i.specialRequest}_`);
                 lines.push('');
               });
+              lines.push('  ───────────────────────');
               lines.push(`  *Subtotal: ₱${dineInItems.reduce((s: number, i: any) => s + i.price * i.quantity, 0).toFixed(2)}*`);
               lines.push('');
-              lines.push('───────────────────────────');
+              lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
             }
             if (takeOutItems.length) {
-              lines.push('', '📦  *TAKE OUT*', '');
+              lines.push('', '📦  *T A K E   O U T*', '');
               takeOutItems.forEach((i: any) => {
-                lines.push('  ┌─────────────────────────');
-                lines.push(`  │  *${i.name}*`);
-                lines.push(`  │  Qty: ${i.quantity}    ₱${(i.price * i.quantity).toFixed(2)}`);
-                if (i.specialRequest) lines.push(`  │  📝 _${i.specialRequest}_`);
-                lines.push('  └─────────────────────────');
+                lines.push(`  •  *${i.name}*`);
+                lines.push(`      x${i.quantity}  ──  ₱${(i.price * i.quantity).toFixed(2)}`);
+                if (i.specialRequest) lines.push(`      📝 _${i.specialRequest}_`);
                 lines.push('');
               });
+              lines.push('  ───────────────────────');
               lines.push(`  *Subtotal: ₱${takeOutItems.reduce((s: number, i: any) => s + i.price * i.quantity, 0).toFixed(2)}*`);
               lines.push('');
-              lines.push('───────────────────────────');
+              lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
             }
 
-            lines.push('');
-            lines.push('╔═══════════════════════════╗');
-            lines.push(`║  💰  *TOTAL: ₱${data.total.toFixed(2)}*`);
-            lines.push('╚═══════════════════════════╝');
-            lines.push('');
+            lines.push('', `💰  *TOTAL: ₱${data.total.toFixed(2)}*`, '');
             lines.push('📍  35 Mamatid, Cabuyao');
             lines.push(`📅  ${dateStr}`);
-            lines.push(`🕐  ${timeStr}`);
+            lines.push(`🕐  ${timeStr}`, '', '━━━━━━━━━━━━━━━━━━━━━━━━');
 
             const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
               method: 'POST',
