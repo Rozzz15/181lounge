@@ -37,6 +37,7 @@ export function CartDrawer() {
   const takeOutTotal = takeOutItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
+    <>
     <AnimatePresence>
       {isOpen && (
         <>
@@ -207,10 +208,11 @@ export function CartDrawer() {
               )}
             </div>
           </motion.div>
-          <CheckoutModal isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} />
         </>
       )}
     </AnimatePresence>
+    <CheckoutModal isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} />
+    </>
   );
 }
 
