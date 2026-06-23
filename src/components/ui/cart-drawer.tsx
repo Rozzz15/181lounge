@@ -143,7 +143,7 @@ export function CartDrawer() {
                         <div className="flex items-center gap-2 mb-3">
                           <Package className="w-4 h-4 text-[#927557]" />
                           <h3 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider">
-                            Take Out
+                            Pick Up
                           </h3>
                         </div>
                         <div className="space-y-3">
@@ -157,7 +157,7 @@ export function CartDrawer() {
                           ))}
                         </div>
                         <div className="mt-3 pt-3 border-t border-[#e8e2da] flex justify-between items-center">
-                          <span className="text-sm text-[#948D82]">Take Out Subtotal</span>
+                          <span className="text-sm text-[#948D82]">Pick Up Subtotal</span>
                           <span className="font-heading font-bold text-[#525A40]">
                             {formatPrice(takeOutTotal)}
                           </span>

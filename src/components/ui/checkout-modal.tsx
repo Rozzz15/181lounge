@@ -183,7 +183,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                           <div className="flex items-center gap-2 mb-2">
                             <Package className="w-4 h-4 text-[#927557]" />
                             <span className="font-heading text-xs font-bold text-[#44362A] uppercase tracking-wider">
-                              Take Out
+                              Pick Up
                             </span>
                           </div>
                           {takeOutItems.map((item) => (

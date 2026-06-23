@@ -51,62 +51,66 @@ function buildTelegramMessage(data: OrderRequest): string {
   const takeOutItems = data.items.filter((i) => i.orderType === 'take-out');
 
   const lines: string[] = [];
-  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('═══════════════════════════');
+  lines.push('     *181 LOUNGE · ORDER*');
+  lines.push('═══════════════════════════');
   lines.push('');
-  lines.push('🛒  *NEW ORDER*');
-  lines.push('🪑  Table *' + data.tableNumber + '*');
+  lines.push('*Table ' + data.tableNumber + '*');
   lines.push('');
-  lines.push('👤  *' + data.customerName + '*');
-  if (data.customerPhone) lines.push('📱  ' + formatPhone(data.customerPhone));
-  if (data.customerEmail) lines.push('📧  ' + data.customerEmail);
-  lines.push('💳  *' + (data.paymentMethod === 'cash' ? '💵  Cash' : '📱  E-Wallet') + '*');
+  lines.push(data.customerName);
+  if (data.customerPhone) lines.push(formatPhone(data.customerPhone));
+  if (data.customerEmail) lines.push(data.customerEmail);
+  lines.push((data.paymentMethod === 'cash' ? '💵 Cash' : '📱 E-Wallet'));
   lines.push('');
-  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('───────────────────────────');
 
   if (dineInItems.length > 0) {
     lines.push('');
-    lines.push('☕  *D I N E   I N*');
+    lines.push('*DINE IN · Eat Here*');
     lines.push('');
     dineInItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
-      lines.push('  •  *' + item.name + '*');
-      lines.push('      x' + item.quantity + '  ──  ' + formatPrice(lineTotal));
-      if (item.specialRequest) lines.push('      📝 _' + item.specialRequest + '_');
-      lines.push('');
+      const qty = '×' + item.quantity;
+      const price = formatPrice(lineTotal);
+      const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
+      lines.push('  ' + namePad + qty + '   ' + price);
+      if (item.specialRequest) lines.push('    ↳ _' + item.specialRequest + '_');
     });
-    const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  ───────────────────────');
-    lines.push('  *Subtotal: ' + formatPrice(dineInSubtotal) + '*');
     lines.push('');
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+    const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    lines.push('  Subtotal ···············  *' + formatPrice(dineInSubtotal) + '*');
+    lines.push('');
+    lines.push('───────────────────────────');
   }
 
   if (takeOutItems.length > 0) {
     lines.push('');
-    lines.push('📦  *T A K E   O U T*');
+    lines.push('*PICK UP · Pay at Counter*');
     lines.push('');
     takeOutItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
-      lines.push('  •  *' + item.name + '*');
-      lines.push('      x' + item.quantity + '  ──  ' + formatPrice(lineTotal));
-      if (item.specialRequest) lines.push('      📝 _' + item.specialRequest + '_');
-      lines.push('');
+      const qty = '×' + item.quantity;
+      const price = formatPrice(lineTotal);
+      const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
+      lines.push('  ' + namePad + qty + '   ' + price);
+      if (item.specialRequest) lines.push('    ↳ _' + item.specialRequest + '_');
     });
-    const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  ───────────────────────');
-    lines.push('  *Subtotal: ' + formatPrice(takeOutSubtotal) + '*');
     lines.push('');
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+    const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    lines.push('  Subtotal ···············  *' + formatPrice(takeOutSubtotal) + '*');
+    lines.push('');
+    lines.push('───────────────────────────');
   }
 
   lines.push('');
-  lines.push('💰  *TOTAL: ' + formatPrice(data.total) + '*');
+  lines.push('  *TOTAL ·················  ' + formatPrice(data.total) + '*');
   lines.push('');
-  lines.push('📍  35 Mamatid, Cabuyao');
-  lines.push('📅  ' + dateStr);
-  lines.push('🕐  ' + timeStr);
+  lines.push('═══════════════════════════');
   lines.push('');
-  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('📍 35 Mamatid, Cabuyao');
+  lines.push('📅 ' + dateStr + '  ·  ' + timeStr);
+  lines.push('');
+  lines.push('_Pay at counter upon pick up_');
 
   return lines.join('\n');
 }
