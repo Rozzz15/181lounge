@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, Trash2, ShoppingBag, Store, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import { CheckoutModal } from '@/components/ui/checkout-modal';
 export function CartDrawer() {
   const { items, isOpen, setIsOpen, updateQuantity, removeItem, clearCart, total, itemCount } = useCart();
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Close on escape key
   useEffect(() => {
@@ -95,7 +97,10 @@ export function CartDrawer() {
                     </p>
                     <Button
                       variant="primary"
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => {
+                        setIsOpen(false);
+                        navigate('/menu');
+                      }}
                       className="bg-[#525A40] hover:bg-[#44362A]"
                     >
                       Browse Menu
