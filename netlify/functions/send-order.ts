@@ -12,7 +12,10 @@ interface CartItem {
 interface OrderRequest {
   items: CartItem[];
   customerName: string;
-  customerPhone: string;
+  tableNumber: string;
+  customerPhone?: string;
+  customerEmail?: string;
+  requests?: string;
   total: number;
 }
 
@@ -43,8 +46,11 @@ function buildTelegramMessage(data: OrderRequest): string {
   const lines: string[] = [];
   lines.push('🛒 *NEW ORDER*');
   lines.push('');
+  lines.push(`🪑 Table: *${data.tableNumber}*`);
   lines.push(`👤 *${data.customerName}*`);
-  lines.push(`📱 ${formatPhone(data.customerPhone)}`);
+  if (data.customerPhone) lines.push(`📱 ${formatPhone(data.customerPhone)}`);
+  if (data.customerEmail) lines.push(`📧 ${data.customerEmail}`);
+  if (data.requests) lines.push(`📝 ${data.requests}`);
   lines.push('');
 
   const dineInItems = data.items.filter((i) => i.orderType === 'dine-in');
@@ -121,8 +127,8 @@ export default async (request: Request): Promise<Response> => {
       });
     }
 
-    if (!data.customerName || !data.customerPhone) {
-      return new Response(JSON.stringify({ error: 'Customer name and phone are required' }), {
+    if (!data.customerName || !data.tableNumber) {
+      return new Response(JSON.stringify({ error: 'Customer name and table number are required' }), {
         status: 400,
         headers,
       });

@@ -46,15 +46,24 @@ function sendOrderPlugin() {
               res.end(JSON.stringify({ error: 'Cart is empty' }));
               return;
             }
-            if (!data.customerName || !data.customerPhone) {
+            if (!data.customerName || !data.tableNumber) {
               res.writeHead(400, { 'Content-Type': 'application/json' });
-              res.end(JSON.stringify({ error: 'Customer name and phone are required' }));
+              res.end(JSON.stringify({ error: 'Customer name and table number are required' }));
               return;
             }
 
             const dineInItems = data.items.filter((i: any) => i.orderType === 'dine-in');
             const takeOutItems = data.items.filter((i: any) => i.orderType === 'take-out');
-            const lines: string[] = ['🛒 *NEW ORDER*', '', `👤 *${data.customerName}*`, `📱 ${data.customerPhone}`, ''];
+            const lines: string[] = [
+              '🛒 *NEW ORDER*',
+              '',
+              `🪑 Table: *${data.tableNumber}*`,
+              `👤 *${data.customerName}*`,
+            ];
+            if (data.customerPhone) lines.push(`📱 ${data.customerPhone}`);
+            if (data.customerEmail) lines.push(`📧 ${data.customerEmail}`);
+            if (data.requests) lines.push(`📝 ${data.requests}`);
+            lines.push('');
 
             if (dineInItems.length) {
               lines.push('🍽️ *DINE IN*');

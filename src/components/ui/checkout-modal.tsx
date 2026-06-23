@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Phone, Loader2, CheckCircle2, AlertCircle, Store, Package } from 'lucide-react';
+import { X, User, Phone, Mail, Hash, MessageSquare, Loader2, CheckCircle2, AlertCircle, Store, Package, CreditCard } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { formatPrice } from '@/lib/utils';
 
@@ -14,7 +14,10 @@ interface CheckoutModalProps {
 export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const { items, total, clearCart } = useCart();
   const [name, setName] = useState('');
+  const [tableNumber, setTableNumber] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [requests, setRequests] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -25,7 +28,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) return;
+    if (!name.trim() || !tableNumber.trim()) return;
 
     setStatus('loading');
     setErrorMessage('');
@@ -37,7 +40,10 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
         body: JSON.stringify({
           items,
           customerName: name.trim(),
-          customerPhone: phone.trim(),
+          tableNumber: tableNumber.trim(),
+          customerPhone: phone.trim() || undefined,
+          customerEmail: email.trim() || undefined,
+          requests: requests.trim() || undefined,
           total,
         }),
       });
@@ -62,7 +68,10 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
   const handleClose = () => {
     setName('');
+    setTableNumber('');
     setPhone('');
+    setEmail('');
+    setRequests('');
     setStatus('idle');
     setErrorMessage('');
     onClose();
@@ -193,29 +202,78 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     {/* Customer Info */}
                     <div className="space-y-3">
                       <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider">
-                        Your Info
+                        Order Details
                       </h4>
+
+                      {/* Table Number + Name row */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="relative">
+                          <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
+                          <input
+                            type="text"
+                            placeholder="Table #"
+                            value={tableNumber}
+                            onChange={(e) => setTableNumber(e.target.value)}
+                            required
+                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                          />
+                        </div>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
+                          <input
+                            type="text"
+                            placeholder="Your name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Phone + Email row */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
+                          <input
+                            type="tel"
+                            placeholder="Phone (optional)"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                          />
+                        </div>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
+                          <input
+                            type="email"
+                            placeholder="Email (optional)"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Special Requests */}
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
-                        <input
-                          type="text"
-                          placeholder="Your name"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          required
-                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
+                        <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-[#948D82]" />
+                        <textarea
+                          placeholder="Special requests (optional)"
+                          value={requests}
+                          onChange={(e) => setRequests(e.target.value)}
+                          rows={2}
+                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all resize-none"
                         />
                       </div>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#948D82]" />
-                        <input
-                          type="tel"
-                          placeholder="Phone number"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          required
-                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F3F0E8]/50 border border-[#e8e2da] text-sm text-[#44362A] placeholder-[#c5beb5] focus:outline-none focus:ring-2 focus:ring-[#525A40]/30 focus:border-[#525A40] transition-all"
-                        />
+                    </div>
+
+                    {/* Payment Note */}
+                    <div className="flex items-start gap-3 p-3 rounded-xl bg-[#525A40]/5 border border-[#525A40]/10">
+                      <CreditCard className="w-5 h-5 text-[#525A40] mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold text-[#44362A]">Payment at the Counter</p>
+                        <p className="text-xs text-[#948D82]">Pay when you pick up your order. Cash and GCash accepted.</p>
                       </div>
                     </div>
 
@@ -234,7 +292,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     {/* Submit */}
                     <button
                       type="submit"
-                      disabled={status === 'loading' || !name.trim() || !phone.trim()}
+                      disabled={status === 'loading' || !name.trim() || !tableNumber.trim()}
                       className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white hover:scale-[1.02] active:scale-[0.98] h-11 px-6 text-base w-full bg-[#525A40] hover:bg-[#44362A] disabled:opacity-50"
                     >
                       {status === 'loading' ? (
