@@ -101,13 +101,13 @@ function buildTelegramMessage(data) {
   lines.push('Table ' + data.tableNumber);
   lines.push('');
   lines.push(data.customerName);
-  lines.push((data.paymentMethod === 'cash' ? '\uD83D\uDCB5 Cash' : '\uD83D\uDCF1 E-Wallet'));
+  lines.push(data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet');
   lines.push('');
   lines.push(SINGLE);
 
   if (dineInItems.length > 0) {
     lines.push('');
-    lines.push('*DINE IN \u00B7 Eat Here*');
+    lines.push('*DINE IN*');
     lines.push('');
     dineInItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
@@ -126,7 +126,7 @@ function buildTelegramMessage(data) {
 
   if (takeOutItems.length > 0) {
     lines.push('');
-    lines.push('*PICK UP \u00B7 Pay at Counter*');
+    lines.push('*PICK UP*');
     lines.push('');
     takeOutItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;

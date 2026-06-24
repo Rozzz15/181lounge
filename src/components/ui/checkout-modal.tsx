@@ -299,7 +299,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                               : 'border-[#e8e2da] bg-transparent hover:border-[#c5beb5]'
                           }`}
                         >
-                          <span className="text-lg">💵</span>
                           <span className={`text-sm font-semibold ${paymentMethod === 'cash' ? 'text-[#525A40]' : 'text-[#948D82]'}`}>
                             Cash
                           </span>
@@ -313,7 +312,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                               : 'border-[#e8e2da] bg-transparent hover:border-[#c5beb5]'
                           }`}
                         >
-                          <span className="text-lg">📱</span>
                           <span className={`text-sm font-semibold ${paymentMethod === 'ewallet' ? 'text-[#525A40]' : 'text-[#948D82]'}`}>
                             E-Wallet
                           </span>
