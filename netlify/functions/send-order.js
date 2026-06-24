@@ -15,9 +15,9 @@ export default async function handler(event) {
   }
 
   const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-  const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+  const CHAT_IDS = process.env.TELEGRAM_CHAT_ID;
 
-  if (!BOT_TOKEN || !CHAT_ID) {
+  if (!BOT_TOKEN || !CHAT_IDS) {
     console.error('Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID env vars');
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server configuration error' }) };
   }
@@ -34,28 +34,28 @@ export default async function handler(event) {
     }
 
     const message = buildTelegramMessage(data);
+    const chatIds = CHAT_IDS.split(',').map((id) => id.trim());
 
-    const telegramResponse = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-          parse_mode: 'Markdown',
-        }),
-      }
+    const results = await Promise.all(
+      chatIds.map((chatId) =>
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'Markdown',
+          }),
+        }).then((r) => r.json())
+      )
     );
 
-    const telegramResult = await telegramResponse.json();
-
-    if (!telegramResponse.ok) {
-      console.error('Telegram API error:', telegramResult);
-      return { statusCode: 502, headers, body: JSON.stringify({ error: 'Failed to send order to Telegram' }) };
+    const failures = results.filter((r) => !r.ok);
+    if (failures.length > 0) {
+      console.error('Telegram send errors:', failures);
     }
 
-    return { statusCode: 200, headers, body: JSON.stringify({ success: true, messageId: telegramResult.result?.message_id }) };
+    return { statusCode: 200, headers, body: JSON.stringify({ success: true, sent: chatIds.length }) };
   } catch (error) {
     console.error('Function error:', error);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Internal server error' }) };

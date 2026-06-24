@@ -12,9 +12,9 @@ export default async function handler(req, res) {
   }
 
   const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-  const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+  const CHAT_IDS = process.env.TELEGRAM_CHAT_ID;
 
-  if (!BOT_TOKEN || !CHAT_ID) {
+  if (!BOT_TOKEN || !CHAT_IDS) {
     console.error('Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID env vars');
     return res.status(500).json({ error: 'Server configuration error' });
   }
@@ -31,28 +31,28 @@ export default async function handler(req, res) {
     }
 
     const message = buildTelegramMessage(data);
+    const chatIds = CHAT_IDS.split(',').map((id) => id.trim());
 
-    const telegramResponse = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-          parse_mode: 'Markdown',
-        }),
-      }
+    const results = await Promise.all(
+      chatIds.map((chatId) =>
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'Markdown',
+          }),
+        }).then((r) => r.json())
+      )
     );
 
-    const telegramResult = await telegramResponse.json();
-
-    if (!telegramResponse.ok) {
-      console.error('Telegram API error:', telegramResult);
-      return res.status(502).json({ error: 'Failed to send order to Telegram' });
+    const failures = results.filter((r) => !r.ok);
+    if (failures.length > 0) {
+      console.error('Telegram send errors:', failures);
     }
 
-    return res.status(200).json({ success: true, messageId: telegramResult.result?.message_id });
+    return res.status(200).json({ success: true, sent: chatIds.length });
   } catch (error) {
     console.error('Function error:', error);
     return res.status(500).json({ error: 'Internal server error' });
