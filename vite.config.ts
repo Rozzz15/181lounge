@@ -63,19 +63,20 @@ function sendOrderPlugin() {
             });
 
             const lines: string[] = [
-              '═══════════════════════════',
-              '     *181 LOUNGE · ORDER*',
-              '═══════════════════════════',
+              '═══════════════════════════════════',
+              '          *181 LOUNGE*',
+              '            *ORDER*',
+              '═══════════════════════════════════',
               '',
-              `*Table ${data.tableNumber}*`,
+              `           *TABLE ${data.tableNumber}*`,
               '',
-              data.customerName,
+              '  ' + data.customerName,
             ];
-            if (data.customerPhone) lines.push(data.customerPhone);
-            if (data.customerEmail) lines.push(data.customerEmail);
-            lines.push(data.paymentMethod === 'cash' ? '💵 Cash' : '📱 E-Wallet');
+            if (data.customerPhone) lines.push('  ' + data.customerPhone);
+            if (data.customerEmail) lines.push('  ' + data.customerEmail);
+            lines.push('  ' + (data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet'));
             lines.push('');
-            lines.push('───────────────────────────');
+            lines.push('───────────────────────────────────');
 
             if (dineInItems.length) {
               lines.push('', '*DINE IN · Eat Here*', '');

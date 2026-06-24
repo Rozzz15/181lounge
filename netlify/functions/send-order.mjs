@@ -1,30 +1,8 @@
-interface CartItem {
-  id: number;
-  name: string;
-  category: string;
-  description: string;
-  price: number;
-  image: string;
-  quantity: number;
-  orderType: 'dine-in' | 'take-out';
-  specialRequest?: string;
-}
-
-interface OrderRequest {
-  items: CartItem[];
-  customerName: string;
-  tableNumber: string;
-  customerPhone?: string;
-  customerEmail?: string;
-  paymentMethod: 'cash' | 'ewallet';
-  total: number;
-}
-
-function formatPrice(price: number): string {
+function formatPrice(price) {
   return `₱${price.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-function formatPhone(phone: string): string {
+function formatPhone(phone) {
   const cleaned = phone.replace(/\D/g, '');
   if (cleaned.length === 10) return `+63 ${cleaned.slice(1)}`;
   if (cleaned.length === 12 && cleaned.startsWith('63')) return `+${cleaned}`;
@@ -32,7 +10,7 @@ function formatPhone(phone: string): string {
   return phone;
 }
 
-function buildTelegramMessage(data: OrderRequest): string {
+function buildTelegramMessage(data) {
   const now = new Date();
   const dateStr = now.toLocaleString('en-PH', {
     timeZone: 'Asia/Manila',
@@ -50,19 +28,20 @@ function buildTelegramMessage(data: OrderRequest): string {
   const dineInItems = data.items.filter((i) => i.orderType === 'dine-in');
   const takeOutItems = data.items.filter((i) => i.orderType === 'take-out');
 
-  const lines: string[] = [];
-  lines.push('═══════════════════════════');
-  lines.push('     *181 LOUNGE · ORDER*');
-  lines.push('═══════════════════════════');
+  const lines = [];
+  lines.push('═══════════════════════════════════');
+  lines.push('          *181 LOUNGE*');
+  lines.push('            *ORDER*');
+  lines.push('═══════════════════════════════════');
   lines.push('');
-  lines.push('*Table ' + data.tableNumber + '*');
+  lines.push('           *TABLE ' + data.tableNumber + '*');
   lines.push('');
-  lines.push(data.customerName);
-  if (data.customerPhone) lines.push(formatPhone(data.customerPhone));
-  if (data.customerEmail) lines.push(data.customerEmail);
-  lines.push((data.paymentMethod === 'cash' ? '💵 Cash' : '📱 E-Wallet'));
+  lines.push('  ' + data.customerName);
+  if (data.customerPhone) lines.push('  ' + formatPhone(data.customerPhone));
+  if (data.customerEmail) lines.push('  ' + data.customerEmail);
+  lines.push('  ' + (data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet'));
   lines.push('');
-  lines.push('───────────────────────────');
+  lines.push('───────────────────────────────────');
 
   if (dineInItems.length > 0) {
     lines.push('');
@@ -78,9 +57,9 @@ function buildTelegramMessage(data: OrderRequest): string {
     });
     lines.push('');
     const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  Subtotal ···············  *' + formatPrice(dineInSubtotal) + '*');
+    lines.push('  Subtotal ·················  *' + formatPrice(dineInSubtotal) + '*');
     lines.push('');
-    lines.push('───────────────────────────');
+    lines.push('───────────────────────────────────');
   }
 
   if (takeOutItems.length > 0) {
@@ -97,26 +76,25 @@ function buildTelegramMessage(data: OrderRequest): string {
     });
     lines.push('');
     const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  Subtotal ···············  *' + formatPrice(takeOutSubtotal) + '*');
+    lines.push('  Subtotal ·················  *' + formatPrice(takeOutSubtotal) + '*');
     lines.push('');
-    lines.push('───────────────────────────');
+    lines.push('───────────────────────────────────');
   }
 
   lines.push('');
-  lines.push('  *TOTAL ·················  ' + formatPrice(data.total) + '*');
+  lines.push('  *TOTAL ···················  ' + formatPrice(data.total) + '*');
   lines.push('');
-  lines.push('═══════════════════════════');
+  lines.push('═══════════════════════════════════');
   lines.push('');
-  lines.push('📍 35 Mamatid, Cabuyao');
-  lines.push('📅 ' + dateStr + '  ·  ' + timeStr);
+  lines.push('  📍 35 Mamatid, Cabuyao');
+  lines.push('  📅 ' + dateStr + '  ·  ' + timeStr);
   lines.push('');
-  lines.push('_Pay at counter upon pick up_');
+  lines.push('  _Pay at counter upon pick up_');
 
   return lines.join('\n');
 }
 
-export default async (request: Request): Promise<Response> => {
-  // CORS headers
+export default async (request) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -124,7 +102,6 @@ export default async (request: Request): Promise<Response> => {
     'Content-Type': 'application/json',
   };
 
-  // Handle preflight
   if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers });
   }
@@ -148,7 +125,7 @@ export default async (request: Request): Promise<Response> => {
   }
 
   try {
-    const data: OrderRequest = await request.json();
+    const data = await request.json();
 
     if (!data.items || data.items.length === 0) {
       return new Response(JSON.stringify({ error: 'Cart is empty' }), {
@@ -200,8 +177,4 @@ export default async (request: Request): Promise<Response> => {
       headers,
     });
   }
-};
-
-export const config = {
-  path: "/api/send-order",
 };

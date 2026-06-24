@@ -10,12 +10,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-[#8B0000] text-white hover:bg-[#6B0000] hover:scale-[1.02] active:scale-[0.98]',
-        secondary: 'bg-[#C79A5D] text-white hover:bg-[#B08A4D] hover:scale-[1.02] active:scale-[0.98]',
-        accent: 'bg-[#F6B042] text-[#222222] hover:bg-[#E5A032] hover:scale-[1.02] active:scale-[0.98]',
-        outline: 'border-2 border-[#8B0000] text-[#8B0000] hover:bg-[#8B0000] hover:text-white',
-        ghost: 'text-[#8B0000] hover:bg-[#8B0000]/10',
-        dark: 'bg-[#222222] text-white hover:bg-[#333333] hover:scale-[1.02] active:scale-[0.98]',
+        primary: 'bg-[#525A40] text-white hover:bg-[#44362A] hover:scale-[1.02] active:scale-[0.98]',
+        secondary: 'bg-[#927557] text-white hover:bg-[#7A6348] hover:scale-[1.02] active:scale-[0.98]',
+        accent: 'bg-[#525A40] text-white hover:bg-[#44362A] hover:scale-[1.02] active:scale-[0.98]',
+        outline: 'border-2 border-[#525A40] text-[#525A40] hover:bg-[#525A40] hover:text-white',
+        ghost: 'text-[#525A40] hover:bg-[#525A40]/10',
+        dark: 'bg-[#44362A] text-[#F3F0E8] hover:bg-[#362A20] hover:scale-[1.02] active:scale-[0.98]',
       },
       size: {
         sm: 'h-9 px-4 text-sm',

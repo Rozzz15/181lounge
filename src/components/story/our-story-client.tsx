@@ -1,73 +1,143 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { Target, Heart, Award, Users, Coffee, Globe } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useInView, useAnimation, useMotionValue, useTransform, animate } from 'framer-motion';
+import { Target, Eye, Users, Coffee } from 'lucide-react';
+import { WaveText } from '@/components/ui/wave-text';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
 };
 
-const timeline = [
-  {
-    year: '2018',
-    title: 'The Beginning',
-    description: '181 Lounge opens its first store in Manila, with a mission to bring premium coffee and lounge experiences to everyone.',
-  },
-  {
-    year: '2020',
-    title: 'Rapid Growth',
-    description: 'Expanding to 20 stores across Metro Manila, becoming a favorite spot for coffee lovers.',
-  },
-  {
-    year: '2022',
-    title: 'Menu Innovation',
-    description: 'Launch of our signature blends and expanded food menu, redefining the coffee lounge experience.',
-  },
-  {
-    year: '2024',
-    title: 'Digital Transformation',
-    description: 'Launch of our mobile app and online ordering system for a seamless customer experience.',
-  },
-  {
-    year: '2026',
-    title: '100+ Stores',
-    description: 'Milestone achievement of 100 stores nationwide, continuing our mission to serve great coffee to every Filipino.',
-  },
-];
+function AnimatedCounter({ value, duration = 2 }: { value: string; duration?: number }) {
+  const [displayValue, setDisplayValue] = useState('0');
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const controls = useAnimation();
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => {
+    if (value.includes('+')) {
+      const num = parseInt(value.replace('+', ''));
+      return Math.round(latest) + '+';
+    }
+    if (value.includes('%')) {
+      const num = parseInt(value.replace('%', ''));
+      return Math.round(latest) + '%';
+    }
+    if (value.includes('.')) {
+      return latest.toFixed(1);
+    }
+    return Math.round(latest).toString();
+  });
 
-const values = [
-  {
-    icon: Target,
-    title: 'Our Mission',
-    description: 'To deliver exceptional coffee experiences that inspire and energize our customers every day.',
-  },
-  {
-    icon: Heart,
-    title: 'Our Values',
-    description: 'Quality, authenticity, and community lie at the heart of everything we do.',
-  },
-  {
-    icon: Award,
-    title: 'Quality First',
-    description: 'We source only the finest Arabica beans and train our baristas to perfection.',
-  },
-  {
-    icon: Users,
-    title: 'Community',
-    description: 'Creating welcoming spaces where connections are made and memories are shared.',
-  },
-];
+  useEffect(() => {
+    if (isInView) {
+      const targetValue = parseFloat(value.replace(/[+%]/g, ''));
+      const controls = animate(count, targetValue, {
+        duration,
+        ease: 'easeOut',
+      });
+      const unsubscribe = rounded.on('change', (v) => setDisplayValue(v));
+      return () => {
+        controls.stop();
+        unsubscribe();
+      };
+    }
+  }, [isInView, value, duration]);
+
+  return <div ref={ref}>{displayValue}</div>;
+}
+
+function StatCard({ stat, index }: { stat: { icon: any; value: string; label: string }; index: number }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.15,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      whileHover={{ scale: 1.05, y: -8 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="text-white relative group cursor-pointer"
+    >
+      {/* Glow effect */}
+      <motion.div
+        className="absolute inset-0 bg-white/10 rounded-3xl blur-xl"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1.2 : 0.8 }}
+        transition={{ duration: 0.4 }}
+      />
+
+      {/* Pulse rings on hover */}
+      {isHovered && (
+        <>
+          <motion.div
+            className="absolute top-8 left-1/2 -translate-x-1/2 w-16 h-16 border-2 border-white/30 rounded-full"
+            initial={{ scale: 0.8, opacity: 0.8 }}
+            animate={{ scale: 2, opacity: 0 }}
+            transition={{ duration: 1.2, repeat: Infinity }}
+          />
+          <motion.div
+            className="absolute top-8 left-1/2 -translate-x-1/2 w-16 h-16 border-2 border-white/20 rounded-full"
+            initial={{ scale: 0.8, opacity: 0.6 }}
+            animate={{ scale: 2.5, opacity: 0 }}
+            transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }}
+          />
+        </>
+      )}
+
+      {/* Icon */}
+      <motion.div
+        className="relative z-10 mb-4"
+        animate={{
+          rotate: isHovered ? [0, -10, 10, -10, 0] : 0,
+          scale: isHovered ? 1.2 : 1,
+        }}
+        transition={{ duration: 0.5 }}
+      >
+        <stat.icon className="w-10 h-10 mx-auto opacity-80 group-hover:opacity-100 transition-opacity" />
+      </motion.div>
+
+      {/* Value */}
+      <motion.div
+        className="font-heading text-4xl sm:text-5xl font-bold mb-2 relative z-10"
+        animate={{ scale: isHovered ? 1.1 : 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        {stat.value}
+      </motion.div>
+
+      {/* Label */}
+      <div className="text-white/70 group-hover:text-white/90 transition-colors relative z-10">{stat.label}</div>
+
+      {/* Bottom accent line */}
+      <motion.div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 bg-white/50 rounded-full"
+        initial={{ width: 0 }}
+        animate={{ width: isHovered ? '60%' : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+    </motion.div>
+  );
+}
 
 export function OurStoryClient() {
   return (
     <div className="min-h-screen">
       {/* Hero Banner */}
-      <section className="relative h-[50vh] min-h-[400px] bg-gradient-to-br from-[#8B0000] via-[#D72D1D] to-[#C79A5D] overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
+      <section className="relative h-[65vh] min-h-[500px] bg-gradient-to-br from-[#525A40] via-[#525A40] to-[#927557] overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/story.png" alt="" className="w-full h-full object-cover opacity-20" />
+        </div>
         
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center pb-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,15 +145,14 @@ export function OurStoryClient() {
             className="max-w-3xl"
           >
             <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6">
-              Since 2018
+              Family-Founded Specialty Café
             </span>
             <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
-              OUR STORY
+              <WaveText text="OUR STORY" />
             </h1>
             <p className="text-white/90 text-lg sm:text-xl leading-relaxed">
-              From a single lounge in Manila to one of the most beloved coffee brands 
-              in the Philippines, our journey has been fueled by passion, quality, and 
-              the warm embrace of our customers.
+              Built on family, intention, and meaningful beginnings—181 Lounge is more than a café, 
+              it's a curated social space where connection is encouraged and experiences are intentionally crafted.
             </p>
           </motion.div>
         </div>
@@ -91,66 +160,52 @@ export function OurStoryClient() {
         {/* Wave Divider */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F8F8F8" />
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F3F0E8" />
           </svg>
         </div>
       </section>
 
       {/* Story Content */}
-      <section className="section bg-[#F8F8F8]">
+      <section className="section bg-[#F3F0E8]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
+          <div className="max-w-4xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
+              className="mb-12"
             >
-              <h2 className="font-heading text-4xl sm:text-5xl font-bold text-[#222222] mb-6">
-                A Legacy of
-                <span className="text-[#8B0000]"> Premium Coffee</span>
+              <h2 className="font-heading text-4xl sm:text-5xl font-bold text-[#44362A] mb-8">
+                <WaveText text="The Story of" />
+                <span className="text-[#525A40]"><WaveText text=" 181 Lounge" /></span>
               </h2>
-              <div className="space-y-4 text-[#666666] text-lg leading-relaxed">
+              <div className="space-y-6 text-[#948D82] text-lg leading-relaxed">
                 <p>
-                  181 Lounge was founded with a simple yet powerful vision: 
-                  to create a space where premium coffee meets genuine warmth. Our founders believed that 
-                  great coffee shouldn&apos;t be a luxury—it should be a daily pleasure.
+                  181 Lounge is a family-founded specialty café brand established by siblings Alison Joy Darato and Alvin Jay Pring. The name "181" carries a personal significance, inspired by the birthdays of their children—reflecting the brand's core values of family, intention, and meaningful beginnings.
                 </p>
                 <p>
-                  From our first lounge, we didn&apos;t just serve coffee—we cultivated a culture. 
-                  A culture of warmth, community, and the pursuit of the perfect cup.
+                  The first branch was opened beneath the Darato family residence in Mamatid, Cabuyao. What began as a modest entrepreneurial endeavor gradually evolved into a recognized community café, with strong support from students and nearby residents due to its strategic location close to several academic institutions.
                 </p>
                 <p>
-                  Today, with over 100 stores nationwide, we continue to honor our commitment 
-                  while embracing the unique Filipino spirit of hospitality and togetherness.
+                  Leveraging existing coffee shop equipment from a previous family venture, the Pring family chose to transform available resources into a new concept rather than let them go unused. This marked the foundation of 181 Lounge as a purpose-driven café—built on resourcefulness, continuity, and vision.
+                </p>
+                <p>
+                  Over time, 181 Lounge gained recognition for offering accessible pricing without compromising on quality, creating a distinct balance that resonates with its community. This commitment to value and consistency has become a defining characteristic of the brand.
+                </p>
+                <p>
+                  More than a café, 181 Lounge is designed as a curated social space—offering board games and books available for reading, playing, and purchasing. It is a place where connection is encouraged, conversations are unhurried, and experiences are intentionally crafted.
+                </p>
+                <p>
+                  From its humble beginnings, the brand has steadily expanded through consistency, community trust, and a dedication to elevated coffee experiences. Today, 181 Lounge continues to grow with purpose, refining its identity while staying true to its roots.
                 </p>
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              <div className="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80"
-                  alt="Coffee shop atmosphere"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              {/* Decorative elements */}
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-[#C79A5D] rounded-2xl -z-10" />
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#8B0000] rounded-2xl -z-10" />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
+      {/* Mission & Vision Section */}
       <section className="section bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -159,138 +214,101 @@ export function OurStoryClient() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold text-[#222222] mb-4">
-              WHAT DRIVES US
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold text-[#44362A] mb-4">
+              <WaveText text="WHAT DRIVES US" />
             </h2>
-            <p className="text-[#666666] text-lg max-w-2xl mx-auto">
-              Our commitment to excellence extends beyond our coffee to every aspect of our business.
-            </p>
           </motion.div>
 
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={{
-              animate: { transition: { staggerChildren: 0.1 } },
-            }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {values.map((value) => (
-              <motion.div
-                key={value.title}
-                variants={fadeInUp}
-                className="bg-[#F8F8F8] rounded-2xl p-6 text-center hover:shadow-lg transition-shadow"
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="group relative bg-[#F3F0E8] rounded-2xl p-8 cursor-pointer overflow-hidden"
+            >
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, #525A40, #927557)',
+                  padding: '2px',
+                }}
               >
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#8B0000]/10 flex items-center justify-center">
-                  <value.icon className="w-8 h-8 text-[#8B0000]" />
+                <div className="w-full h-full bg-[#F3F0E8] rounded-2xl" />
+              </div>
+
+              <div className="relative z-10">
+                <div className="w-16 h-16 mb-6 rounded-full bg-[#525A40]/10 group-hover:bg-[#525A40] flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#525A40]/25">
+                  <Target className="w-8 h-8 text-[#525A40] group-hover:text-white transition-colors duration-500" />
                 </div>
-                <h3 className="font-heading text-xl font-bold text-[#222222] mb-3">
-                  {value.title}
+                <h3 className="font-heading text-2xl font-bold text-[#44362A] mb-4 group-hover:text-[#525A40] transition-colors duration-300">
+                  Mission
                 </h3>
-                <p className="text-[#666666]">
-                  {value.description}
+                <p className="text-[#948D82] group-hover:text-[#7a756d] transition-colors duration-300 leading-relaxed">
+                  To craft specialty coffee and intentional café experiences that blend quality, comfort, and community—offering thoughtfully designed spaces where people can slow down, connect, and create meaningful moments.
                 </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Timeline Section */}
-      <section className="section bg-[#1A1A1A]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white mb-4">
-              OUR JOURNEY
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              From our humble beginnings to becoming a national favorite, here are the milestones that shaped us.
-            </p>
-          </motion.div>
-
-          <div className="relative max-w-4xl mx-auto">
-            {/* Timeline Line */}
-            <div className="absolute left-0 sm:left-1/2 top-0 bottom-0 w-px bg-[#C79A5D] transform sm:-translate-x-1/2" />
+              </div>
+            </motion.div>
 
             <motion.div
-              initial="initial"
-              whileInView="animate"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              variants={{
-                animate: { transition: { staggerChildren: 0.2 } },
-              }}
-              className="space-y-12"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="group relative bg-[#F3F0E8] rounded-2xl p-8 cursor-pointer overflow-hidden"
             >
-              {timeline.map((item, index) => (
-                <motion.div
-                  key={item.year}
-                  variants={fadeInUp}
-                  className={`relative flex flex-col sm:flex-row gap-4 sm:gap-8 ${
-                    index % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'
-                  }`}
-                >
-                  {/* Content */}
-                  <div className={`flex-1 ${index % 2 === 0 ? 'sm:text-right' : 'sm:text-left'} pl-8 sm:pl-0`}>
-                    <span className="inline-block px-3 py-1 bg-[#C79A5D] text-white text-sm font-bold rounded-full mb-2">
-                      {item.year}
-                    </span>
-                    <h3 className="font-heading text-xl font-bold text-white mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-400">
-                      {item.description}
-                    </p>
-                  </div>
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, #525A40, #927557)',
+                  padding: '2px',
+                }}
+              >
+                <div className="w-full h-full bg-[#F3F0E8] rounded-2xl" />
+              </div>
 
-                  {/* Dot */}
-                  <div className="absolute left-0 sm:left-1/2 top-0 w-4 h-4 bg-[#F6B042] rounded-full transform sm:-translate-x-1/2 -translate-x-1/2 border-4 border-[#1A1A1A]" />
-
-                  {/* Empty space for opposite side */}
-                  <div className="hidden sm:block flex-1" />
-                </motion.div>
-              ))}
+              <div className="relative z-10">
+                <div className="w-16 h-16 mb-6 rounded-full bg-[#525A40]/10 group-hover:bg-[#525A40] flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#525A40]/25">
+                  <Eye className="w-8 h-8 text-[#525A40] group-hover:text-white transition-colors duration-500" />
+                </div>
+                <h3 className="font-heading text-2xl font-bold text-[#44362A] mb-4 group-hover:text-[#525A40] transition-colors duration-300">
+                  Vision
+                </h3>
+                <p className="text-[#948D82] group-hover:text-[#7a756d] transition-colors duration-300 leading-relaxed">
+                  To become a leading specialty café brand in the Philippines, recognized for its elevated coffee craftsmanship, immersive social spaces, and consistent excellence—while remaining grounded in family heritage, authenticity, and sustainable growth.
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-[#8B0000] to-[#D72D1D]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-r from-[#525A40] to-[#525A40] relative overflow-hidden">
+        {/* Subtle animated background pattern */}
+        <div className="absolute inset-0 opacity-5">
           <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={{
-              animate: { transition: { staggerChildren: 0.1 } },
+            className="absolute inset-0"
+            animate={{ backgroundPosition: ['0% 0%', '100% 100%'] }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            style={{
+              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
             }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center"
-          >
+          />
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {[
-              { icon: Coffee, value: '100+', label: 'Stores Nationwide' },
-              { icon: Globe, value: '8+', label: 'Years of Excellence' },
-              { icon: Users, value: '1M+', label: 'Happy Customers' },
-              { icon: Award, value: '50+', label: 'Menu Items' },
-            ].map((stat) => (
-              <motion.div
-                key={stat.label}
-                variants={fadeInUp}
-                className="text-white"
-              >
-                <stat.icon className="w-10 h-10 mx-auto mb-3 opacity-80" />
-                <div className="font-heading text-4xl sm:text-5xl font-bold mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-white/70">{stat.label}</div>
-              </motion.div>
+              { icon: Coffee, value: 'Family', label: 'Founded' },
+              { icon: Users, value: 'Community', label: 'Driven' },
+              { icon: Target, value: 'Purpose', label: 'Built' },
+              { icon: Eye, value: 'Vision', label: 'Focused' },
+            ].map((stat, index) => (
+              <StatCard key={stat.label} stat={stat} index={index} />
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

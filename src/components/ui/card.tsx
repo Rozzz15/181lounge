@@ -8,8 +8,8 @@ function Card({ className, hover = false, ...props }: CardProps) {
   return (
     <div
       className={cn(
-        'rounded-2xl bg-white shadow-md transition-all duration-300',
-        hover && 'hover:scale-[1.02] hover:shadow-xl cursor-pointer',
+        'rounded-2xl bg-white shadow-md transition-all duration-500 ease-out',
+        hover && 'hover:scale-[1.03] hover:shadow-[0_20px_60px_-15px_rgba(82,90,64,0.3)] hover:border-[#525A40]/10 cursor-pointer',
         className
       )}
       {...props}
@@ -22,7 +22,7 @@ function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement
 }
 
 function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={cn('font-heading text-xl font-bold text-[#222222]', className)} {...props} />;
+  return <h3 className={cn('font-heading text-xl font-bold text-[#44362A]', className)} {...props} />;
 }
 
 function CardDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {

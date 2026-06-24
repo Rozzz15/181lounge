@@ -1,16 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #8B0000;
-  --color-secondary: #C79A5D;
-  --color-accent: #F6B042;
-  --color-dark: #1A1A1A;
-  --color-background: #F8F8F8;
-  --color-text: #222222;
-  --color-text-secondary: #666666;
+  --color-primary: #525A40;
+  --color-secondary: #927557;
+  --color-accent: #525A40;
+  --color-dark: #44362A;
+  --color-background: #F3F0E8;
+  --color-text: #44362A;
+  --color-text-secondary: #948D82;
+  --color-wood: #927557;
+  --color-taupe: #948D82;
+  --color-cream: #F3F0E8;
+  --color-green: #525A40;
+  --color-walnut: #44362A;
   --font-heading: 'Oswald', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
 }
 
 * {
@@ -115,6 +122,22 @@ h1, h2, h3, h4, h5, h6 {
   animation: float 3s ease-in-out infinite;
 }
 
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(82, 90, 64, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(82, 90, 64, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(82, 90, 64, 0);
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s infinite;
+}
+
 /* Stagger animation delays */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
@@ -148,4 +171,113 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 8rem;
     padding-bottom: 8rem;
   }
+}
+
+/* Hide scrollbar */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Card Fan Carousel */
+.fan-layout {
+  position: relative;
+  height: 608px;
+}
+
+@media (max-width: 1023px) {
+  .fan-layout { height: 544px; }
+}
+
+@media (max-width: 767px) {
+  .fan-layout { height: 448px; }
+}
+
+@media (max-width: 639px) {
+  .fan-layout { height: 416px; }
+}
+
+@media (max-width: 479px) {
+  .fan-layout { height: 352px; }
+}
+
+.fan-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 280px;
+  height: 400px;
+  margin-left: -140px;
+  margin-top: -200px;
+}
+
+@media (max-width: 1023px) {
+  .fan-card {
+    width: 220px;
+    height: 314px;
+    margin-left: -110px;
+    margin-top: -157px;
+  }
+}
+
+@media (max-width: 767px) {
+  .fan-card {
+    width: 180px;
+    height: 257px;
+    margin-left: -90px;
+    margin-top: -128px;
+  }
+}
+
+@media (max-width: 639px) {
+  .fan-card {
+    width: 150px;
+    height: 214px;
+    margin-left: -75px;
+    margin-top: -107px;
+  }
+}
+
+@media (max-width: 479px) {
+  .fan-card {
+    width: 130px;
+    height: 186px;
+    margin-left: -65px;
+    margin-top: -93px;
+  }
+}
+
+/* Premium Border Animation for Welcome Modal */
+@keyframes border-glow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-border-glow {
+  background-size: 200% 200%;
+  animation: border-glow 4s ease infinite;
+}
+
+@keyframes wave-slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
 }

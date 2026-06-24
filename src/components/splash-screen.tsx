@@ -2,22 +2,22 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Coffee } from 'lucide-react';
 
-export function SplashScreen() {
-  const [show, setShow] = useState(false);
-  const hasShown = useRef(false);
+
+interface SplashScreenProps {
+  onFinish?: () => void;
+}
+
+export function SplashScreen({ onFinish }: SplashScreenProps) {
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
-    if (hasShown.current) return;
-    hasShown.current = true;
-
-    setShow(true);
     const timer = setTimeout(() => {
       setShow(false);
+      onFinish?.();
     }, 3500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onFinish]);
 
   return (
     <AnimatePresence>
@@ -28,7 +28,7 @@ export function SplashScreen() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-[#1A1A1A] via-[#2A1A1A] to-[#8B0000]"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-[#44362A] via-[#44362A] to-[#525A40]"
         >
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-[0.03]">
@@ -41,35 +41,27 @@ export function SplashScreen() {
           <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute w-96 h-96 rounded-full bg-[#C79A5D]/20 blur-3xl"
+            className="absolute w-96 h-96 rounded-full bg-[#927557]/20 blur-3xl"
           />
 
-          {/* Coffee Icon */}
+          {/* Logo */}
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, type: 'spring', damping: 12 }}
             className="relative mb-8"
           >
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#8B0000] to-[#C79A5D] flex items-center justify-center shadow-2xl shadow-[#C79A5D]/30">
-              <Coffee className="w-12 h-12 text-white" />
-            </div>
-            {/* Steam Animation */}
             <motion.div
-              animate={{ y: [-20, -40], opacity: [0.6, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
-              className="absolute -top-8 left-1/2 -translate-x-1/2 w-1 h-8 bg-gradient-to-t from-[#C79A5D]/40 to-transparent rounded-full"
-            />
-            <motion.div
-              animate={{ y: [-15, -35], opacity: [0.4, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut', delay: 0.5 }}
-              className="absolute -top-6 -left-4 w-0.5 h-6 bg-gradient-to-t from-[#C79A5D]/30 to-transparent rounded-full"
-            />
-            <motion.div
-              animate={{ y: [-15, -35], opacity: [0.4, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut', delay: 1 }}
-              className="absolute -top-6 -right-4 w-0.5 h-6 bg-gradient-to-t from-[#C79A5D]/30 to-transparent rounded-full"
-            />
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-28 h-28 rounded-full bg-gradient-to-br from-[#525A40] to-[#927557] flex items-center justify-center p-1 shadow-2xl shadow-[#927557]/30"
+            >
+              <img
+                src="/images/logo.jpg"
+                alt="181 Lounge"
+                className="w-full h-full rounded-full object-cover"
+              />
+            </motion.div>
           </motion.div>
 
           {/* Brand Name */}
@@ -79,14 +71,11 @@ export function SplashScreen() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="font-heading text-7xl sm:text-8xl lg:text-9xl font-bold text-white tracking-tight">
-              181
-            </h1>
             <motion.span
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="block font-heading text-2xl sm:text-3xl lg:text-4xl font-medium text-[#C79A5D] tracking-[0.3em] uppercase mt-2"
+              className="block font-heading text-2xl sm:text-3xl lg:text-4xl font-medium text-[#927557] tracking-[0.3em] uppercase mt-2"
             >
               Lounge
             </motion.span>
@@ -99,7 +88,7 @@ export function SplashScreen() {
             transition={{ delay: 1, duration: 0.6 }}
             className="mt-6 text-white/50 text-sm sm:text-base tracking-widest uppercase"
           >
-            Premium Coffee Experience
+            Coffee · Books · Boardgames
           </motion.p>
 
           {/* Loading Bar */}
@@ -107,18 +96,18 @@ export function SplashScreen() {
             initial={{ width: 0 }}
             animate={{ width: '100%' }}
             transition={{ duration: 3.2, ease: 'easeInOut' }}
-            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#8B0000] via-[#C79A5D] to-[#F6B042]"
+            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#525A40] via-[#927557] to-[#525A40]"
           />
 
           {/* Decorative corner elements */}
-          <div className="absolute top-8 left-8 w-16 h-px bg-gradient-to-r from-[#C79A5D]/60 to-transparent" />
-          <div className="absolute top-8 left-8 w-px h-16 bg-gradient-to-b from-[#C79A5D]/60 to-transparent" />
-          <div className="absolute top-8 right-8 w-16 h-px bg-gradient-to-l from-[#C79A5D]/60 to-transparent" />
-          <div className="absolute top-8 right-8 w-px h-16 bg-gradient-to-b from-[#C79A5D]/60 to-transparent" />
-          <div className="absolute bottom-8 left-8 w-16 h-px bg-gradient-to-r from-[#C79A5D]/60 to-transparent" />
-          <div className="absolute bottom-8 left-8 w-px h-16 bg-gradient-to-t from-[#C79A5D]/60 to-transparent" />
-          <div className="absolute bottom-8 right-8 w-16 h-px bg-gradient-to-l from-[#C79A5D]/60 to-transparent" />
-          <div className="absolute bottom-8 right-8 w-px h-16 bg-gradient-to-t from-[#C79A5D]/60 to-transparent" />
+          <div className="absolute top-8 left-8 w-16 h-px bg-gradient-to-r from-[#927557]/60 to-transparent" />
+          <div className="absolute top-8 left-8 w-px h-16 bg-gradient-to-b from-[#927557]/60 to-transparent" />
+          <div className="absolute top-8 right-8 w-16 h-px bg-gradient-to-l from-[#927557]/60 to-transparent" />
+          <div className="absolute top-8 right-8 w-px h-16 bg-gradient-to-b from-[#927557]/60 to-transparent" />
+          <div className="absolute bottom-8 left-8 w-16 h-px bg-gradient-to-r from-[#927557]/60 to-transparent" />
+          <div className="absolute bottom-8 left-8 w-px h-16 bg-gradient-to-t from-[#927557]/60 to-transparent" />
+          <div className="absolute bottom-8 right-8 w-16 h-px bg-gradient-to-l from-[#927557]/60 to-transparent" />
+          <div className="absolute bottom-8 right-8 w-px h-16 bg-gradient-to-t from-[#927557]/60 to-transparent" />
         </motion.div>
       )}
     </AnimatePresence>

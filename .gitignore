@@ -5,3 +5,6 @@ node_modules/
 .env.local
 .env.production
 next-env.d.ts
+
+# Local Netlify folder
+.netlify

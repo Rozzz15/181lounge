@@ -1,17 +1,23 @@
 import { HeroSection } from '@/components/home/hero-section';
 import { AboutSection } from '@/components/home/about-section';
-import { BestSellersSection } from '@/components/home/best-sellers-section';
+import { FeaturedCarousel } from '@/components/home/featured-carousel';
+import { ExperienceSection } from '@/components/home/experience-section';
+import { TestimonialsCarousel } from '@/components/home/testimonials-carousel';
 import { PromoBanner } from '@/components/home/promo-banner';
-import { StoreLocatorPreview } from '@/components/home/store-locator-preview';
+import { DeliverySection } from '@/components/home/delivery-section';
+import { PhotoGallery } from '@/components/ui/gallery';
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
       <AboutSection />
-      <BestSellersSection />
+      <FeaturedCarousel />
+      <ExperienceSection />
+      <TestimonialsCarousel />
       <PromoBanner />
-      <StoreLocatorPreview />
+      <DeliverySection />
+      <PhotoGallery />
     </>
   );
 }
