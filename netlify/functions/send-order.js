@@ -74,11 +74,6 @@ function formatPhone(phone) {
   return phone;
 }
 
-function getTableEmoji(tableNumber) {
-  const emojis = ['🟢','🔵','🟣','🔴','🟡','🟠','⚪','🩷','💚','🩵','💜','🖤'];
-  return emojis[(parseInt(tableNumber) - 1) % emojis.length] || '⚪';
-}
-
 function buildTelegramMessage(data) {
   const now = new Date();
   const dateStr = now.toLocaleString('en-PH', {
@@ -94,69 +89,72 @@ function buildTelegramMessage(data) {
     hour12: true,
   });
 
-  const tableEmoji = getTableEmoji(data.tableNumber);
+  const DOUBLE = '\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550';
+  const SINGLE = '\u2500\u2500\u2500\u2500\u2550\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500';
+  const DOTS = '\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7';
+
   const dineInItems = data.items.filter((i) => i.orderType === 'dine-in');
   const takeOutItems = data.items.filter((i) => i.orderType === 'take-out');
 
   const lines = [];
-  lines.push(tableEmoji + '  *181 LOUNGE \u00B7 ORDER*  ' + tableEmoji);
+  lines.push(DOUBLE);
+  lines.push('     *181 LOUNGE \u00B7 ORDER*');
+  lines.push(DOUBLE);
   lines.push('');
-  lines.push('  ' + tableEmoji + '  *TABLE ' + data.tableNumber + '*');
+  lines.push('Table ' + data.tableNumber);
   lines.push('');
-  lines.push('  ' + data.customerName);
-  if (data.customerPhone) lines.push('  \uD83D\uDCDE ' + formatPhone(data.customerPhone));
-  if (data.customerEmail) lines.push('  \u2709\uFE0F ' + data.customerEmail);
-  lines.push('  ' + (data.paymentMethod === 'cash' ? '\uD83D\uDCB5 Cash' : '\uD83D\uDCF1 E-Wallet'));
+  lines.push(data.customerName);
+  lines.push((data.paymentMethod === 'cash' ? '\uD83D\uDCB5 Cash' : '\uD83D\uDCF1 E-Wallet'));
   lines.push('');
-  lines.push('\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500');
+  lines.push(SINGLE);
 
   if (dineInItems.length > 0) {
     lines.push('');
-    lines.push('\uD83C\uDF7D\uFE0F  *DINE IN*');
+    lines.push('*DINE IN \u00B7 Eat Here*');
     lines.push('');
     dineInItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
       const price = formatPrice(lineTotal);
       const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
-      lines.push('  ' + namePad + qty + '  ' + price);
+      lines.push('  ' + namePad + qty + '   ' + price);
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
     });
     lines.push('');
     const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  Subtotal \u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7  *' + formatPrice(dineInSubtotal) + '*');
+    lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(dineInSubtotal) + '*');
     lines.push('');
-    lines.push('\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500');
+    lines.push(SINGLE);
   }
 
   if (takeOutItems.length > 0) {
     lines.push('');
-    lines.push('\uD83C\uDF54  *PICK UP*');
+    lines.push('*PICK UP \u00B7 Pay at Counter*');
     lines.push('');
     takeOutItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
       const price = formatPrice(lineTotal);
       const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
-      lines.push('  ' + namePad + qty + '  ' + price);
+      lines.push('  ' + namePad + qty + '   ' + price);
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
     });
     lines.push('');
     const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  Subtotal \u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7  *' + formatPrice(takeOutSubtotal) + '*');
+    lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(takeOutSubtotal) + '*');
     lines.push('');
-    lines.push('\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500');
+    lines.push(SINGLE);
   }
 
   lines.push('');
-  lines.push('  \uD83D\uDCB0  *TOTAL: ' + formatPrice(data.total) + '*');
+  lines.push('  *TOTAL ' + DOTS + '  ' + formatPrice(data.total) + '*');
   lines.push('');
-  lines.push('\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500');
+  lines.push(DOUBLE);
   lines.push('');
-  lines.push('  \uD83D\uDCCD 35 Mamatid, Cabuyao');
-  lines.push('  \uD83D\uDCC5 ' + dateStr + '  \u00B7  ' + timeStr);
+  lines.push('\uD83D\uDCCD 35 Mamatid, Cabuyao');
+  lines.push('\uD83D\uDCC5 ' + dateStr + '  \u00B7  ' + timeStr);
   lines.push('');
-  lines.push('  _' + tableEmoji + ' Pay at counter upon pick up ' + tableEmoji + '_');
+  lines.push('Pay at counter upon pick up');
 
   return lines.join('\n');
 }
