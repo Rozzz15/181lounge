@@ -74,6 +74,11 @@ function formatPhone(phone) {
   return phone;
 }
 
+function getTableEmoji(tableNumber) {
+  const emojis = ['🟢','🔵','🟣','🔴','🟡','🟠','⚪','🩷','💚','🩵','💜','🖤'];
+  return emojis[(parseInt(tableNumber) - 1) % emojis.length] || '⚪';
+}
+
 function buildTelegramMessage(data) {
   const now = new Date();
   const dateStr = now.toLocaleString('en-PH', {
@@ -89,34 +94,32 @@ function buildTelegramMessage(data) {
     hour12: true,
   });
 
+  const tableEmoji = getTableEmoji(data.tableNumber);
   const dineInItems = data.items.filter((i) => i.orderType === 'dine-in');
   const takeOutItems = data.items.filter((i) => i.orderType === 'take-out');
 
   const lines = [];
-  lines.push('\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550');
-  lines.push('          *181 LOUNGE*');
-  lines.push('            *ORDER*');
-  lines.push('\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550');
+  lines.push(tableEmoji + '  *181 LOUNGE \u00B7 ORDER*  ' + tableEmoji);
   lines.push('');
-  lines.push('           *TABLE ' + data.tableNumber + '*');
+  lines.push('  ' + tableEmoji + '  *TABLE ' + data.tableNumber + '*');
   lines.push('');
   lines.push('  ' + data.customerName);
-  if (data.customerPhone) lines.push('  ' + formatPhone(data.customerPhone));
-  if (data.customerEmail) lines.push('  ' + data.customerEmail);
-  lines.push('  ' + (data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet'));
+  if (data.customerPhone) lines.push('  \uD83D\uDCDE ' + formatPhone(data.customerPhone));
+  if (data.customerEmail) lines.push('  \u2709\uFE0F ' + data.customerEmail);
+  lines.push('  ' + (data.paymentMethod === 'cash' ? '\uD83D\uDCB5 Cash' : '\uD83D\uDCF1 E-Wallet'));
   lines.push('');
   lines.push('\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500');
 
   if (dineInItems.length > 0) {
     lines.push('');
-    lines.push('*DINE IN \u00B7 Eat Here*');
+    lines.push('\uD83C\uDF7D\uFE0F  *DINE IN*');
     lines.push('');
     dineInItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
       const price = formatPrice(lineTotal);
       const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
-      lines.push('  ' + namePad + qty + '   ' + price);
+      lines.push('  ' + namePad + qty + '  ' + price);
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
     });
     lines.push('');
@@ -128,14 +131,14 @@ function buildTelegramMessage(data) {
 
   if (takeOutItems.length > 0) {
     lines.push('');
-    lines.push('*PICK UP \u00B7 Pay at Counter*');
+    lines.push('\uD83C\uDF54  *PICK UP*');
     lines.push('');
     takeOutItems.forEach((item) => {
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
       const price = formatPrice(lineTotal);
       const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
-      lines.push('  ' + namePad + qty + '   ' + price);
+      lines.push('  ' + namePad + qty + '  ' + price);
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
     });
     lines.push('');
@@ -146,14 +149,14 @@ function buildTelegramMessage(data) {
   }
 
   lines.push('');
-  lines.push('  *TOTAL \u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7  ' + formatPrice(data.total) + '*');
+  lines.push('  \uD83D\uDCB0  *TOTAL: ' + formatPrice(data.total) + '*');
   lines.push('');
-  lines.push('\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550');
+  lines.push('\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500');
   lines.push('');
   lines.push('  \uD83D\uDCCD 35 Mamatid, Cabuyao');
   lines.push('  \uD83D\uDCC5 ' + dateStr + '  \u00B7  ' + timeStr);
   lines.push('');
-  lines.push('  _Pay at counter upon pick up_');
+  lines.push('  _' + tableEmoji + ' Pay at counter upon pick up ' + tableEmoji + '_');
 
   return lines.join('\n');
 }
