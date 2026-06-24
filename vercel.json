@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/send-order.js": {
+      "runtime": "@vercel/node@3"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
