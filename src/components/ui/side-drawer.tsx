@@ -16,6 +16,7 @@ interface Product {
   image: string;
   rating: number;
   popular: boolean;
+  sizes?: { name: string; price: number }[];
 }
 
 interface SideDrawerProps {
@@ -27,7 +28,10 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
   const [quantity, setQuantity] = useState(1);
   const [isFavorited, setIsFavorited] = useState(false);
   const [orderType, setOrderType] = useState<OrderType>('dine-in');
+  const [selectedSize, setSelectedSize] = useState<{ name: string; price: number } | null>(null);
   const { addItem } = useCart();
+
+  const currentPrice = selectedSize?.price ?? product?.price ?? 0;
 
   // Close on escape key
   useEffect(() => {
@@ -49,17 +53,19 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
     setQuantity(1);
     setIsFavorited(false);
     setOrderType('dine-in');
+    setSelectedSize(product?.sizes?.[0] ?? null);
   }, [product?.id]);
 
   const handleAddToCart = () => {
     if (!product) return;
+    const sizeLabel = selectedSize ? ` (${selectedSize.name})` : '';
     addItem(
       {
         id: product.id,
         name: product.name,
         category: product.category,
-        description: product.description,
-        price: product.price,
+        description: product.description + sizeLabel,
+        price: currentPrice,
         image: product.image,
       },
       quantity,
@@ -147,9 +153,9 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                   className="absolute bottom-4 left-4"
                 >
                   <div className="bg-white/95 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg">
-                    <div className="text-xs text-[#948D82] uppercase tracking-wider">Starting at</div>
+                    <div className="text-xs text-[#948D82] uppercase tracking-wider">{selectedSize ? selectedSize.name : 'Price'}</div>
                     <div className="font-heading text-3xl font-bold text-[#525A40] leading-none mt-0.5">
-                      {formatPrice(product.price)}
+                      {formatPrice(currentPrice)}
                     </div>
                   </div>
                 </motion.div>
@@ -250,6 +256,36 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                   </div>
                 </motion.div>
 
+                {/* Size Selector */}
+                {product.sizes && product.sizes.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45 }}
+                    className="mb-6"
+                  >
+                    <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider mb-3">
+                      Size
+                    </h4>
+                    <div className="grid grid-cols-2 gap-3">
+                      {product.sizes.map((size) => (
+                        <button
+                          key={size.name}
+                          onClick={() => setSelectedSize(size)}
+                          className={`flex flex-col items-center py-3 px-4 rounded-xl border-2 transition-all duration-300 ${
+                            selectedSize?.name === size.name
+                              ? 'border-[#525A40] bg-[#525A40]/8 text-[#525A40]'
+                              : 'border-[#e8e2da] bg-white text-[#948D82] hover:border-[#c5beb5]'
+                          }`}
+                        >
+                          <span className="font-semibold text-sm">{size.name}</span>
+                          <span className="text-xs mt-0.5 opacity-75">{formatPrice(size.price)}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
                 {/* Features List */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -306,7 +342,7 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                     <div className="text-right">
                       <div className="text-xs text-[#948D82]">Subtotal</div>
                       <div className="font-heading text-lg font-bold text-[#525A40]">
-                        {formatPrice(product.price * quantity)}
+                        {formatPrice(currentPrice * quantity)}
                       </div>
                     </div>
                   </div>

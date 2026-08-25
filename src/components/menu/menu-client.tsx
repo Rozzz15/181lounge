@@ -11,59 +11,37 @@ import { formatPrice } from '@/lib/utils';
 
 const categories = [
   { id: 'all', name: 'All' },
-  { id: 'coffee', name: 'Coffee' },
-  { id: 'cold-drinks', name: 'Cold Drinks' },
-  { id: 'breakfast', name: 'Breakfast' },
-  { id: 'bakery', name: 'Bakery' },
-  { id: 'lunch', name: 'Lunch' },
+  { id: 'frappe', name: 'Frappe' },
+  { id: 'ice-coffee', name: 'Ice Coffee' },
+  { id: 'matcha', name: 'Matcha' },
   { id: 'books', name: 'Books' },
-  { id: 'boardgames', name: 'Boardgames' },
 ];
 
 const products = [
-  // Coffee
-  { id: 1, name: 'Espresso', category: 'coffee', description: 'Rich, bold espresso shot', price: 95, image: 'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 2, name: 'Americano', category: 'coffee', description: 'Espresso with hot water', price: 115, image: 'https://images.unsplash.com/photo-1551030173-122aabc4489c?w=600&q=80', featured: true, rating: 4.7, popular: true },
-  { id: 3, name: 'Cappuccino', category: 'coffee', description: 'Espresso with steamed milk foam', price: 135, image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80', featured: false, rating: 4.6, popular: false },
-  { id: 4, name: 'Latte', category: 'coffee', description: 'Espresso with steamed milk', price: 135, image: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 5, name: 'Mocha', category: 'coffee', description: 'Espresso with chocolate and milk', price: 145, image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc39?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 6, name: 'White Chocolate Mocha', category: 'coffee', description: 'Espresso with white chocolate', price: 165, image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc39?w=600&q=80', featured: true, rating: 4.7, popular: true },
-  // Cold Drinks
-  { id: 7, name: 'Iced Coffee', category: 'cold-drinks', description: 'Chilled coffee over ice', price: 125, image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=600&q=80', featured: false, rating: 4.4, popular: false },
-  { id: 8, name: 'Iced Latte', category: 'cold-drinks', description: 'Espresso with cold milk over ice', price: 135, image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 9, name: 'Java Chip Frappe', category: 'cold-drinks', description: 'Blended coffee with chocolate chips', price: 165, image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80', featured: true, rating: 4.9, popular: true },
-  { id: 10, name: 'Caramel Frappe', category: 'cold-drinks', description: 'Blended coffee with caramel', price: 165, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&q=80', featured: false, rating: 4.6, popular: false },
-  { id: 11, name: 'Mango Milkshake', category: 'cold-drinks', description: 'Creamy mango shake with real mango', price: 155, image: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 12, name: 'Coconut Milkshake', category: 'cold-drinks', description: 'Tropical coconut shake', price: 155, image: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  // Breakfast
-  { id: 13, name: 'Big Breakfast', category: 'breakfast', description: 'Eggs, bacon, sausage, beans, toast', price: 285, image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=80', featured: true, rating: 4.9, popular: true },
-  { id: 14, name: 'Pancakes', category: 'breakfast', description: 'Fluffy pancakes with maple syrup', price: 185, image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=80', featured: false, rating: 4.6, popular: false },
-  { id: 15, name: 'Breakfast Platter', category: 'breakfast', description: 'Rice, eggs, bacon, and coffee', price: 245, image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 16, name: 'Eggs Benedict', category: 'breakfast', description: 'Poached eggs with hollandaise on muffin', price: 225, image: 'https://images.unsplash.com/photo-1608039829572-9b6d02a0e3a5?w=600&q=80', featured: false, rating: 4.7, popular: false },
-  // Bakery
-  { id: 17, name: 'Blueberry Muffin', category: 'bakery', description: 'Freshly baked with real blueberries', price: 95, image: 'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=600&q=80', featured: false, rating: 4.4, popular: false },
-  { id: 18, name: 'Chocolate Croissant', category: 'bakery', description: 'Buttery croissant with chocolate', price: 110, image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 19, name: 'Chocolate Chip Cookie', category: 'bakery', description: 'Classic with chunks of chocolate', price: 75, image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 20, name: 'Almond Croissant', category: 'bakery', description: 'Croissant filled with almond cream', price: 125, image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80', featured: false, rating: 4.6, popular: false },
-  // Lunch
-  { id: 21, name: 'Ham & Cheese Panini', category: 'lunch', description: 'Grilled sandwich with ham and cheese', price: 185, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 22, name: 'Chicken Pesto Pasta', category: 'lunch', description: 'Penne with grilled chicken and pesto', price: 225, image: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=600&q=80', featured: false, rating: 4.6, popular: false },
-  { id: 23, name: 'Beef Burger Meal', category: 'lunch', description: 'Angus beef with fries and drink', price: 265, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80', featured: false, rating: 4.7, popular: false },
-  { id: 24, name: 'Fish & Chips', category: 'lunch', description: 'Crispy fish with seasoned fries', price: 245, image: 'https://images.unsplash.com/photo-1579208030886-b1a5ed917e74?w=600&q=80', featured: false, rating: 4.5, popular: false },
+  // Frappe
+  { id: 1, name: 'Matcha Frappe', category: 'frappe', description: 'Creamy blended matcha frappe', price: 190, image: '/images/matchafrappe.jpg', featured: false, rating: 4.7, popular: false },
+  { id: 2, name: 'Oreo Frappe', category: 'frappe', description: 'Blended frappe with crushed Oreo cookies', price: 190, image: '/images/oreofrappe.jpg', featured: false, rating: 4.7, popular: false },
+  { id: 3, name: 'Salted Caramel Frappe', category: 'frappe', description: 'Rich frappe with salted caramel swirl', price: 190, image: '/images/saltedcaramelfrappe.jpg', featured: false, rating: 4.7, popular: false },
+  { id: 4, name: 'Dark Mocha Frappe', category: 'frappe', description: 'Bold dark chocolate mocha frappe', price: 190, image: '/images/darkmochafrappe.jpg', featured: false, rating: 4.7, popular: false },
+  { id: 5, name: 'White Mocha', category: 'frappe', description: 'Smooth white chocolate mocha frappe', price: 190, image: '/images/whitemocha.jpg', featured: false, rating: 4.7, popular: false },
+  { id: 6, name: 'Choco Chip Frappe', category: 'frappe', description: 'Blended frappe with chocolate chips', price: 190, image: '/images/chocochipfrappe.jpg', featured: false, rating: 4.7, popular: false },
+  { id: 7, name: 'Strawberry Frappe', category: 'frappe', description: 'Refreshing strawberry blended frappe', price: 190, image: '/images/strawberryfrappe.jpg', featured: false, rating: 4.7, popular: false },
+  // Ice Coffee
+  { id: 8, name: 'Americano', category: 'ice-coffee', description: 'Bold espresso with cold water over ice', price: 100, image: '/images/americano.jpg', featured: false, rating: 4.6, popular: true, sizes: [{ name: 'Medium', price: 100 }, { name: 'Large', price: 120 }] },
+  { id: 9, name: 'Hazelnut Latte', category: 'ice-coffee', description: 'Espresso with hazelnut syrup and cold milk', price: 150, image: '/images/hazelnutlatte.jpg', featured: false, rating: 4.5, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  { id: 10, name: 'Cafe Latte', category: 'ice-coffee', description: 'Classic espresso with smooth cold milk', price: 120, image: '/images/cafelatte.jpg', featured: true, rating: 4.7, popular: true, sizes: [{ name: 'Medium', price: 120 }, { name: 'Large', price: 150 }] },
+  { id: 11, name: 'Spanish Latte', category: 'ice-coffee', description: 'Espresso with condensed milk over ice', price: 150, image: '/images/spanishlatte.jpg', featured: false, rating: 4.7, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  { id: 12, name: 'Caramel Latte', category: 'ice-coffee', description: 'Espresso with caramel syrup and cold milk', price: 150, image: '/images/caramellatte.jpg', featured: true, rating: 4.8, popular: true, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  // Matcha
+  { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 150, image: '/images/strawberrymatcha.jpg', featured: true, rating: 4.9, popular: true, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 150, image: '/images/machalatte.jpg', featured: false, rating: 4.6, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
   // Books
-  { id: 25, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 350, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.7, popular: true },
-  { id: 26, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 295, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 27, name: 'Quiet: The Power of Introverts', category: 'books', description: 'Bestseller on the strength of quiet people', price: 420, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 28, name: 'Manila After Dark', category: 'books', description: 'A collection of short stories set in the city', price: 275, image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&q=80', featured: false, rating: 4.4, popular: false },
-  { id: 29, name: 'Atomic Habits', category: 'books', description: 'Build good habits and break bad ones', price: 450, image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=600&q=80', featured: true, rating: 4.9, popular: true },
-  { id: 30, name: 'The Alchemist', category: 'books', description: 'A timeless fable about following your dreams', price: 320, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: false, rating: 4.6, popular: false },
-  // Boardgames
-  { id: 31, name: 'Catan', category: 'boardgames', description: 'Strategy game of settling and trading on an island', price: 1200, image: 'https://images.unsplash.com/photo-1611371805429-8b5c1b2c34ba?w=600&q=80', featured: true, rating: 4.9, popular: true },
-  { id: 32, name: 'Cards Against Humanity', category: 'boardgames', description: 'A party game for horrible people', price: 850, image: 'https://images.unsplash.com/photo-1529480780007-52f8a14f3a7b?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 33, name: 'Scrabble', category: 'boardgames', description: 'Classic word game for 2-4 players', price: 950, image: 'https://images.unsplash.com/photo-1611371805429-8b5c1b2c34ba?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 34, name: 'Chess Set (Wooden)', category: 'boardgames', description: 'Handcrafted wooden chess set with storage', price: 1100, image: 'https://images.unsplash.com/photo-1586165368502-1bad06082d90?w=600&q=80', featured: false, rating: 4.6, popular: false },
-  { id: 35, name: 'Monopoly', category: 'boardgames', description: 'The classic real estate trading game', price: 980, image: 'https://images.unsplash.com/photo-1611371805429-8b5c1b2c34ba?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 36, name: 'Exploding Kittens', category: 'boardgames', description: 'A hilarious card game for people who are into kittens and explosions', price: 650, image: 'https://images.unsplash.com/photo-1529480780007-52f8a14f3a7b?w=600&q=80', featured: true, rating: 4.7, popular: true },
+  { id: 15, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 350, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.7, popular: true },
+  { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 295, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.5, popular: false },
+  { id: 17, name: 'Quiet: The Power of Introverts', category: 'books', description: 'Bestseller on the strength of quiet people', price: 420, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80', featured: true, rating: 4.8, popular: true },
+  { id: 18, name: 'Manila After Dark', category: 'books', description: 'A collection of short stories set in the city', price: 275, image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&q=80', featured: false, rating: 4.4, popular: false },
+  { id: 19, name: 'Atomic Habits', category: 'books', description: 'Build good habits and break bad ones', price: 450, image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=600&q=80', featured: true, rating: 4.9, popular: true },
+  { id: 20, name: 'The Alchemist', category: 'books', description: 'A timeless fable about following your dreams', price: 320, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: false, rating: 4.6, popular: false },
 ];
 
 export function MenuClient() {
@@ -319,7 +297,7 @@ export function MenuClient() {
                         </h3>
                         <p className="text-sm text-[#948D82] line-clamp-2 mb-4">{product.description}</p>
                         <button
-                          onClick={(e) => { e.stopPropagation(); setOrderTypeDialog({ product }); }}
+                          onClick={(e) => { e.stopPropagation(); if (product.sizes) { setSelectedProduct(product); } else { setOrderTypeDialog({ product }); } }}
                           className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#F3F0E8] text-[#525A40] font-semibold text-sm hover:bg-[#525A40] hover:text-white transition-all duration-300"
                         >
                           <Plus className="w-4 h-4" />
@@ -412,7 +390,7 @@ export function MenuClient() {
                           <motion.button
                             whileHover={{ scale: 1.05, x: -2 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={(e) => { e.stopPropagation(); setOrderTypeDialog({ product }); }}
+                            onClick={(e) => { e.stopPropagation(); if (product.sizes) { setSelectedProduct(product); } else { setOrderTypeDialog({ product }); } }}
                             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#525A40] text-white font-semibold text-sm hover:bg-[#44362A] transition-all duration-300 shadow-lg shadow-[#525A40]/20 hover:shadow-xl hover:shadow-[#525A40]/30"
                           >
                             <Plus className="w-4 h-4" />
