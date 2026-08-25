@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Star, ShoppingBag, Minus, Plus, Heart, Share2, ChevronRight, Store, Package } from 'lucide-react';
+import { X, Star, ShoppingBag, Minus, Plus, Heart, Share2, ChevronRight, Store, Package, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useCart, type OrderType } from '@/context/cart-context';
+import { useCart, type OrderType, AVAILABLE_ADDONS, type AddOn } from '@/context/cart-context';
 import { formatPrice } from '@/lib/utils';
 
 interface Product {
@@ -29,9 +29,15 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
   const [isFavorited, setIsFavorited] = useState(false);
   const [orderType, setOrderType] = useState<OrderType>('dine-in');
   const [selectedSize, setSelectedSize] = useState<{ name: string; price: number } | null>(null);
+  const [selectedAddOns, setSelectedAddOns] = useState<AddOn[]>([]);
   const { addItem } = useCart();
 
   const currentPrice = selectedSize?.price ?? product?.price ?? 0;
+  const addOnsTotal = selectedAddOns.reduce((sum, addOn) => sum + addOn.price, 0);
+  const itemTotal = (currentPrice + addOnsTotal) * quantity;
+
+  const drinkCategories = ['frappe', 'ice-coffee', 'matcha', 'coffee', 'drinks'];
+  const isDrink = product ? drinkCategories.includes(product.category.toLowerCase()) : false;
 
   // Close on escape key
   useEffect(() => {
@@ -54,24 +60,38 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
     setIsFavorited(false);
     setOrderType('dine-in');
     setSelectedSize(product?.sizes?.[0] ?? null);
+    setSelectedAddOns([]);
   }, [product?.id]);
 
   const handleAddToCart = () => {
     if (!product) return;
     const sizeLabel = selectedSize ? ` (${selectedSize.name})` : '';
+    const addOnNames = selectedAddOns.map((a) => a.name).join(', ');
+    const descriptionSuffix = sizeLabel + (addOnNames ? ` + ${addOnNames}` : '');
     addItem(
       {
         id: product.id,
         name: product.name,
         category: product.category,
-        description: product.description + sizeLabel,
+        description: product.description + descriptionSuffix,
         price: currentPrice,
         image: product.image,
       },
       quantity,
-      orderType
+      orderType,
+      selectedAddOns
     );
     onClose();
+  };
+
+  const toggleAddOn = (addOn: AddOn) => {
+    setSelectedAddOns((prev) => {
+      const exists = prev.find((a) => a.name === addOn.name);
+      if (exists) {
+        return prev.filter((a) => a.name !== addOn.name);
+      }
+      return [...prev, addOn];
+    });
   };
 
   return (
@@ -286,6 +306,50 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                   </motion.div>
                 )}
 
+                {/* Add-ons Selector (for drinks only) */}
+                {isDrink && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="mb-6"
+                  >
+                    <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider mb-3">
+                      Add-ons
+                    </h4>
+                    <div className="space-y-2">
+                      {AVAILABLE_ADDONS.map((addOn) => {
+                        const isSelected = selectedAddOns.some((a) => a.name === addOn.name);
+                        return (
+                          <button
+                            key={addOn.name}
+                            onClick={() => toggleAddOn(addOn)}
+                            className={`w-full flex items-center justify-between py-3 px-4 rounded-xl border-2 transition-all duration-300 ${
+                              isSelected
+                                ? 'border-[#927557] bg-[#927557]/8 text-[#927557]'
+                                : 'border-[#e8e2da] bg-white text-[#948D82] hover:border-[#c5beb5]'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div
+                                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                                  isSelected
+                                    ? 'border-[#927557] bg-[#927557]'
+                                    : 'border-[#c5beb5]'
+                                }`}
+                              >
+                                {isSelected && <Check className="w-3 h-3 text-white" />}
+                              </div>
+                              <span className="font-semibold text-sm">{addOn.name}</span>
+                            </div>
+                            <span className="text-sm font-medium">+{formatPrice(addOn.price)}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+
                 {/* Features List */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -342,7 +406,7 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                     <div className="text-right">
                       <div className="text-xs text-[#948D82]">Subtotal</div>
                       <div className="font-heading text-lg font-bold text-[#525A40]">
-                        {formatPrice(currentPrice * quantity)}
+                        {formatPrice(itemTotal)}
                       </div>
                     </div>
                   </div>

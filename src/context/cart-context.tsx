@@ -4,6 +4,16 @@ import { createContext, useContext, useState, useCallback, useMemo, type ReactNo
 
 export type OrderType = 'dine-in' | 'take-out';
 
+export interface AddOn {
+  name: string;
+  price: number;
+}
+
+export const AVAILABLE_ADDONS: AddOn[] = [
+  { name: 'Breve', price: 50 },
+  { name: 'Oatmilk Sub', price: 60 },
+];
+
 export interface CartItem {
   id: number;
   name: string;
@@ -14,11 +24,12 @@ export interface CartItem {
   quantity: number;
   orderType: OrderType;
   specialRequest?: string;
+  selectedAddOns?: AddOn[];
 }
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (item: Omit<CartItem, 'quantity' | 'orderType'>, quantity: number, orderType: OrderType) => void;
+  addItem: (item: Omit<CartItem, 'quantity' | 'orderType'>, quantity: number, orderType: OrderType, selectedAddOns?: AddOn[]) => void;
   removeItem: (id: number, orderType: OrderType) => void;
   updateQuantity: (id: number, orderType: OrderType, quantity: number) => void;
   updateSpecialRequest: (id: number, orderType: OrderType, specialRequest: string) => void;
@@ -36,7 +47,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const addItem = useCallback(
-    (item: Omit<CartItem, 'quantity' | 'orderType'>, quantity: number, orderType: OrderType) => {
+    (item: Omit<CartItem, 'quantity' | 'orderType'>, quantity: number, orderType: OrderType, selectedAddOns?: AddOn[]) => {
       setItems((prev) => {
         const existing = prev.find((i) => i.id === item.id && i.orderType === orderType);
         if (existing) {
@@ -46,7 +57,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
               : i
           );
         }
-        return [...prev, { ...item, quantity, orderType }];
+        return [...prev, { ...item, quantity, orderType, selectedAddOns }];
       });
       setIsOpen(true);
     },
@@ -75,7 +86,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
-  const total = useMemo(() => items.reduce((sum, item) => sum + item.price * item.quantity, 0), [items]);
+  const total = useMemo(
+    () =>
+      items.reduce((sum, item) => {
+        const addOnsTotal = item.selectedAddOns?.reduce((addOnSum, addOn) => addOnSum + addOn.price, 0) ?? 0;
+        return sum + (item.price + addOnsTotal) * item.quantity;
+      }, 0),
+    [items]
+  );
   const itemCount = useMemo(() => items.reduce((sum, item) => sum + item.quantity, 0), [items]);
 
   return (

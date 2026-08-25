@@ -1,12 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Grid, List, Store, Package, X, Star, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
+import { Search, Grid, List, Star, Plus, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { SideDrawer } from '@/components/ui/side-drawer';
-import { useCart, type OrderType } from '@/context/cart-context';
 import { formatPrice } from '@/lib/utils';
 
 const categories = [
@@ -49,8 +47,6 @@ export function MenuClient() {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
-  const [orderTypeDialog, setOrderTypeDialog] = useState<{ product: typeof products[0] } | null>(null);
-  const { addItem } = useCart();
 
   const filteredProducts = products.filter((product) => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
@@ -86,22 +82,6 @@ export function MenuClient() {
 
     return matchesCategory && matchesSearch;
   });
-
-  const handleAddToCart = (product: typeof products[0], orderType: OrderType) => {
-    addItem(
-      {
-        id: product.id,
-        name: product.name,
-        category: product.category,
-        description: product.description,
-        price: product.price,
-        image: product.image,
-      },
-      1,
-      orderType
-    );
-    setOrderTypeDialog(null);
-  };
 
   return (
     <div className="min-h-screen bg-[#F3F0E8]">
@@ -297,7 +277,7 @@ export function MenuClient() {
                         </h3>
                         <p className="text-sm text-[#948D82] line-clamp-2 mb-4">{product.description}</p>
                         <button
-                          onClick={(e) => { e.stopPropagation(); if (product.sizes) { setSelectedProduct(product); } else { setOrderTypeDialog({ product }); } }}
+                          onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}
                           className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#F3F0E8] text-[#525A40] font-semibold text-sm hover:bg-[#525A40] hover:text-white transition-all duration-300"
                         >
                           <Plus className="w-4 h-4" />
@@ -390,7 +370,7 @@ export function MenuClient() {
                           <motion.button
                             whileHover={{ scale: 1.05, x: -2 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={(e) => { e.stopPropagation(); if (product.sizes) { setSelectedProduct(product); } else { setOrderTypeDialog({ product }); } }}
+                            onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}
                             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#525A40] text-white font-semibold text-sm hover:bg-[#44362A] transition-all duration-300 shadow-lg shadow-[#525A40]/20 hover:shadow-xl hover:shadow-[#525A40]/30"
                           >
                             <Plus className="w-4 h-4" />
@@ -423,85 +403,6 @@ export function MenuClient() {
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
       />
-
-      {/* Order Type Dialog */}
-      <AnimatePresence>
-        {orderTypeDialog && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
-              onClick={() => setOrderTypeDialog(null)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            >
-              <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
-                {/* Dialog Header */}
-                <div className="relative p-6 pb-4">
-                  <button
-                    onClick={() => setOrderTypeDialog(null)}
-                    className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-[#948D82] hover:bg-[#F3F0E8] transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                  <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={orderTypeDialog.product.image}
-                      alt={orderTypeDialog.product.name}
-                      className="w-16 h-16 rounded-xl object-cover shadow-md"
-                    />
-                    <div>
-                      <h3 className="font-heading text-xl font-bold text-[#44362A]">
-                        {orderTypeDialog.product.name}
-                      </h3>
-                      <p className="text-sm text-[#948D82]">
-                        {formatPrice(orderTypeDialog.product.price)}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-[#948D82]">
-                    How would you like to enjoy this?
-                  </p>
-                </div>
-
-                {/* Order Type Options */}
-                <div className="px-6 pb-6 space-y-3">
-                  <button
-                    onClick={() => handleAddToCart(orderTypeDialog.product, 'dine-in')}
-                    className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-[#e8e2da] hover:border-[#525A40] hover:bg-[#525A40]/5 transition-all duration-300 group"
-                  >
-                    <div className="w-14 h-14 rounded-2xl bg-[#525A40]/10 flex items-center justify-center group-hover:bg-[#525A40]/20 transition-colors">
-                      <Store className="w-7 h-7 text-[#525A40]" />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-heading text-lg font-bold text-[#44362A]">Dine In</div>
-                      <div className="text-sm text-[#948D82]">Enjoy at our cozy cafe</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => handleAddToCart(orderTypeDialog.product, 'take-out')}
-                    className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-[#e8e2da] hover:border-[#927557] hover:bg-[#927557]/5 transition-all duration-300 group"
-                  >
-                    <div className="w-14 h-14 rounded-2xl bg-[#927557]/10 flex items-center justify-center group-hover:bg-[#927557]/20 transition-colors">
-                      <Package className="w-7 h-7 text-[#927557]" />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-heading text-lg font-bold text-[#44362A]">Pick Up</div>
-                      <div className="text-sm text-[#948D82]">Grab and go</div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
