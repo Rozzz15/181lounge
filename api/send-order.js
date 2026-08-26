@@ -101,23 +101,34 @@ function buildTelegramMessage(data) {
   lines.push('Table ' + data.tableNumber);
   lines.push('');
   lines.push(data.customerName);
+  if (data.customerPhone) lines.push(data.customerPhone);
   lines.push(data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet');
   lines.push('');
   lines.push(SINGLE);
 
   if (dineInItems.length > 0) {
     lines.push('');
-    lines.push('*DINE IN*');
+    lines.push('*DINE IN \u00B7 Eat Here*');
     lines.push('');
     dineInItems.forEach((item) => {
+      const isBook = item.category === 'books';
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
-      const price = formatPrice(lineTotal);
-      const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
-      lines.push('  ' + namePad + qty + '   ' + price);
+
+      lines.push('  *' + item.name + '*');
+      if (item.selectedAddOns && item.selectedAddOns.length > 0) {
+        item.selectedAddOns.forEach((addOn) => {
+          lines.push('    +' + addOn.name + ' ' + formatPrice(addOn.price));
+        });
+      }
+      if (isBook) {
+        lines.push('    ' + qty + '   Ask at Cashier');
+      } else {
+        lines.push('    ' + qty + '   ' + formatPrice(lineTotal));
+      }
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
+      lines.push('');
     });
-    lines.push('');
     const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(dineInSubtotal) + '*');
     lines.push('');
@@ -126,17 +137,27 @@ function buildTelegramMessage(data) {
 
   if (takeOutItems.length > 0) {
     lines.push('');
-    lines.push('*PICK UP*');
+    lines.push('*PICK UP \u00B7 Pay at Counter*');
     lines.push('');
     takeOutItems.forEach((item) => {
+      const isBook = item.category === 'books';
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
-      const price = formatPrice(lineTotal);
-      const namePad = item.name.length < 20 ? item.name + ' '.repeat(20 - item.name.length) : item.name;
-      lines.push('  ' + namePad + qty + '   ' + price);
+
+      lines.push('  *' + item.name + '*');
+      if (item.selectedAddOns && item.selectedAddOns.length > 0) {
+        item.selectedAddOns.forEach((addOn) => {
+          lines.push('    +' + addOn.name + ' ' + formatPrice(addOn.price));
+        });
+      }
+      if (isBook) {
+        lines.push('    ' + qty + '   Ask at Cashier');
+      } else {
+        lines.push('    ' + qty + '   ' + formatPrice(lineTotal));
+      }
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
+      lines.push('');
     });
-    lines.push('');
     const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(takeOutSubtotal) + '*');
     lines.push('');
@@ -151,7 +172,7 @@ function buildTelegramMessage(data) {
   lines.push('\uD83D\uDCCD 35 Mamatid, Cabuyao');
   lines.push('\uD83D\uDCC5 ' + dateStr + '  \u00B7  ' + timeStr);
   lines.push('');
-  lines.push('Pay at counter upon pick up');
+  lines.push('_Pay at counter upon pick up_');
 
   return lines.join('\n');
 }

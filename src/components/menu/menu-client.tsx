@@ -34,12 +34,12 @@ const products = [
   { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 150, image: '/images/strawberrymatcha.jpg', featured: true, rating: 4.9, popular: true, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
   { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 150, image: '/images/machalatte.jpg', featured: false, rating: 4.6, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
   // Books
-  { id: 15, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 350, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.7, popular: true },
-  { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 295, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 17, name: 'Quiet: The Power of Introverts', category: 'books', description: 'Bestseller on the strength of quiet people', price: 420, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 18, name: 'Manila After Dark', category: 'books', description: 'A collection of short stories set in the city', price: 275, image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&q=80', featured: false, rating: 4.4, popular: false },
-  { id: 19, name: 'Atomic Habits', category: 'books', description: 'Build good habits and break bad ones', price: 450, image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=600&q=80', featured: true, rating: 4.9, popular: true },
-  { id: 20, name: 'The Alchemist', category: 'books', description: 'A timeless fable about following your dreams', price: 320, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: false, rating: 4.6, popular: false },
+  { id: 15, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.7, popular: true },
+  { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 0, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.5, popular: false },
+  { id: 17, name: 'Quiet: The Power of Introverts', category: 'books', description: 'Bestseller on the strength of quiet people', price: 0, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80', featured: true, rating: 4.8, popular: true },
+  { id: 18, name: 'Manila After Dark', category: 'books', description: 'A collection of short stories set in the city', price: 0, image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&q=80', featured: false, rating: 4.4, popular: false },
+  { id: 19, name: 'Atomic Habits', category: 'books', description: 'Build good habits and break bad ones', price: 0, image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=600&q=80', featured: true, rating: 4.9, popular: true },
+  { id: 20, name: 'The Alchemist', category: 'books', description: 'A timeless fable about following your dreams', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: false, rating: 4.6, popular: false },
 ];
 
 export function MenuClient() {
@@ -247,7 +247,7 @@ export function MenuClient() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
                         <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
-                          <span className="font-heading text-lg font-bold text-[#525A40]">{formatPrice(product.price)}</span>
+                          <span className="font-heading text-lg font-bold text-[#525A40]">{product.category === 'books' ? 'Ask at Cashier Desk' : formatPrice(product.price)}</span>
                         </div>
                         {product.popular && (
                           <div className="absolute top-4 left-4 flex items-center gap-1.5 bg-[#927557] text-white px-3 py-1.5 rounded-full shadow-lg">
@@ -281,7 +281,7 @@ export function MenuClient() {
                           className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#F3F0E8] text-[#525A40] font-semibold text-sm hover:bg-[#525A40] hover:text-white transition-all duration-300"
                         >
                           <Plus className="w-4 h-4" />
-                          Add to Cart
+                            {product.category === 'books' ? 'Add to Cart' : 'Add to Cart'}
                         </button>
                       </div>
                     </div>
@@ -310,7 +310,7 @@ export function MenuClient() {
                           animate={{ opacity: 1, y: 0 }}
                           className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-1.5 shadow-lg group-hover:shadow-xl transition-shadow duration-300"
                         >
-                          <span className="font-heading text-base font-bold text-[#525A40]">{formatPrice(product.price)}</span>
+                          <span className="font-heading text-base font-bold text-[#525A40]">{product.category === 'books' ? 'Ask at Cashier Desk' : formatPrice(product.price)}</span>
                         </motion.div>
 
                         {product.popular && (
@@ -364,8 +364,8 @@ export function MenuClient() {
                             whileHover={{ scale: 1.05 }}
                             className="cursor-default"
                           >
-                            <span className="text-xs text-[#948D82] block mb-0.5">Price</span>
-                            <span className="font-heading text-2xl font-bold text-[#525A40] group-hover:text-[#44362A] transition-colors duration-300">{formatPrice(product.price)}</span>
+                            <span className="text-xs text-[#948D82] block mb-0.5">{product.category === 'books' ? '' : 'Price'}</span>
+                            <span className="font-heading text-2xl font-bold text-[#525A40] group-hover:text-[#44362A] transition-colors duration-300">{product.category === 'books' ? 'Ask at Cashier Desk' : formatPrice(product.price)}</span>
                           </motion.div>
                           <motion.button
                             whileHover={{ scale: 1.05, x: -2 }}
@@ -374,7 +374,7 @@ export function MenuClient() {
                             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#525A40] text-white font-semibold text-sm hover:bg-[#44362A] transition-all duration-300 shadow-lg shadow-[#525A40]/20 hover:shadow-xl hover:shadow-[#525A40]/30"
                           >
                             <Plus className="w-4 h-4" />
-                            Add to Cart
+                          {product.category === 'books' ? 'Add to Cart' : 'Add to Cart'}
                           </motion.button>
                         </div>
                       </motion.div>

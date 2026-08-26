@@ -79,30 +79,50 @@ function sendOrderPlugin() {
             lines.push('───────────────────────────────────');
 
             if (dineInItems.length) {
-              lines.push('', '*DINE IN · Eat Here*', '');
+              lines.push('', '*DINE IN \u00B7 Eat Here*', '');
               dineInItems.forEach((i: any) => {
+                const isBook = i.category === 'books';
                 const lineTotal = (i.price * i.quantity).toFixed(2);
-                const namePad = i.name.length < 20 ? i.name + ' '.repeat(20 - i.name.length) : i.name;
-                lines.push(`  ${namePad}×${i.quantity}   ₱${lineTotal}`);
-                if (i.specialRequest) lines.push(`    ↳ _${i.specialRequest}_`);
+                lines.push(`  *${i.name}*`);
+                if (i.selectedAddOns && i.selectedAddOns.length > 0) {
+                  i.selectedAddOns.forEach((a: any) => {
+                    lines.push(`    +${a.name} \u20B1${a.price.toFixed(2)}`);
+                  });
+                }
+                if (isBook) {
+                  lines.push(`    \u00D7${i.quantity}   Ask at Cashier`);
+                } else {
+                  lines.push(`    \u00D7${i.quantity}   \u20B1${lineTotal}`);
+                }
+                if (i.specialRequest) lines.push(`    \u21B3 _${i.specialRequest}_`);
+                lines.push('');
               });
-              lines.push('');
               const sub = dineInItems.reduce((s: number, i: any) => s + i.price * i.quantity, 0).toFixed(2);
-              lines.push(`  Subtotal ···············  *₱${sub}*`);
+              lines.push(`  Subtotal \u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7  *\u20B1${sub}*`);
               lines.push('');
               lines.push('───────────────────────────');
             }
             if (takeOutItems.length) {
-              lines.push('', '*PICK UP · Pay at Counter*', '');
+              lines.push('', '*PICK UP \u00B7 Pay at Counter*', '');
               takeOutItems.forEach((i: any) => {
+                const isBook = i.category === 'books';
                 const lineTotal = (i.price * i.quantity).toFixed(2);
-                const namePad = i.name.length < 20 ? i.name + ' '.repeat(20 - i.name.length) : i.name;
-                lines.push(`  ${namePad}×${i.quantity}   ₱${lineTotal}`);
-                if (i.specialRequest) lines.push(`    ↳ _${i.specialRequest}_`);
+                lines.push(`  *${i.name}*`);
+                if (i.selectedAddOns && i.selectedAddOns.length > 0) {
+                  i.selectedAddOns.forEach((a: any) => {
+                    lines.push(`    +${a.name} \u20B1${a.price.toFixed(2)}`);
+                  });
+                }
+                if (isBook) {
+                  lines.push(`    \u00D7${i.quantity}   Ask at Cashier`);
+                } else {
+                  lines.push(`    \u00D7${i.quantity}   \u20B1${lineTotal}`);
+                }
+                if (i.specialRequest) lines.push(`    \u21B3 _${i.specialRequest}_`);
+                lines.push('');
               });
-              lines.push('');
               const sub = takeOutItems.reduce((s: number, i: any) => s + i.price * i.quantity, 0).toFixed(2);
-              lines.push(`  Subtotal ···············  *₱${sub}*`);
+              lines.push(`  Subtotal \u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7  *\u20B1${sub}*`);
               lines.push('');
               lines.push('───────────────────────────');
             }

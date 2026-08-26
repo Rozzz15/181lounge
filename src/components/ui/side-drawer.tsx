@@ -173,9 +173,9 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                   className="absolute bottom-4 left-4"
                 >
                   <div className="bg-white/95 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg">
-                    <div className="text-xs text-[#948D82] uppercase tracking-wider">{selectedSize ? selectedSize.name : 'Price'}</div>
+                    <div className="text-xs text-[#948D82] uppercase tracking-wider">{selectedSize ? selectedSize.name : (product?.category === 'books' ? '' : 'Price')}</div>
                     <div className="font-heading text-3xl font-bold text-[#525A40] leading-none mt-0.5">
-                      {formatPrice(currentPrice)}
+                      {product?.category === 'books' ? 'Ask at Cashier Desk' : formatPrice(currentPrice)}
                     </div>
                   </div>
                 </motion.div>
@@ -241,6 +241,7 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                 <div className="h-px bg-gradient-to-r from-transparent via-[#e8e2da] to-transparent mb-6" />
 
                 {/* Order Type Selector */}
+                {product.category !== 'books' && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -275,6 +276,7 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                     </button>
                   </div>
                 </motion.div>
+                )}
 
                 {/* Size Selector */}
                 {product.sizes && product.sizes.length > 0 && (
@@ -358,18 +360,33 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                   className="space-y-3"
                 >
                   <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider">Features</h4>
-                  <div className="flex items-center gap-2 text-sm text-[#7a756d]">
-                    <ChevronRight className="w-4 h-4 text-[#525A40]" />
-                    <span>Freshly prepared daily</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-[#7a756d]">
-                    <ChevronRight className="w-4 h-4 text-[#525A40]" />
-                    <span>Premium quality ingredients</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-[#7a756d]">
-                    <ChevronRight className="w-4 h-4 text-[#525A40]" />
-                    <span>Available for dine-in and takeout</span>
-                  </div>
+                  {product.category === 'books' ? (
+                    <>
+                      <div className="flex items-center gap-2 text-sm text-[#7a756d]">
+                        <ChevronRight className="w-4 h-4 text-[#525A40]" />
+                        <span>Ask at cashier for availability and pricing</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-[#7a756d]">
+                        <ChevronRight className="w-4 h-4 text-[#525A40]" />
+                        <span>Browse and read in-store</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-2 text-sm text-[#7a756d]">
+                        <ChevronRight className="w-4 h-4 text-[#525A40]" />
+                        <span>Freshly prepared daily</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-[#7a756d]">
+                        <ChevronRight className="w-4 h-4 text-[#525A40]" />
+                        <span>Premium quality ingredients</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-[#7a756d]">
+                        <ChevronRight className="w-4 h-4 text-[#525A40]" />
+                        <span>Available for dine-in and takeout</span>
+                      </div>
+                    </>
+                  )}
                 </motion.div>
               </div>
 
