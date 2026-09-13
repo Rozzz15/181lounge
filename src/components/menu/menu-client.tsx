@@ -88,8 +88,8 @@ export function MenuClient() {
       {/* Hero Banner */}
       <section className="relative h-[45vh] min-h-[320px] overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
-          style={{ backgroundImage: 'url(/images/about.avif)' }}
+          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat scale-105"
+          style={{ backgroundImage: 'url(/images/menu.jpg)' }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#44362A]/80 via-[#44362A]/60 to-[#44362A]/90" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center text-center relative z-10">

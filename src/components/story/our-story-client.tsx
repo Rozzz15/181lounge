@@ -134,7 +134,7 @@ export function OurStoryClient() {
       {/* Hero Banner */}
       <section className="relative h-[65vh] min-h-[500px] bg-gradient-to-br from-[#525A40] via-[#525A40] to-[#927557] overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/story.png" alt="" className="w-full h-full object-cover opacity-20" />
+          <img src="/images/ourstory.jpg" alt="" className="w-full h-full object-cover opacity-20" />
         </div>
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center pb-16">

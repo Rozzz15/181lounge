@@ -69,16 +69,18 @@ export function BranchSection() {
             className="relative rounded-2xl overflow-hidden shadow-xl border border-[#927557]/10"
           >
             <div className="aspect-[4/3] sm:aspect-[16/10] w-full bg-[#e8e4dc]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3865.1234567890123!2d121.12345678901234!3d14.234567890123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d12345678901%3A0x1234567890abcdef!2s35%20Mamatid%2C%20Cabuyao%2C%20Laguna!5e0!3m2!1sen!2sph!4v1234567890123!5m2!1sen!2sph"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="181 Lounge Location"
-              />
+              <a
+                href="https://maps.google.com/?q=35+Mamatid+Cabuyao+Philippines+4025"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full h-full"
+              >
+                <img
+                  src="/images/map.jpg"
+                  alt="181 Lounge Location on Map"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </a>
             </div>
             {/* Map overlay gradient */}
             <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F3F0E8] to-transparent pointer-events-none" />

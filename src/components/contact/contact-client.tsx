@@ -90,7 +90,7 @@ export function ContactClient() {
       {/* Hero Banner */}
       <section className="relative h-[55vh] min-h-[400px] bg-gradient-to-br from-[#525A40] via-[#525A40] to-[#927557]">
         <div className="absolute inset-0">
-          <img src="/images/contact.jpg" alt="" className="w-full h-full object-cover opacity-20" />
+          <img src="/images/coon.jpg" alt="" className="w-full h-full object-cover opacity-20" />
         </div>
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center pb-16">
@@ -282,22 +282,22 @@ export function ContactClient() {
                           {info.title}
                         </h4>
                         {info.details.map((detail, i) => (
-                          detail.href ? (
-                            <a
-                              key={i}
-                              href={detail.href}
-                              target={detail.href.startsWith('http') ? '_blank' : undefined}
-                              rel={detail.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                              className="text-[#948D82] text-sm leading-relaxed hover:text-[#525A40] transition-colors"
-                            >
-                              {detail.text}
-                            </a>
-                          ) : (
-                            <p key={i} className="text-[#948D82] text-sm leading-relaxed">
-                              {detail.text}
-                            </p>
-                          )
-                        ))}
+                           detail.href ? (
+                             <a
+                               key={i}
+                               href={detail.href}
+                               target={detail.href.startsWith('http') ? '_blank' : undefined}
+                               rel={detail.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                               className="text-[#948D82] text-sm leading-relaxed hover:text-[#525A40] transition-colors"
+                             >
+                               {detail.text}
+                             </a>
+                           ) : (
+                             <p key={i} className="text-[#948D82] text-sm leading-relaxed">
+                               {detail.text}
+                             </p>
+                           )
+                         ))}
                       </div>
                     </motion.div>
                   ))}
@@ -312,16 +312,18 @@ export function ContactClient() {
                 className="bg-white rounded-lg shadow-sm overflow-hidden"
               >
                 <div className="h-52 bg-[#F3F0E8] relative overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!4v1781956081798!6m8!1m7!1sWo4rzJ96KJcOFvC6x__X-g!2m2!1d14.23274339857088!2d121.1469768706495!3f333.64809728999063!4f-16.595971671633748!5f0.7820865974627469"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0, position: 'absolute', inset: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="181 Lounge Location"
-                  />
+                  <a
+                    href="https://maps.google.com/?q=35+Mamatid+Cabuyao+Philippines+4025"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full h-full"
+                  >
+                    <img
+                      src="/images/map.jpg"
+                      alt="181 Lounge Location on Map"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </a>
                 </div>
                 <div className="p-5">
                   <a

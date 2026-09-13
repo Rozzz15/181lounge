@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, ZoomIn, ZoomOut } from "lucide-react";
 import gsap from "gsap";
 
 export interface CardItem {
@@ -70,6 +72,9 @@ export default function SocialCards({ cards }: SocialCardsProps) {
   const hasEntered = useRef(false);
   const directionRef = useRef<"left" | "right" | null>(null);
   const prevVisible = useRef<Set<number>>(new Set());
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const lightboxRef = useRef<HTMLDivElement>(null);
 
   const totalCards = cards.length;
   const needsPagination = totalCards > MAX_VISIBLE;
@@ -251,14 +256,35 @@ export default function SocialCards({ cards }: SocialCardsProps) {
     </svg>
   );
 
+  const handleCardClick = useCallback((index: number) => {
+    setSelectedCard(index);
+    setZoomLevel(1);
+  }, []);
+
+  const handleCloseLightbox = useCallback(() => {
+    setSelectedCard(null);
+    setZoomLevel(1);
+  }, []);
+
+  const handleZoomIn = useCallback(() => {
+    setZoomLevel(prev => Math.min(prev + 0.5, 3));
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    setZoomLevel(prev => Math.max(prev - 0.5, 1));
+  }, []);
+
   return (
     <section className="flex flex-col items-center w-full py-4 lg:py-8 px-4 md:px-8 relative z-20">
       <div className="flex items-center justify-center w-full max-w-[90rem]">
         <div ref={containerRef} className="fan-layout flex relative justify-center items-center w-full max-w-[80rem]">
           {cards.map((card, index) => {
             const image = (
-              <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-lg">
-                <img src={card.imgUrl} loading="lazy" alt={card.alt || `Card ${index}`} className="absolute inset-0 w-full h-full object-cover z-10" />
+              <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-lg cursor-pointer group" onClick={() => handleCardClick(index)}>
+                <img src={card.imgUrl} loading="lazy" alt={card.alt || `Card ${index}`} className="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-300 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 z-20 flex items-center justify-center">
+                  <ZoomIn className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
               </div>
             );
             return card.linkUrl ? (
@@ -285,6 +311,81 @@ export default function SocialCards({ cards }: SocialCardsProps) {
           </button>
         </div>
       )}
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedCard !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={handleCloseLightbox}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full"
+              ref={lightboxRef}
+            >
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-xl cursor-grab active:cursor-grabbing">
+                {/* Close button */}
+                <button
+                  onClick={handleCloseLightbox}
+                  className="absolute top-3 right-3 z-30 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                {/* Zoom controls */}
+                <div className="absolute top-3 left-3 z-30 flex items-center gap-1 bg-black/50 hover:bg-black/70 rounded-full px-3 py-1.5 backdrop-blur-sm">
+                  <button
+                    onClick={handleZoomOut}
+                    disabled={zoomLevel <= 1}
+                    className="text-white hover:text-white/80 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <ZoomOut className="w-4 h-4" />
+                  </button>
+                  <span className="text-white text-xs font-medium min-w-[2.5rem] text-center">{Math.round(zoomLevel * 100)}%</span>
+                  <button
+                    onClick={handleZoomIn}
+                    disabled={zoomLevel >= 3}
+                    className="text-white hover:text-white/80 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <motion.img
+                  src={cards[selectedCard].imgUrl}
+                  alt={cards[selectedCard].alt || `Card ${selectedCard}`}
+                  className="w-full h-auto max-h-[80vh] object-contain"
+                  animate={{ scale: zoomLevel }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  drag={zoomLevel > 1}
+                  dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                />
+              </div>
+
+              {/* Navigation dots */}
+              <div className="flex items-center justify-center gap-2 mt-4">
+                {cards.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setSelectedCard(i); setZoomLevel(1); }}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${i === selectedCard ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'}`}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

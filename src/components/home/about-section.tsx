@@ -60,39 +60,10 @@ export function AboutSection() {
             className="relative"
           >
             <div className="relative max-w-md mx-auto lg:mx-0">
-              {/* Large background accent */}
-              <div className="absolute -inset-6 bg-gradient-to-br from-[#525A40]/8 to-[#927557]/10 rounded-2xl" />
-
-              {/* Interactive image container */}
-              <motion.div
-                ref={imageRef}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  rotateX,
-                  rotateY,
-                  transformPerspective: 1000,
-                }}
-                className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/5] cursor-pointer"
-              >
-                <motion.img
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
-                  alt="Premium coffee being carefully prepared by a skilled barista"
-                  className="w-full h-full object-cover"
-                />
-                {/* Hover overlay */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  className="absolute inset-0 bg-[#44362A]/30 flex items-center justify-center"
-                >
-                  <span className="text-white text-sm font-semibold tracking-widest uppercase px-6 py-3 border border-white/50 rounded-full backdrop-blur-sm">
-                    Discover More
-                  </span>
-                </motion.div>
-              </motion.div>
+              {/* Background image */}
+              <div className="relative max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden aspect-[4/5]">
+                <img src="/images/se.jpg" alt="" className="w-full h-full object-cover" />
+              </div>
             </div>
           </motion.div>
 

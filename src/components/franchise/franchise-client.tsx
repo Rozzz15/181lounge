@@ -202,15 +202,11 @@ export function BranchFranchiseClient() {
       {/* Hero Section - Full Height */}
       <section className="relative min-h-[90vh] flex items-center overflow-visible">
         {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        <img
+          src="/images/branch.jpg"
+          alt=""
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/images/branch.mp4" type="video/mp4" />
-        </video>
+        />
         <div
           className="absolute inset-0"
           style={{
@@ -231,9 +227,9 @@ export function BranchFranchiseClient() {
               variants={fadeInUp}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#927557]/20 border border-[#927557]/30 mb-6">
-                <span className="w-2 h-2 rounded-full bg-[#927557] animate-pulse" />
-                <span className="text-[#927557] text-xs font-medium tracking-wider uppercase">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#927557]/40 border border-[#927557]/60 mb-6">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#927557] animate-pulse" />
+                <span className="text-white text-sm font-semibold tracking-wider uppercase">
                   Limited Franchise Slots Available
                 </span>
               </div>

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { WaveText } from '@/components/ui/wave-text';
-import { Facebook, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Facebook, X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
 import SocialCards from '@/components/ui/card-fan-carousel';
 
 const rotations = [-2.5, 2.8, 3.7, -2.8, -1.7];
@@ -67,7 +67,7 @@ const photos = [
     x: '-320px',
     y: '15px',
     zIndex: 50,
-    src: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80',
+    src: '/images/w (2).jpg',
   },
   {
     id: 2,
@@ -75,7 +75,7 @@ const photos = [
     x: '-160px',
     y: '32px',
     zIndex: 40,
-    src: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',
+    src: '/images/w (3).jpg',
   },
   {
     id: 3,
@@ -83,7 +83,7 @@ const photos = [
     x: '0px',
     y: '8px',
     zIndex: 30,
-    src: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',
+    src: '/images/w (4).jpg',
   },
   {
     id: 4,
@@ -91,7 +91,7 @@ const photos = [
     x: '160px',
     y: '22px',
     zIndex: 20,
-    src: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=400&q=80',
+    src: '/images/w (5).jpg',
   },
   {
     id: 5,
@@ -99,21 +99,18 @@ const photos = [
     x: '320px',
     y: '44px',
     zIndex: 10,
-    src: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=400&q=80',
+    src: '/images/w (6).jpg',
   },
 ];
 
 const facebookCards = [
-  { imgUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=600&fit=crop', alt: 'Coffee art' },
-  { imgUrl: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=600&fit=crop', alt: 'Coffee beans' },
-  { imgUrl: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=600&fit=crop', alt: 'Coffee cup' },
-  { imgUrl: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=400&h=600&fit=crop', alt: 'Latte art' },
-  { imgUrl: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=600&fit=crop', alt: 'Morning coffee' },
-  { imgUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=400&h=600&fit=crop', alt: 'Espresso' },
-  { imgUrl: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=600&fit=crop', alt: 'Cappuccino' },
-  { imgUrl: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=600&fit=crop', alt: 'Iced coffee' },
-  { imgUrl: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=400&h=600&fit=crop', alt: 'Coffee shop' },
-  { imgUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=600&fit=crop', alt: 'Coffee brewing' },
+  { imgUrl: '/images/q (1).jpg', alt: '181 Lounge photo 1' },
+  { imgUrl: '/images/q (2).jpg', alt: '181 Lounge photo 2' },
+  { imgUrl: '/images/q (3).jpg', alt: '181 Lounge photo 3' },
+  { imgUrl: '/images/q (4).jpg', alt: '181 Lounge photo 4' },
+  { imgUrl: '/images/q (5).jpg', alt: '181 Lounge photo 5' },
+  { imgUrl: '/images/q (6).jpg', alt: '181 Lounge photo 6' },
+  { imgUrl: '/images/q (7).jpg', alt: '181 Lounge photo 7' },
 ];
 
 export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number }) {
@@ -121,6 +118,8 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [selectedFacebookCard, setSelectedFacebookCard] = useState<number | null>(null);
+  const [facebookZoomLevel, setFacebookZoomLevel] = useState(1);
 
   const selectedPhoto = selectedImage !== null
     ? photos.find((p) => p.id === selectedImage) ?? null
@@ -427,6 +426,7 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
               {facebookCards.slice(0, 6).map((card, i) => (
                 <button
                   key={i}
+                  onClick={() => { setSelectedFacebookCard(i); setFacebookZoomLevel(1); }}
                   className="group relative aspect-square overflow-hidden rounded-xl bg-[#F3F0E8]"
                 >
                   <img
@@ -523,6 +523,78 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Facebook Lightbox Modal */}
+        {selectedFacebookCard !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => { setSelectedFacebookCard(null); setFacebookZoomLevel(1); }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full"
+            >
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-xl cursor-grab active:cursor-grabbing">
+                {/* Close button */}
+                <button
+                  onClick={() => { setSelectedFacebookCard(null); setFacebookZoomLevel(1); }}
+                  className="absolute top-3 right-3 z-30 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                {/* Zoom controls */}
+                <div className="absolute top-3 left-3 z-30 flex items-center gap-1 bg-black/50 hover:bg-black/70 rounded-full px-3 py-1.5 backdrop-blur-sm">
+                  <button
+                    onClick={() => setFacebookZoomLevel(prev => Math.max(prev - 0.5, 1))}
+                    disabled={facebookZoomLevel <= 1}
+                    className="text-white hover:text-white/80 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <ZoomOut className="w-4 h-4" />
+                  </button>
+                  <span className="text-white text-xs font-medium min-w-[2.5rem] text-center">{Math.round(facebookZoomLevel * 100)}%</span>
+                  <button
+                    onClick={() => setFacebookZoomLevel(prev => Math.min(prev + 0.5, 3))}
+                    disabled={facebookZoomLevel >= 3}
+                    className="text-white hover:text-white/80 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <motion.img
+                  src={facebookCards[selectedFacebookCard].imgUrl}
+                  alt={facebookCards[selectedFacebookCard].alt}
+                  className="w-full h-auto max-h-[80vh] object-contain"
+                  animate={{ scale: facebookZoomLevel }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  drag={facebookZoomLevel > 1}
+                  dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                />
+              </div>
+
+              {/* Navigation dots */}
+              <div className="flex items-center justify-center gap-2 mt-4">
+                {facebookCards.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setSelectedFacebookCard(i); setFacebookZoomLevel(1); }}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${i === selectedFacebookCard ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'}`}
+                  />
+                ))}
               </div>
             </motion.div>
           </motion.div>
