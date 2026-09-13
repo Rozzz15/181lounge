@@ -9,10 +9,10 @@ import { Button } from '@/components/ui/button';
 import { AnimatedWave } from '@/components/ui/animated-wave';
 
 const bookSamples = [
-  { name: 'The Coffee Guide', author: 'James Hoffmann', price: 350, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200&q=80' },
-  { name: 'Atomic Habits', author: 'James Clear', price: 450, image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=200&q=80' },
-  { name: 'Quiet', author: 'Susan Cain', price: 420, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&q=80' },
-  { name: 'The Alchemist', author: 'Paulo Coelho', price: 320, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&q=80' },
+  { name: 'The Coffee Guide', author: 'James Hoffmann', image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200&q=80' },
+  { name: 'Atomic Habits', author: 'James Clear', image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=200&q=80' },
+  { name: 'Quiet', author: 'Susan Cain', image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&q=80' },
+  { name: 'The Alchemist', author: 'Paulo Coelho', image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&q=80' },
 ];
 
 const boardgameSamples = [
@@ -162,9 +162,15 @@ export function ExperienceSection() {
                       {'author' in item ? item.author : ('players' in item ? item.players : '')}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-[#d4a574] font-heading font-bold text-sm">
-                        ₱{item.price.toLocaleString()}
-                      </span>
+                      {'price' in item ? (
+                        <span className="text-[#d4a574] font-heading font-bold text-sm">
+                          ₱{item.price.toLocaleString()}
+                        </span>
+                      ) : (
+                        <span className="text-[#d4a574] font-heading font-bold text-xs">
+                          Ask at Cashier Desk
+                        </span>
+                      )}
                       <div className="flex gap-0.5">
                         {[...Array(5)].map((_, s) => (
                           <Star key={s} className="w-3 h-3 text-[#d4a574] fill-[#d4a574]" />

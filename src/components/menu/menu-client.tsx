@@ -12,34 +12,55 @@ const categories = [
   { id: 'frappe', name: 'Frappe' },
   { id: 'ice-coffee', name: 'Ice Coffee' },
   { id: 'matcha', name: 'Matcha' },
+  { id: 'signature', name: 'Signature Drinks' },
+  { id: 'rice-meal', name: 'Rice Meal' },
+  { id: 'pasta', name: 'Pasta' },
+  { id: 'sandwich-snack', name: 'Sandwich & Snack' },
   { id: 'books', name: 'Books' },
 ];
 
 const products = [
   // Frappe
-  { id: 1, name: 'Matcha Frappe', category: 'frappe', description: 'Creamy blended matcha frappe', price: 190, image: '/images/matchafrappe.jpg', featured: false, rating: 4.7, popular: false },
-  { id: 2, name: 'Oreo Frappe', category: 'frappe', description: 'Blended frappe with crushed Oreo cookies', price: 190, image: '/images/oreofrappe.jpg', featured: false, rating: 4.7, popular: false },
-  { id: 3, name: 'Salted Caramel Frappe', category: 'frappe', description: 'Rich frappe with salted caramel swirl', price: 190, image: '/images/saltedcaramelfrappe.jpg', featured: false, rating: 4.7, popular: false },
-  { id: 4, name: 'Dark Mocha Frappe', category: 'frappe', description: 'Bold dark chocolate mocha frappe', price: 190, image: '/images/darkmochafrappe.jpg', featured: false, rating: 4.7, popular: false },
-  { id: 5, name: 'White Mocha', category: 'frappe', description: 'Smooth white chocolate mocha frappe', price: 190, image: '/images/whitemocha.jpg', featured: false, rating: 4.7, popular: false },
-  { id: 6, name: 'Choco Chip Frappe', category: 'frappe', description: 'Blended frappe with chocolate chips', price: 190, image: '/images/chocochipfrappe.jpg', featured: false, rating: 4.7, popular: false },
-  { id: 7, name: 'Strawberry Frappe', category: 'frappe', description: 'Refreshing strawberry blended frappe', price: 190, image: '/images/strawberryfrappe.jpg', featured: false, rating: 4.7, popular: false },
+  { id: 1, name: 'Matcha Frappe', category: 'frappe', description: 'Creamy blended matcha frappe', price: 190, image: '/images/matchafrappe.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 2, name: 'Oreo Frappe', category: 'frappe', description: 'Blended frappe with crushed Oreo cookies', price: 190, image: '/images/oreofrappe.jpg', featured: false, rating: 4.9, popular: false },
+  { id: 3, name: 'Salted Caramel Frappe', category: 'frappe', description: 'Rich frappe with salted caramel swirl', price: 190, image: '/images/saltedcaramelfrappe.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 4, name: 'Dark Mocha Frappe', category: 'frappe', description: 'Bold dark chocolate mocha frappe', price: 190, image: '/images/darkmochafrappe.jpg', featured: false, rating: 4.9, popular: false },
+  { id: 5, name: 'White Mocha', category: 'frappe', description: 'Smooth white chocolate mocha frappe', price: 190, image: '/images/whitemocha.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 6, name: 'Choco Chip Frappe', category: 'frappe', description: 'Blended frappe with chocolate chips', price: 190, image: '/images/chocochipfrappe.jpg', featured: false, rating: 4.9, popular: false },
+  { id: 7, name: 'Strawberry Frappe', category: 'frappe', description: 'Refreshing strawberry blended frappe', price: 190, image: '/images/strawberryfrappe.jpg', featured: false, rating: 4.8, popular: false },
   // Ice Coffee
-  { id: 8, name: 'Americano', category: 'ice-coffee', description: 'Bold espresso with cold water over ice', price: 100, image: '/images/americano.jpg', featured: false, rating: 4.6, popular: true, sizes: [{ name: 'Medium', price: 100 }, { name: 'Large', price: 120 }] },
-  { id: 9, name: 'Hazelnut Latte', category: 'ice-coffee', description: 'Espresso with hazelnut syrup and cold milk', price: 150, image: '/images/hazelnutlatte.jpg', featured: false, rating: 4.5, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
-  { id: 10, name: 'Cafe Latte', category: 'ice-coffee', description: 'Classic espresso with smooth cold milk', price: 120, image: '/images/cafelatte.jpg', featured: true, rating: 4.7, popular: true, sizes: [{ name: 'Medium', price: 120 }, { name: 'Large', price: 150 }] },
-  { id: 11, name: 'Spanish Latte', category: 'ice-coffee', description: 'Espresso with condensed milk over ice', price: 150, image: '/images/spanishlatte.jpg', featured: false, rating: 4.7, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
-  { id: 12, name: 'Caramel Latte', category: 'ice-coffee', description: 'Espresso with caramel syrup and cold milk', price: 150, image: '/images/caramellatte.jpg', featured: true, rating: 4.8, popular: true, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  { id: 8, name: 'Americano', category: 'ice-coffee', description: 'Bold espresso with cold water over ice', price: 120, image: '/images/americano.jpg', featured: false, rating: 5, popular: true },
+  { id: 9, name: 'Hazelnut Latte', category: 'ice-coffee', description: 'Espresso with hazelnut syrup and cold milk', price: 165, image: '/images/hazelnutlatte.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 10, name: 'Cafe Latte', category: 'ice-coffee', description: 'Classic espresso with smooth cold milk', price: 150, image: '/images/cafelatte.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 11, name: 'Spanish Latte', category: 'ice-coffee', description: 'Espresso with condensed milk over ice', price: 165, image: '/images/spanishlatte.jpg', featured: false, rating: 5, popular: false },
+  { id: 12, name: 'Caramel Latte', category: 'ice-coffee', description: 'Espresso with caramel syrup and cold milk', price: 165, image: '/images/caramellatte.jpg', featured: true, rating: 4.9, popular: true },
   // Matcha
-  { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 150, image: '/images/strawberrymatcha.jpg', featured: true, rating: 4.9, popular: true, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
-  { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 150, image: '/images/machalatte.jpg', featured: false, rating: 4.6, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 150, image: '/images/strawberrymatcha.jpg', featured: true, rating: 5, popular: true, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 150, image: '/images/machalatte.jpg', featured: false, rating: 4.8, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  // Signature Drinks
+  { id: 30, name: 'Offwhite Latte', category: 'signature', description: 'Our signature offwhite latte blend', price: 210, image: '/images/offwhitelatte.jpg', featured: true, rating: 5, popular: true },
+  { id: 31, name: 'Salted Mocha', category: 'signature', description: 'Rich mocha with a hint of salt', price: 210, image: '/images/saltedmocha.jpg', featured: true, rating: 5, popular: true },
+  { id: 32, name: '181 Signature', category: 'signature', description: 'Our iconic 181 signature drink', price: 210, image: '/images/181signature.jpg', featured: true, rating: 5, popular: true },
+  { id: 33, name: 'Sea Salt Spanish Latte', category: 'signature', description: 'Spanish latte with a sea salt twist', price: 210, image: '/images/seasalt.jpg', featured: true, rating: 5, popular: true },
+  // Rice Meal
+  { id: 21, name: 'Chicken Souvlaki', category: 'rice-meal', description: 'Grilled chicken souvlaki served with rice', price: 190, image: '/images/chickensouvlaki.jpg', featured: true, rating: 5, popular: true },
+  { id: 22, name: 'Hickory Pork', category: 'rice-meal', description: 'Hickory-smoked pork served with rice', price: 190, image: '/images/hickorypork.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 23, name: 'Chicken Tenders', category: 'rice-meal', description: 'Crispy chicken tenders served with rice', price: 190, image: '/images/chickentenders.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 24, name: 'Adobo Flakes', category: 'rice-meal', description: 'Classic Filipino adobo flakes served with rice', price: 190, image: '/images/adoboflakes.jpg', featured: true, rating: 5, popular: true },
+  // Pasta
+  { id: 25, name: 'Mushroom White', category: 'pasta', description: 'Creamy white sauce pasta with mushrooms', price: 189, image: '/images/mushroom.jpg', featured: true, rating: 5, popular: true },
+  { id: 26, name: 'Charlie Chan', category: 'pasta', description: 'Signature pasta with savory sauce and toppings', price: 189, image: '/images/charliechan.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 27, name: 'Aglio Olio', category: 'pasta', description: 'Classic garlic and olive oil pasta', price: 189, image: '/images/aglio.jpg', featured: false, rating: 4.8, popular: false },
+  // Sandwich & Snack
+  { id: 28, name: 'Truffle Cheese', category: 'sandwich-snack', description: 'Grilled sandwich with truffle and cheese', price: 210, image: '/images/truffle.jpg', featured: true, rating: 5, popular: true },
+  { id: 29, name: 'Nachos', category: 'sandwich-snack', description: 'Crispy nachos with cheese dip', price: 150, image: '/images/nachos.jpg', featured: true, rating: 4.9, popular: true },
   // Books
-  { id: 15, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.7, popular: true },
-  { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 0, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.5, popular: false },
-  { id: 17, name: 'Quiet: The Power of Introverts', category: 'books', description: 'Bestseller on the strength of quiet people', price: 0, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80', featured: true, rating: 4.8, popular: true },
-  { id: 18, name: 'Manila After Dark', category: 'books', description: 'A collection of short stories set in the city', price: 0, image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&q=80', featured: false, rating: 4.4, popular: false },
-  { id: 19, name: 'Atomic Habits', category: 'books', description: 'Build good habits and break bad ones', price: 0, image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=600&q=80', featured: true, rating: 4.9, popular: true },
-  { id: 20, name: 'The Alchemist', category: 'books', description: 'A timeless fable about following your dreams', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: false, rating: 4.6, popular: false },
+  { id: 15, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.9, popular: true },
+  { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 0, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.8, popular: false },
+  { id: 17, name: 'Quiet: The Power of Introverts', category: 'books', description: 'Bestseller on the strength of quiet people', price: 0, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80', featured: true, rating: 5, popular: true },
+  { id: 18, name: 'Manila After Dark', category: 'books', description: 'A collection of short stories set in the city', price: 0, image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&q=80', featured: false, rating: 4.8, popular: false },
+  { id: 19, name: 'Atomic Habits', category: 'books', description: 'Build good habits and break bad ones', price: 0, image: 'https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=600&q=80', featured: true, rating: 5, popular: true },
+  { id: 20, name: 'The Alchemist', category: 'books', description: 'A timeless fable about following your dreams', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: false, rating: 4.9, popular: false },
 ];
 
 export function MenuClient() {

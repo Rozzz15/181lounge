@@ -12,6 +12,9 @@ export interface AddOn {
 export const AVAILABLE_ADDONS: AddOn[] = [
   { name: 'Breve', price: 50 },
   { name: 'Oatmilk Sub', price: 60 },
+  { name: 'Extra Shot of Espresso', price: 50 },
+  { name: 'Syrup', price: 50 },
+  { name: 'Whip Cream', price: 25 },
 ];
 
 export interface CartItem {
