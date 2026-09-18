@@ -52,13 +52,13 @@ export function Footer() {
               <h3 className="font-heading text-xl font-bold text-white">Stay Connected</h3>
               <p className="text-[#C5BEB3] text-sm mt-1">Get the latest brews and exclusive offers.</p>
             </div>
-            <a
-              href="mailto:hello@181lounge.ph"
-              className="inline-flex items-center gap-2 bg-[#927557] hover:bg-[#7a6348] text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
-            >
-              Subscribe to Newsletter
-              <ChevronRight className="h-4 w-4" />
-            </a>
+              <a
+                href="tel:+639487510923"
+                className="inline-flex items-center gap-2 bg-[#927557] hover:bg-[#7a6348] text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Call Us Now
+                <ChevronRight className="h-4 w-4" />
+              </a>
           </div>
         </div>
       </div>
@@ -106,13 +106,13 @@ export function Footer() {
                 <span className="text-sm">0948 751 0923</span>
               </a>
               <a
-                href="mailto:hello@181lounge.ph"
+                href="mailto:official.181lounge@gmail.com"
                 className="flex items-center gap-3 text-[#C5BEB3] hover:text-[#927557] transition-colors group"
               >
                 <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#927557]/10 group-hover:bg-[#927557]/20 transition-colors">
                   <Mail className="h-4 w-4 text-[#927557]" />
                 </span>
-                <span className="text-sm">hello@181lounge.ph</span>
+                <span className="text-sm">official.181lounge@gmail.com</span>
               </a>
             </div>
           </div>

@@ -155,7 +155,7 @@ export function WelcomeModal({ splashDone }: WelcomeModalProps) {
                           Hours
                         </p>
                         <p className="text-[12px] text-[#44362A] font-medium">
-                          Mon – Sun: 7 AM – 10 PM
+                          Mon – Sun: 11 AM – 12 AM
                         </p>
                       </div>
                     </div>

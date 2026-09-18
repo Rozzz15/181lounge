@@ -15,7 +15,7 @@ const contactInfo = [
     icon: Clock,
     label: 'Hours',
     value: 'Mon – Sun',
-    subvalue: '7:00 AM – 10:00 PM',
+    subvalue: '11:00 AM – 12:00 AM',
   },
   {
     icon: Phone,

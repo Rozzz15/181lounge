@@ -71,6 +71,18 @@ function formatPhone(phone) {
   return phone;
 }
 
+const CATEGORY_LABELS = {
+  'frappe': 'Frappe',
+  'ice-coffee': 'Ice Coffee',
+  'hot-coffee': 'Hot Coffee',
+  'matcha': 'Matcha',
+  'signature': 'Signature',
+  'rice-meal': 'Rice Meal',
+  'pasta': 'Pasta',
+  'sandwich-snack': 'Sandwich & Snack',
+  'books': 'Books',
+};
+
 function buildTelegramMessage(data) {
   const now = new Date();
   const dateStr = now.toLocaleString('en-PH', {
@@ -114,8 +126,9 @@ function buildTelegramMessage(data) {
       const isBook = item.category === 'books';
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
+      const categoryLabel = CATEGORY_LABELS[item.category] || item.category;
 
-      lines.push('  *' + item.name + '*');
+      lines.push('  *' + item.name + '*  `' + categoryLabel + '`');
       if (item.selectedAddOns && item.selectedAddOns.length > 0) {
         item.selectedAddOns.forEach((addOn) => {
           lines.push('    +' + addOn.name + ' ' + formatPrice(addOn.price));
@@ -143,8 +156,9 @@ function buildTelegramMessage(data) {
       const isBook = item.category === 'books';
       const lineTotal = item.price * item.quantity;
       const qty = '\u00D7' + item.quantity;
+      const categoryLabel = CATEGORY_LABELS[item.category] || item.category;
 
-      lines.push('  *' + item.name + '*');
+      lines.push('  *' + item.name + '*  `' + categoryLabel + '`');
       if (item.selectedAddOns && item.selectedAddOns.length > 0) {
         item.selectedAddOns.forEach((addOn) => {
           lines.push('    +' + addOn.name + ' ' + formatPrice(addOn.price));
@@ -170,6 +184,7 @@ function buildTelegramMessage(data) {
   lines.push(DOUBLE);
   lines.push('');
   lines.push('\uD83D\uDCCD 35 Mamatid, Cabuyao');
+  lines.push('\uD83D\uDCE7 official.181lounge@gmail.com');
   lines.push('\uD83D\uDCC5 ' + dateStr + '  \u00B7  ' + timeStr);
   lines.push('');
   lines.push('_Pay at counter upon pick up_');

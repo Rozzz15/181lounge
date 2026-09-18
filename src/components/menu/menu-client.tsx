@@ -11,6 +11,7 @@ const categories = [
   { id: 'all', name: 'All' },
   { id: 'frappe', name: 'Frappe' },
   { id: 'ice-coffee', name: 'Ice Coffee' },
+  { id: 'hot-coffee', name: 'Hot Coffee Drinks' },
   { id: 'matcha', name: 'Matcha' },
   { id: 'signature', name: 'Signature Drinks' },
   { id: 'rice-meal', name: 'Rice Meal' },
@@ -34,9 +35,18 @@ const products = [
   { id: 10, name: 'Cafe Latte', category: 'ice-coffee', description: 'Classic espresso with smooth cold milk', price: 150, image: '/images/cafelatte.jpg', featured: true, rating: 4.9, popular: true },
   { id: 11, name: 'Spanish Latte', category: 'ice-coffee', description: 'Espresso with condensed milk over ice', price: 165, image: '/images/spanishlatte.jpg', featured: false, rating: 5, popular: false },
   { id: 12, name: 'Caramel Latte', category: 'ice-coffee', description: 'Espresso with caramel syrup and cold milk', price: 165, image: '/images/caramellatte.jpg', featured: true, rating: 4.9, popular: true },
+  // Hot Coffee Drinks
+  { id: 35, name: 'Americano', category: 'hot-coffee', description: 'Bold espresso blended with hot water for a smooth, clean taste', price: 150, image: '/images/hotamericano.jpg', featured: true, rating: 5, popular: true },
+  { id: 36, name: 'Hazelnut Latte', category: 'hot-coffee', description: 'Smooth coffee with a rich hazelnut flavor and a warm, nutty finish', price: 180, image: '/images/hothazelnutlatte.jpg', featured: true, rating: 5, popular: true },
+  { id: 37, name: 'Caffè Latte', category: 'hot-coffee', description: 'Espresso blended with steamed milk for a smooth, creamy taste', price: 180, image: '/images/hotcaffelatte.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 38, name: 'Cappuccino', category: 'hot-coffee', description: 'Espresso with steamed milk and a thick layer of foam for a rich, creamy finish', price: 180, image: '/images/hotcappuccino.jpg', featured: false, rating: 5, popular: false },
+  { id: 39, name: 'Dark Mocha', category: 'hot-coffee', description: 'Rich espresso blended with dark chocolate for a bold, smooth, and indulgent taste', price: 180, image: '/images/hotdarkmocha.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 40, name: 'White Mocha', category: 'hot-coffee', description: 'Creamy espresso blended with smooth white chocolate for a rich, sweet finish', price: 180, image: '/images/hotwhitemocha.jpg', featured: false, rating: 5, popular: false },
+  { id: 41, name: 'Caramel Latte', category: 'hot-coffee', description: 'Espresso blended with steamed milk and rich caramel for a smooth, sweet finish', price: 180, image: '/images/hotcaramellatte.jpg', featured: true, rating: 5, popular: true },
   // Matcha
-  { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 150, image: '/images/strawberrymatcha.jpg', featured: true, rating: 5, popular: true, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
-  { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 150, image: '/images/machalatte.jpg', featured: false, rating: 4.8, popular: false, sizes: [{ name: 'Medium', price: 150 }, { name: 'Large', price: 165 }] },
+  { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, image: '/images/strawberrymatcha.jpg', featured: true, rating: 5, popular: true, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
+  { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 180, image: '/images/machalatte.jpg', featured: false, rating: 4.8, popular: false, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
+  { id: 34, name: 'Dirty Matcha', category: 'matcha', description: 'Matcha with a shot of espresso', price: 180, image: '/images/dirtymatcha.jpg', featured: true, rating: 5, popular: true },
   // Signature Drinks
   { id: 30, name: 'Offwhite Latte', category: 'signature', description: 'Our signature offwhite latte blend', price: 210, image: '/images/offwhitelatte.jpg', featured: true, rating: 5, popular: true },
   { id: 31, name: 'Salted Mocha', category: 'signature', description: 'Rich mocha with a hint of salt', price: 210, image: '/images/saltedmocha.jpg', featured: true, rating: 5, popular: true },
