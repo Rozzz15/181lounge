@@ -33,19 +33,39 @@ export default async function handler(req, res) {
     const message = buildTelegramMessage(data);
     const chatIds = CHAT_IDS.split(',').map((id) => id.trim());
 
-    const results = await Promise.all(
-      chatIds.map((chatId) =>
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    const sendToChat = async (chatId) => {
+      if (data.image) {
+        const base64Data = data.image.replace(/^data:image\/\w+;base64,/, '');
+        const imageBuffer = Buffer.from(base64Data, 'base64');
+        const ext = data.image.match(/^data:image\/(\w+);/)?.[1] || 'jpg';
+        const filename = `payment.${ext}`;
+
+        const formData = new FormData();
+        formData.append('chat_id', chatId);
+        formData.append('photo', new Blob([imageBuffer], { type: `image/${ext}` }), filename);
+        formData.append('caption', message);
+        formData.append('parse_mode', 'Markdown');
+
+        const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: message,
-            parse_mode: 'Markdown',
-          }),
-        }).then((r) => r.json())
-      )
-    );
+          body: formData,
+        });
+        return r.json();
+      }
+
+      const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown',
+        }),
+      });
+      return r.json();
+    };
+
+    const results = await Promise.all(chatIds.map(sendToChat));
 
     const failures = results.filter((r) => !r.ok);
     if (failures.length > 0) {
@@ -188,6 +208,11 @@ function buildTelegramMessage(data) {
   lines.push('\uD83D\uDCC5 ' + dateStr + '  \u00B7  ' + timeStr);
   lines.push('');
   lines.push('_Pay at counter upon pick up_');
+
+  if (data.image) {
+    lines.push('');
+    lines.push('\uD83D\uDCF7 _Payment screenshot attached_');
+  }
 
   return lines.join('\n');
 }

@@ -1,10 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Phone, Mail, Hash, MessageSquare, Loader2, CheckCircle2, AlertCircle, Store, Package, CreditCard } from 'lucide-react';
+import { X, User, Phone, Mail, Hash, MessageSquare, Loader2, CheckCircle2, AlertCircle, Store, Package, CreditCard, ImageIcon } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { formatPrice } from '@/lib/utils';
+
+const CATEGORY_LABELS: Record<string, string> = {
+  'frappe': 'Frappe',
+  'ice-coffee': 'Ice Coffee',
+  'hot-coffee': 'Hot Coffee',
+  'matcha': 'Matcha',
+  'signature': 'Signature',
+  'rice-meal': 'Rice Meal',
+  'pasta': 'Pasta',
+  'sandwich-snack': 'Sandwich & Snack',
+  'books': 'Books',
+};
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -20,11 +32,42 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'ewallet'>('cash');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [paymentImage, setPaymentImage] = useState<File | null>(null);
+  const [paymentImagePreview, setPaymentImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const dineInItems = items.filter((i) => i.orderType === 'dine-in');
   const takeOutItems = items.filter((i) => i.orderType === 'take-out');
   const dineInTotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const takeOutTotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      setErrorMessage('Image must be under 10MB');
+      setStatus('error');
+      return;
+    }
+    setPaymentImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setPaymentImagePreview(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const removeImage = () => {
+    setPaymentImage(null);
+    setPaymentImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const fileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +77,11 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     setErrorMessage('');
 
     try {
+      let imageBase64: string | undefined;
+      if (paymentImage) {
+        imageBase64 = await fileToBase64(paymentImage);
+      }
+
       const response = await fetch('/api/send-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,6 +93,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
           customerEmail: email.trim() || undefined,
           paymentMethod,
           total,
+          image: imageBase64 || undefined,
         }),
       });
 
@@ -73,6 +122,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     setPhone('');
     setEmail('');
     setPaymentMethod('cash');
+    removeImage();
     setStatus('idle');
     setErrorMessage('');
     onClose();
@@ -153,10 +203,15 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                           {dineInItems.map((item) => (
                             <div key={`${item.id}-dine-in`} className="py-2">
                               <div className="flex justify-between text-sm">
-                                <span className="text-[#44362A]">
-                                  {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
-                                </span>
-                                <span className="font-semibold text-[#525A40]">
+                                <div className="min-w-0">
+                                  <span className="text-[#44362A] font-medium">
+                                    {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
+                                  </span>
+                                  <span className="ml-2 inline-block px-1.5 py-0.5 text-[9px] font-semibold tracking-wider uppercase rounded bg-[#525A40]/10 text-[#525A40]">
+                                    {CATEGORY_LABELS[item.category] || item.category}
+                                  </span>
+                                </div>
+                                <span className="font-semibold text-[#525A40] shrink-0 ml-2">
                                   {formatPrice(item.price * item.quantity)}
                                 </span>
                               </div>
@@ -190,10 +245,15 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                           {takeOutItems.map((item) => (
                             <div key={`${item.id}-take-out`} className="py-2">
                               <div className="flex justify-between text-sm">
-                                <span className="text-[#44362A]">
-                                  {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
-                                </span>
-                                <span className="font-semibold text-[#525A40]">
+                                <div className="min-w-0">
+                                  <span className="text-[#44362A] font-medium">
+                                    {item.name} <span className="text-[#948D82]">x{item.quantity}</span>
+                                  </span>
+                                  <span className="ml-2 inline-block px-1.5 py-0.5 text-[9px] font-semibold tracking-wider uppercase rounded bg-[#927557]/10 text-[#927557]">
+                                    {CATEGORY_LABELS[item.category] || item.category}
+                                  </span>
+                                </div>
+                                <span className="font-semibold text-[#525A40] shrink-0 ml-2">
                                   {formatPrice(item.price * item.quantity)}
                                 </span>
                               </div>
@@ -323,6 +383,56 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                           : 'Pay via GCash, Maya, or other e-wallets at the counter.'}
                       </p>
                     </div>
+
+                    {/* Payment Proof Upload (E-Wallet only) */}
+                    {paymentMethod === 'ewallet' && (
+                      <div className="space-y-3">
+                        <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider">
+                          Payment Screenshot
+                        </h4>
+                        {paymentImagePreview ? (
+                          <div className="relative rounded-xl overflow-hidden border border-[#e8e2da]">
+                            <img
+                              src={paymentImagePreview}
+                              alt="Payment proof"
+                              className="w-full h-48 object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={removeImage}
+                              className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-colors"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/50 to-transparent p-3">
+                              <p className="text-white text-xs font-medium">{paymentImage?.name}</p>
+                              <p className="text-white/70 text-[10px]">{paymentImage ? (paymentImage.size / 1024 / 1024).toFixed(2) : 0} MB</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="w-full flex flex-col items-center gap-2 p-6 rounded-xl border-2 border-dashed border-[#e8e2da] hover:border-[#927557]/50 bg-[#F3F0E8]/30 hover:bg-[#F3F0E8]/60 transition-all duration-300 group"
+                          >
+                            <div className="w-12 h-12 rounded-full bg-[#927557]/10 group-hover:bg-[#927557]/20 flex items-center justify-center transition-colors">
+                              <ImageIcon className="w-5 h-5 text-[#927557]" />
+                            </div>
+                            <div className="text-center">
+                              <p className="text-sm font-medium text-[#44362A]">Upload payment screenshot</p>
+                              <p className="text-[11px] text-[#948D82] mt-0.5">JPG, PNG, or WebP (max 10MB)</p>
+                            </div>
+                          </button>
+                        )}
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          onChange={handleImageChange}
+                          className="hidden"
+                        />
+                      </div>
+                    )}
 
                     {/* Error */}
                     {status === 'error' && (

@@ -221,10 +221,22 @@ function CartItemCard({
   onUpdateQuantity,
   onRemove,
 }: {
-  item: { id: number; name: string; price: number; image: string; quantity: number; orderType: 'dine-in' | 'take-out' };
+  item: { id: number; name: string; category: string; price: number; image: string; quantity: number; orderType: 'dine-in' | 'take-out' };
   onUpdateQuantity: (id: number, orderType: 'dine-in' | 'take-out', quantity: number) => void;
   onRemove: (id: number, orderType: 'dine-in' | 'take-out') => void;
 }) {
+  const CATEGORY_LABELS: Record<string, string> = {
+    'frappe': 'Frappe',
+    'ice-coffee': 'Ice Coffee',
+    'hot-coffee': 'Hot Coffee',
+    'matcha': 'Matcha',
+    'signature': 'Signature',
+    'rice-meal': 'Rice Meal',
+    'pasta': 'Pasta',
+    'sandwich-snack': 'Sandwich & Snack',
+    'books': 'Books',
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -240,7 +252,10 @@ function CartItemCard({
       />
       <div className="flex-1 min-w-0">
         <h4 className="font-heading text-sm font-bold text-[#44362A] truncate">{item.name}</h4>
-        <p className="text-xs text-[#948D82]">{formatPrice(item.price)}</p>
+        <span className="inline-block mt-0.5 px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase rounded-full bg-[#525A40]/10 text-[#525A40]">
+          {CATEGORY_LABELS[item.category] || item.category}
+        </span>
+        <p className="text-xs text-[#948D82] mt-1">{formatPrice(item.price)}</p>
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center bg-white rounded-full">
             <button

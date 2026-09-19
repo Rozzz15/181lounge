@@ -145,6 +145,7 @@ export function Header() {
               </button>
               <Link to="/menu">
                 <FlowHoverButton
+                  as="div"
                   className={cn(
                     isScrolled
                       ? 'border-white/70 text-white/90'
@@ -257,7 +258,7 @@ export function Header() {
               {/* Bottom CTA */}
               <div className="px-6 py-8 border-t border-white/5">
                 <Link to="/menu">
-                  <FlowHoverButton className="w-full bg-[#525A40] text-white h-14 px-8">
+                  <FlowHoverButton as="div" className="w-full bg-[#525A40] text-white h-14 px-8">
                     Order Now
                   </FlowHoverButton>
                 </Link>
