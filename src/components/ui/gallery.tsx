@@ -114,7 +114,7 @@ const facebookCards = [
 ];
 
 export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number }) {
-  const [activeTab, setActiveTab] = useState<'tiktok' | 'facebook'>('facebook');
+  const [activeTab, setActiveTab] = useState<'instagram' | 'facebook'>('facebook');
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -205,8 +205,8 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
 
   return (
     <section className="section bg-white overflow-hidden relative">
-      {/* Floating TikTok Logos */}
-      {activeTab === 'tiktok' && [
+      {/* Floating Instagram Logos */}
+      {activeTab === 'instagram' && [
         { top: '8%', left: '5%', size: 40, delay: 0, duration: 6 },
         { top: '15%', right: '8%', size: 32, delay: 1.5, duration: 7 },
         { bottom: '20%', left: '3%', size: 28, delay: 0.8, duration: 5.5 },
@@ -244,7 +244,7 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
           }}
         >
           <img
-            src="/images/tik.jpg"
+            src="/images/instagram.jpg"
             alt=""
             className="rounded-xl object-cover shadow-lg"
             style={{ width: item.size, height: item.size }}
@@ -321,29 +321,29 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
               Facebook
             </button>
             <button
-              onClick={() => setActiveTab('tiktok')}
+              onClick={() => setActiveTab('instagram')}
               className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all ${
-                activeTab === 'tiktok'
+                activeTab === 'instagram'
                   ? 'bg-white text-[#44362A] shadow-sm'
                   : 'text-[#948D82] hover:text-[#44362A]'
               }`}
             >
-              <img src="/images/tik.jpg" alt="TikTok" className="w-5 h-5 rounded-md object-cover" />
-              TikTok
+              <img src="/images/instagram.jpg" alt="Instagram" className="w-5 h-5 rounded-md object-cover" />
+              Instagram
             </button>
           </div>
           <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-[#44362A]">
-            {activeTab === 'tiktok' ? <WaveText text="FOLLOW US ON TIKTOK" /> : <WaveText text="LIKE US ON FACEBOOK" />}
+            {activeTab === 'instagram' ? <WaveText text="FOLLOW US ON INSTAGRAM" /> : <WaveText text="LIKE US ON FACEBOOK" />}
           </h2>
           <p className="mt-4 text-[#948D82] text-lg max-w-2xl mx-auto">
-            {activeTab === 'tiktok'
-              ? 'Watch our latest videos, behind-the-scenes content, and more.'
+            {activeTab === 'instagram'
+              ? 'Watch our latest reels, stories, behind-the-scenes content, and more.'
               : 'Follow our Facebook page for updates, promos, and events.'}
           </p>
         </motion.div>
 
-        {/* Photo Gallery - TikTok */}
-        {activeTab === 'tiktok' && (
+        {/* Photo Gallery - Instagram */}
+        {activeTab === 'instagram' && (
           <div className="relative h-[350px] w-full items-center justify-center hidden lg:flex">
             <motion.div
               className="relative mx-auto flex w-full max-w-7xl justify-center"
@@ -395,8 +395,8 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
           </div>
         )}
 
-        {/* Fallback grid on mobile - TikTok */}
-        {activeTab === 'tiktok' && (
+        {/* Fallback grid on mobile - Instagram */}
+        {activeTab === 'instagram' && (
           <div className="lg:hidden mt-8">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {photos.map((photo) => (
@@ -411,7 +411,7 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <img src="/images/tik.jpg" alt="TikTok" className="w-8 h-8 rounded-lg object-cover" />
+                    <img src="/images/instagram.jpg" alt="Instagram" className="w-8 h-8 rounded-lg object-cover" />
                   </div>
                 </button>
               ))}
@@ -451,14 +451,14 @@ export function PhotoGallery({ animationDelay = 0.5 }: { animationDelay?: number
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center mt-10"
         >
-          {activeTab === 'tiktok' ? (
+          {activeTab === 'instagram' ? (
             <a
-              href="https://www.tiktok.com/@181lounge"
+              href="https://www.instagram.com/181lounge/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#010101] text-white px-8 py-3 rounded-lg font-semibold text-sm hover:bg-[#1a1a1a] transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] text-white px-8 py-3 rounded-lg font-semibold text-sm hover:opacity-90 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
-              <img src="/images/tik.jpg" alt="TikTok" className="w-5 h-5 rounded-md object-cover" />
+              <img src="/images/instagram.jpg" alt="Instagram" className="w-5 h-5 rounded-md object-cover" />
               Follow @181lounge
             </a>
           ) : (

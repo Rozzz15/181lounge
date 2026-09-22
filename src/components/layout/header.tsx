@@ -86,10 +86,10 @@ export function Header() {
                   <img
                     src="/images/logo.jpg"
                     alt="181 Lounge"
-                    className="relative h-11 w-11 rounded-full object-cover ring-2 ring-[#927557]/40 group-hover:ring-[#C9A96E]/70 group-hover:scale-110 transition-all duration-500 ease-out"
+                    className="relative h-14 w-14 sm:h-11 sm:w-11 rounded-full object-cover ring-2 ring-[#927557]/40 group-hover:ring-[#C9A96E]/70 group-hover:scale-110 transition-all duration-500 ease-out"
                   />
                 </div>
-                <div className="hidden sm:block">
+                <div>
                   <span className="inline-block font-heading text-xl font-bold tracking-wide text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] group-hover:text-[#C9A96E] transition-colors duration-300">
                     181
                   </span>

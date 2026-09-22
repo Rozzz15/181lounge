@@ -182,6 +182,22 @@ h1, h2, h3, h4, h5, h6 {
   scrollbar-width: none;
 }
 
+/* Subtle scrollbar for category tabs */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #927557;
+  border-radius: 999px;
+}
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #927557 transparent;
+}
+
 /* Card Fan Carousel */
 .fan-layout {
   position: relative;

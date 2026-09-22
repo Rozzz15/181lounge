@@ -14,6 +14,7 @@ interface Product {
   description: string;
   price: number;
   image: string;
+  hotImage?: string;
   rating: number;
   popular: boolean;
   sizes?: { name: string; price: number }[];
@@ -22,9 +23,10 @@ interface Product {
 interface SideDrawerProps {
   product: Product | null;
   onClose: () => void;
+  coffeeType?: 'all' | 'hot' | 'iced';
 }
 
-export function SideDrawer({ product, onClose }: SideDrawerProps) {
+export function SideDrawer({ product, onClose, coffeeType = 'all' }: SideDrawerProps) {
   const [quantity, setQuantity] = useState(1);
   const [isFavorited, setIsFavorited] = useState(false);
   const [orderType, setOrderType] = useState<OrderType>('dine-in');
@@ -123,7 +125,7 @@ export function SideDrawer({ product, onClose }: SideDrawerProps) {
                   initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  src={product.image}
+                  src={coffeeType === 'hot' && product.hotImage ? product.hotImage : product.image}
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />

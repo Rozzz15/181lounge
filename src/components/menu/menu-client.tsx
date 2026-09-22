@@ -10,13 +10,13 @@ import { formatPrice } from '@/lib/utils';
 const categories = [
   { id: 'all', name: 'All' },
   { id: 'frappe', name: 'Frappe' },
-  { id: 'ice-coffee', name: 'Ice Coffee' },
-  { id: 'hot-coffee', name: 'Hot Coffee Drinks' },
+  { id: 'ice-coffee', name: 'Coffee' },
   { id: 'matcha', name: 'Matcha' },
   { id: 'signature', name: 'Signature Drinks' },
   { id: 'rice-meal', name: 'Rice Meal' },
   { id: 'pasta', name: 'Pasta' },
   { id: 'sandwich-snack', name: 'Sandwich & Snack' },
+  { id: 'spritzers', name: 'Spritzers' },
   { id: 'books', name: 'Books' },
 ];
 
@@ -29,20 +29,16 @@ const products = [
   { id: 5, name: 'White Mocha', category: 'frappe', description: 'Smooth white chocolate mocha frappe', price: 190, image: '/images/whitemocha.jpg', featured: false, rating: 4.8, popular: false },
   { id: 6, name: 'Choco Chip Frappe', category: 'frappe', description: 'Blended frappe with chocolate chips', price: 190, image: '/images/chocochipfrappe.jpg', featured: false, rating: 4.9, popular: false },
   { id: 7, name: 'Strawberry Frappe', category: 'frappe', description: 'Refreshing strawberry blended frappe', price: 190, image: '/images/strawberryfrappe.jpg', featured: false, rating: 4.8, popular: false },
-  // Ice Coffee
-  { id: 8, name: 'Americano', category: 'ice-coffee', description: 'Bold espresso with cold water over ice', price: 120, image: '/images/americano.jpg', featured: false, rating: 5, popular: true },
-  { id: 9, name: 'Hazelnut Latte', category: 'ice-coffee', description: 'Espresso with hazelnut syrup and cold milk', price: 165, image: '/images/hazelnutlatte.jpg', featured: false, rating: 4.8, popular: false },
-  { id: 10, name: 'Cafe Latte', category: 'ice-coffee', description: 'Classic espresso with smooth cold milk', price: 150, image: '/images/cafelatte.jpg', featured: true, rating: 4.9, popular: true },
-  { id: 11, name: 'Spanish Latte', category: 'ice-coffee', description: 'Espresso with condensed milk over ice', price: 165, image: '/images/spanishlatte.jpg', featured: false, rating: 5, popular: false },
-  { id: 12, name: 'Caramel Latte', category: 'ice-coffee', description: 'Espresso with caramel syrup and cold milk', price: 165, image: '/images/caramellatte.jpg', featured: true, rating: 4.9, popular: true },
-  // Hot Coffee Drinks
-  { id: 35, name: 'Americano', category: 'hot-coffee', description: 'Bold espresso blended with hot water for a smooth, clean taste', price: 150, image: '/images/hotamericano.jpg', featured: true, rating: 5, popular: true },
-  { id: 36, name: 'Hazelnut Latte', category: 'hot-coffee', description: 'Smooth coffee with a rich hazelnut flavor and a warm, nutty finish', price: 180, image: '/images/hothazelnutlatte.jpg', featured: true, rating: 5, popular: true },
-  { id: 37, name: 'Caffè Latte', category: 'hot-coffee', description: 'Espresso blended with steamed milk for a smooth, creamy taste', price: 180, image: '/images/hotcaffelatte.jpg', featured: true, rating: 4.9, popular: true },
-  { id: 38, name: 'Cappuccino', category: 'hot-coffee', description: 'Espresso with steamed milk and a thick layer of foam for a rich, creamy finish', price: 180, image: '/images/hotcappuccino.jpg', featured: false, rating: 5, popular: false },
-  { id: 39, name: 'Dark Mocha', category: 'hot-coffee', description: 'Rich espresso blended with dark chocolate for a bold, smooth, and indulgent taste', price: 180, image: '/images/hotdarkmocha.jpg', featured: true, rating: 4.9, popular: true },
-  { id: 40, name: 'White Mocha', category: 'hot-coffee', description: 'Creamy espresso blended with smooth white chocolate for a rich, sweet finish', price: 180, image: '/images/hotwhitemocha.jpg', featured: false, rating: 5, popular: false },
-  { id: 41, name: 'Caramel Latte', category: 'hot-coffee', description: 'Espresso blended with steamed milk and rich caramel for a smooth, sweet finish', price: 180, image: '/images/hotcaramellatte.jpg', featured: true, rating: 5, popular: true },
+  // Coffee (Iced & Hot)
+  { id: 8, name: 'Americano', category: 'ice-coffee', coffeeType: 'both', description: 'Bold espresso with cold water over ice', price: 120, image: '/images/americano.jpg', hotImage: '/images/americanohot.jpg', featured: false, rating: 5, popular: true },
+  { id: 9, name: 'Hazelnut Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Espresso with hazelnut syrup and cold milk', price: 165, image: '/images/hazelnutlatte.jpg', hotImage: '/images/hazellatte.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 10, name: 'Cafe Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Classic espresso with smooth cold milk', price: 150, image: '/images/cafelatte.jpg', hotImage: '/images/caffelatte.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 11, name: 'Spanish Latte', category: 'ice-coffee', coffeeType: 'iced', description: 'Espresso with condensed milk over ice', price: 165, image: '/images/spanishlatte.jpg', featured: false, rating: 5, popular: false },
+  { id: 12, name: 'Caramel Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Espresso with caramel syrup and cold milk', price: 165, image: '/images/caramellatte.jpg', hotImage: '/images/caramellattee.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 42, name: 'Dark Mocha Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Espresso with rich dark chocolate and cold milk', price: 165, image: '/images/darkmochaice.jpg', hotImage: '/images/darkmochalatte.jpg', featured: false, rating: 4.9, popular: false },
+  { id: 43, name: 'White Mocha Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Espresso with smooth white chocolate and cold milk', price: 165, image: '/images/whitemochaice.jpg', hotImage: '/images/whitemochalatte.jpg', featured: false, rating: 4.9, popular: false },
+  { id: 47, name: 'Cappuccino', category: 'ice-coffee', coffeeType: 'hot', description: 'Espresso with steamed milk and a thick layer of foam', price: 180, image: '/images/cappuccino.jpg', featured: false, rating: 5, popular: false },
+  { id: 48, name: 'Caramel Macchiato', category: 'ice-coffee', coffeeType: 'iced', description: 'Espresso layered with vanilla syrup, milk, and caramel drizzle', price: 175, image: '/images/caramelmachato.jpg', featured: false, rating: 4.9, popular: false },
   // Matcha
   { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, image: '/images/strawberrymatcha.jpg', featured: true, rating: 5, popular: true, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 180, image: '/images/machalatte.jpg', featured: false, rating: 4.8, popular: false, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
@@ -63,7 +59,11 @@ const products = [
   { id: 27, name: 'Aglio Olio', category: 'pasta', description: 'Classic garlic and olive oil pasta', price: 189, image: '/images/aglio.jpg', featured: false, rating: 4.8, popular: false },
   // Sandwich & Snack
   { id: 28, name: 'Truffle Cheese', category: 'sandwich-snack', description: 'Grilled sandwich with truffle and cheese', price: 210, image: '/images/truffle.jpg', featured: true, rating: 5, popular: true },
-  { id: 29, name: 'Nachos', category: 'sandwich-snack', description: 'Crispy nachos with cheese dip', price: 150, image: '/images/nachos.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 29, name: 'Nachos', category: 'sandwich-snack', description: 'Crispy nachos with cheese dip', price: 150, image: '/images/nat.jpg', featured: true, rating: 4.9, popular: true },
+  // Spritzers
+  { id: 44, name: 'Strawberry Spritz', category: 'spritzers', description: 'Refreshing strawberry spritzer', price: 120, image: '/images/strawberryspritz.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 45, name: 'Blueberry Spritz', category: 'spritzers', description: 'Refreshing blueberry spritzer', price: 120, image: '/images/blueberryspritz.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 46, name: 'Mixed Berry Spritz', category: 'spritzers', description: 'Refreshing mixed berry spritzer', price: 120, image: '/images/mixedberryspritz.jpg', featured: false, rating: 4.8, popular: false },
   // Books
   { id: 15, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.9, popular: true },
   { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 0, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.8, popular: false },
@@ -75,12 +75,14 @@ const products = [
 
 export function MenuClient() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [coffeeType, setCoffeeType] = useState<'all' | 'hot' | 'iced'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
 
   const filteredProducts = products.filter((product) => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
+    const matchesCoffeeType = activeCategory !== 'ice-coffee' || coffeeType === 'all' || (product as any).coffeeType === coffeeType || (product as any).coffeeType === 'both';
     
     const query = searchQuery.toLowerCase().trim();
     const matchesSearch = (() => {
@@ -111,7 +113,7 @@ export function MenuClient() {
              product.category.toLowerCase().includes(query);
     })();
 
-    return matchesCategory && matchesSearch;
+    return matchesCategory && matchesCoffeeType && matchesSearch;
   });
 
   return (
@@ -217,11 +219,11 @@ export function MenuClient() {
 
             {/* Category Tabs */}
             <div className="mt-5 pt-5 border-t border-[#e8e2da]/60">
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin -mx-1 px-1" style={{ WebkitOverflowScrolling: 'touch' }}>
                 {categories.map((category) => (
                   <button
                     key={category.id}
-                    onClick={() => setActiveCategory(category.id)}
+                    onClick={() => { setActiveCategory(category.id); setCoffeeType('all'); }}
                     className={`relative px-5 py-2 rounded-full text-[13px] font-semibold tracking-wide whitespace-nowrap transition-all duration-500 ease-out ${
                       activeCategory === category.id
                         ? 'bg-gradient-to-r from-[#44362A] to-[#525A40] text-white shadow-[0_4px_20px_-4px_rgba(68,54,42,0.35)]'
@@ -233,6 +235,31 @@ export function MenuClient() {
                 ))}
               </div>
             </div>
+
+            {/* Coffee Subcategory Tabs */}
+            {activeCategory === 'ice-coffee' && (
+              <div className="mt-4 pt-4 border-t border-[#e8e2da]/60">
+                <div className="flex items-center gap-2">
+                  {[
+                    { id: 'all', name: 'All Coffee' },
+                    { id: 'hot', name: 'Hot Coffee Drinks' },
+                    { id: 'iced', name: 'Ice Coffee Drinks' },
+                  ].map((sub) => (
+                    <button
+                      key={sub.id}
+                      onClick={() => setCoffeeType(sub.id as any)}
+                      className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ${
+                        coffeeType === sub.id
+                          ? 'bg-[#927557] text-white shadow-md shadow-[#927557]/20'
+                          : 'text-[#948D82] hover:text-[#44362A] hover:bg-[#F3F0E8]'
+                      }`}
+                    >
+                      {sub.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </motion.div>
 
           {/* Results Count */}
@@ -272,7 +299,7 @@ export function MenuClient() {
                     >
                       <div className="relative h-56 overflow-hidden">
                         <img
-                          src={product.image}
+                          src={coffeeType === 'hot' && (product as any).hotImage ? (product as any).hotImage : product.image}
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                         />
@@ -329,7 +356,7 @@ export function MenuClient() {
                         className="relative w-48 sm:w-60 h-48 sm:h-52 flex-shrink-0 overflow-hidden"
                       >
                         <img
-                          src={product.image}
+                          src={coffeeType === 'hot' && (product as any).hotImage ? (product as any).hotImage : product.image}
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                         />
@@ -433,6 +460,7 @@ export function MenuClient() {
       <SideDrawer
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
+        coffeeType={coffeeType}
       />
     </div>
   );

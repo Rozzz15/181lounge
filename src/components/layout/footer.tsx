@@ -26,7 +26,7 @@ const footerLinks = [
 
 const socialLinks = [
   { href: 'https://www.facebook.com/profile.php?id=61564700682320', label: 'Facebook', icon: Facebook },
-  { href: 'https://instagram.com', label: 'Instagram', icon: Instagram },
+  { href: 'https://www.instagram.com/181lounge/', label: 'Instagram', icon: Instagram },
   { href: 'https://youtube.com', label: 'YouTube', icon: Youtube },
 ];
 
@@ -159,6 +159,13 @@ export function Footer() {
                   <social.icon className="h-5 w-5" />
                 </a>
               ))}
+            </div>
+            <div className="mt-6">
+              <img
+                src="/images/ig.jpg"
+                alt="Follow us on Instagram"
+                className="w-32 h-32 rounded-xl object-cover ring-2 ring-[#927557]/20"
+              />
             </div>
             <p className="text-[#C5BEB3]/70 text-sm mt-6 leading-relaxed">
               Follow us on social media for the latest updates, promotions, and behind-the-scenes content.
