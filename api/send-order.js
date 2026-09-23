@@ -98,8 +98,10 @@ const CATEGORY_LABELS = {
   'matcha': 'Matcha',
   'signature': 'Signature',
   'rice-meal': 'Rice Meal',
+  'silog-serye': 'Silog Serye',
   'pasta': 'Pasta',
   'sandwich-snack': 'Sandwich & Snack',
+  'spritzers': 'Spritzers',
   'books': 'Books',
 };
 

@@ -14,6 +14,7 @@ const categories = [
   { id: 'matcha', name: 'Matcha' },
   { id: 'signature', name: 'Signature Drinks' },
   { id: 'rice-meal', name: 'Rice Meal' },
+  { id: 'silog-serye', name: 'Silog Serye' },
   { id: 'pasta', name: 'Pasta' },
   { id: 'sandwich-snack', name: 'Sandwich & Snack' },
   { id: 'spritzers', name: 'Spritzers' },
@@ -53,6 +54,13 @@ const products = [
   { id: 22, name: 'Hickory Pork', category: 'rice-meal', description: 'Hickory-smoked pork served with rice', price: 190, image: '/images/hickorypork.jpg', featured: true, rating: 4.9, popular: true },
   { id: 23, name: 'Chicken Tenders', category: 'rice-meal', description: 'Crispy chicken tenders served with rice', price: 190, image: '/images/chickentenders.jpg', featured: false, rating: 4.8, popular: false },
   { id: 24, name: 'Adobo Flakes', category: 'rice-meal', description: 'Classic Filipino adobo flakes served with rice', price: 190, image: '/images/adoboflakes.jpg', featured: true, rating: 5, popular: true },
+  // Silog Serye
+  { id: 49, name: 'Tap Silog', category: 'silog-serye', description: 'Savory beef tapa with garlic rice and fried egg', price: 130, image: '/images/tapsilog.jpg', featured: true, rating: 5, popular: true },
+  { id: 50, name: 'Corn Silog', category: 'silog-serye', description: 'Crispy corned beef with garlic rice and fried egg', price: 130, image: '/images/cornsilog.jpg', featured: false, rating: 4.9, popular: true },
+  { id: 51, name: 'Tocilog', category: 'silog-serye', description: 'Sweet and savory tocino with garlic rice and fried egg', price: 130, image: '/images/tocilog.jpg', featured: true, rating: 5, popular: true },
+  { id: 52, name: 'Hot Silog', category: 'silog-serye', description: 'Spicy hotdog with garlic rice and fried egg', price: 130, image: '/images/hotsilog.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 53, name: 'Hungarian Silog', category: 'silog-serye', description: 'Hungarian sausage with garlic rice and fried egg', price: 130, image: '/images/hungariansilog.jpg', featured: false, rating: 4.9, popular: false },
+  { id: 54, name: 'Sisig Silog', category: 'silog-serye', description: 'Sizzling sisig with garlic rice and fried egg', price: 135, image: '/images/sisigsilog.jpg', featured: true, rating: 5, popular: true },
   // Pasta
   { id: 25, name: 'Mushroom White', category: 'pasta', description: 'Creamy white sauce pasta with mushrooms', price: 189, image: '/images/mushroom.jpg', featured: true, rating: 5, popular: true },
   { id: 26, name: 'Charlie Chan', category: 'pasta', description: 'Signature pasta with savory sauce and toppings', price: 189, image: '/images/charliechan.jpg', featured: true, rating: 4.9, popular: true },
