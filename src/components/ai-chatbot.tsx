@@ -21,15 +21,15 @@ const MENU: MenuItem[] = [
   { id: 5, name: 'White Mocha', category: 'Frappe', description: 'Smooth white chocolate mocha frappe', price: 190 },
   { id: 6, name: 'Choco Chip Frappe', category: 'Frappe', description: 'Blended frappe with chocolate chips', price: 190 },
   { id: 7, name: 'Strawberry Frappe', category: 'Frappe', description: 'Refreshing strawberry blended frappe', price: 190 },
-  { id: 8, name: 'Americano', category: 'Coffee', description: 'Bold espresso with water', price: 120 },
-  { id: 9, name: 'Hazelnut Latte', category: 'Coffee', description: 'Espresso with hazelnut syrup and milk', price: 165 },
-  { id: 10, name: 'Cafe Latte', category: 'Coffee', description: 'Classic espresso with smooth milk', price: 150 },
-  { id: 11, name: 'Spanish Latte', category: 'Coffee', description: 'Espresso with condensed milk (iced)', price: 165 },
-  { id: 12, name: 'Caramel Latte', category: 'Coffee', description: 'Espresso with caramel syrup and milk', price: 165 },
-  { id: 42, name: 'Dark Mocha Latte', category: 'Coffee', description: 'Espresso with rich dark chocolate and milk', price: 165 },
-  { id: 43, name: 'White Mocha Latte', category: 'Coffee', description: 'Espresso with smooth white chocolate and milk', price: 165 },
-  { id: 47, name: 'Cappuccino', category: 'Coffee', description: 'Espresso with steamed milk and foam (hot)', price: 180 },
-  { id: 48, name: 'Caramel Macchiato', category: 'Coffee', description: 'Espresso layered with vanilla, milk, and caramel drizzle', price: 175 },
+  { id: 8, name: 'Americano', category: 'Coffee', description: 'Bold espresso with cold water over ice', price: 120 },
+  { id: 9, name: 'Hazelnut Latte', category: 'Coffee', description: 'Espresso with hazelnut syrup and cold milk', price: 165 },
+  { id: 10, name: 'Cafe Latte', category: 'Coffee', description: 'Classic espresso with smooth cold milk', price: 150 },
+  { id: 11, name: 'Spanish Latte', category: 'Coffee', description: 'Espresso with condensed milk over ice', price: 165 },
+  { id: 12, name: 'Caramel Latte', category: 'Coffee', description: 'Espresso with caramel syrup and cold milk', price: 165 },
+  { id: 42, name: 'Dark Mocha Latte', category: 'Coffee', description: 'Espresso with rich dark chocolate and cold milk', price: 165 },
+  { id: 43, name: 'White Mocha Latte', category: 'Coffee', description: 'Espresso with smooth white chocolate and cold milk', price: 165 },
+  { id: 47, name: 'Cappuccino', category: 'Coffee', description: 'Espresso with steamed milk and a thick layer of foam', price: 180 },
+  { id: 48, name: 'Caramel Macchiato', category: 'Coffee', description: 'Espresso layered with vanilla syrup, milk, and caramel drizzle', price: 175 },
   { id: 13, name: 'Strawberry Matcha', category: 'Matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 14, name: 'Matcha Latte', category: 'Matcha', description: 'Premium matcha whisked with steamed milk', price: 180, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 34, name: 'Dirty Matcha', category: 'Matcha', description: 'Matcha with a shot of espresso', price: 180 },
@@ -41,17 +41,18 @@ const MENU: MenuItem[] = [
   { id: 22, name: 'Hickory Pork', category: 'Rice Meal', description: 'Hickory-smoked pork served with rice', price: 190 },
   { id: 23, name: 'Chicken Tenders', category: 'Rice Meal', description: 'Crispy chicken tenders served with rice', price: 190 },
   { id: 24, name: 'Adobo Flakes', category: 'Rice Meal', description: 'Classic Filipino adobo flakes served with rice', price: 190 },
-  { id: 49, name: 'Tap Silog', category: 'Silog Serye', description: 'Beef tapa with garlic rice and fried egg', price: 130 },
+  { id: 49, name: 'Tap Silog', category: 'Silog Serye', description: 'Savory beef tapa with garlic rice and fried egg', price: 130 },
   { id: 50, name: 'Corn Silog', category: 'Silog Serye', description: 'Crispy corned beef with garlic rice and fried egg', price: 130 },
   { id: 51, name: 'Tocilog', category: 'Silog Serye', description: 'Sweet and savory tocino with garlic rice and fried egg', price: 130 },
   { id: 52, name: 'Hot Silog', category: 'Silog Serye', description: 'Spicy hotdog with garlic rice and fried egg', price: 130 },
   { id: 53, name: 'Hungarian Silog', category: 'Silog Serye', description: 'Hungarian sausage with garlic rice and fried egg', price: 130 },
   { id: 54, name: 'Sisig Silog', category: 'Silog Serye', description: 'Sizzling sisig with garlic rice and fried egg', price: 135 },
+  { id: 55, name: 'Adobo Silog', category: 'Silog Serye', description: 'Savory Filipino adobo with garlic rice and fried egg', price: 135 },
   { id: 25, name: 'Mushroom White', category: 'Pasta', description: 'Creamy white sauce pasta with mushrooms', price: 189 },
   { id: 26, name: 'Charlie Chan', category: 'Pasta', description: 'Signature pasta with savory sauce and toppings', price: 189 },
   { id: 27, name: 'Aglio Olio', category: 'Pasta', description: 'Classic garlic and olive oil pasta', price: 189 },
   { id: 28, name: 'Truffle Cheese', category: 'Sandwich & Snack', description: 'Grilled sandwich with truffle and cheese', price: 210 },
-  { id: 29, name: 'Nachos', category: 'Sandwich & Snack', description: 'Crispy nachos with cheese dip', price: 150 },
+  { id: 29, name: 'Nachos', category: 'Sandwich & Snack', description: 'Crispy nachos with cheese dip', price: 190 },
   { id: 44, name: 'Strawberry Spritz', category: 'Spritzers', description: 'Refreshing strawberry spritzer', price: 120 },
   { id: 45, name: 'Blueberry Spritz', category: 'Spritzers', description: 'Refreshing blueberry spritzer', price: 120 },
   { id: 46, name: 'Mixed Berry Spritz', category: 'Spritzers', description: 'Refreshing mixed berry spritzer', price: 120 },
@@ -122,17 +123,63 @@ const BUSINESS_INFO = `📍 35 Mamatid, Cabuyao, Philippines 4025
 
 Conveniently located near academic institutions in Mamatid, Cabuyao.`;
 
+function deliveryResponse(text: string): string {
+  const asksGrab = contains(text, ['grab']);
+  const asksPanda = contains(text, ['panda', 'food panda']);
+  const options = `Right now you can:\n\n🛍️ Dine In — 35 Mamatid, Cabuyao\n🥡 Pick Up — order through our website order flow`;
+
+  if (asksGrab && !asksPanda) {
+    return `Do we have GrabFood? Not yet — but it's coming soon! 🚚\n\n${options}\n\n🚚 GrabFood — Coming soon\n\nWe'll announce it here as soon as it's live. Stay tuned! 🚀`;
+  }
+  if (asksPanda && !asksGrab) {
+    return `Do we have foodpanda? Not yet — but it's coming soon! 🐼\n\n${options}\n\n🐼 foodpanda — Coming soon\n\nWe'll announce it here as soon as it's live. Stay tuned! 🚀`;
+  }
+  return `Here are your options:\n\n${options}\n\n🚚 GrabFood — Coming soon\n🐼 foodpanda — Coming soon\n\nDelivery is launching soon — stay tuned! 🚀`;
+}
+
 function getBotResponse(rawInput: string): string {
   const text = rawInput.toLowerCase().trim();
 
   const productName = MENU.find(
-    (i) => text.includes(i.name.toLowerCase()) || i.name.toLowerCase().includes(text)
+    (i) =>
+      text.length >= 3 &&
+      (text.includes(i.name.toLowerCase()) || i.name.toLowerCase().includes(text))
   );
   if (productName) return describeItem(productName);
 
   if (/(what should i|recommend|best seller|most popular|popular drink|suggest|favorite|famous)/.test(text)) {
     const favorites = ['Matcha Frappe', 'Cafe Latte', 'Caramel Latte', 'Strawberry Matcha', 'Dirty Matcha', '181 Signature', 'Adobo Flakes', 'Sisig Silog', 'Truffle Cheese'].map((name) => MENU.find((i) => i.name === name)).filter((i): i is MenuItem => Boolean(i));
     return `Some crowd favorites:\n\n${listItems(favorites)}\n\nPopular picks are also marked on our /menu page. Tap "Show me the menu" to browse everything.`;
+  }
+
+  const mentionsGrab = contains(text, ['grab']);
+  if (mentionsGrab && contains(text, ['seat', 'table', 'chair', 'sit'])) {
+    return `Of course — pull up a chair! 🪑\n\n181 Lounge has cozy corners for readers and big tables for boardgame nights. You can also read our books and play boardgames in-store.\n\n📍 35 Mamatid, Cabuyao\n🕐 Open daily, 11:00 AM - 12:00 AM`;
+  }
+  const wantsDelivery = contains(text, [
+    'delivery',
+    'deliver',
+    'takeout',
+    'take out',
+    'take-out',
+    'pickup',
+    'pick up',
+    'pick-up',
+    'to-go',
+    'to go',
+    'foodpanda',
+    'food panda',
+    'panda',
+    'grabfood',
+    'grab food',
+  ]);
+  const grabInDeliveryContext =
+    mentionsGrab &&
+    contains(text, ['deliver', 'order', 'available', 'have', 'offer', 'via', 'app', 'platform', 'partner']);
+  if (wantsDelivery || grabInDeliveryContext) return deliveryResponse(text);
+
+  if (contains(text, ['how to order', 'how do i order', 'order', 'cart', 'buy', 'purchase', 'online'])) {
+    return `Ordering is easy!\n\n1️⃣ Browse our menu (click "Order Now" in the header)\n2️⃣ Tap an item to customize (size, add-ons, Dine In or Pick Up)\n3️⃣ Add to cart, then checkout\n\n🚚 GrabFood and 🐼 foodpanda delivery is coming soon — stay tuned! 🚀`;
   }
 
   if (contains(text, ['addon', 'add-on', 'add on', 'extra shot', 'breve', 'oatmilk', 'oat milk', 'syrup', 'whip cream', 'extras'])) {
@@ -176,23 +223,20 @@ function getBotResponse(rawInput: string): string {
   }
 
   if (contains(text, ['book', 'boardgame', 'board game', 'board games', 'read', 'games', 'kintugi', 'alchemist', 'quiet', 'atomic habits', 'manila after dark'])) {
-    return `We offer a curated collection of books and a variety of boardgames!\n\nGrab a seat, pick your activity, and enjoy. You can browse and read in-store, and books are available for purchase — just ask at the cashier desk for pricing.\n\nAvailable titles include:\n${listItems([
-      { id: 15, name: 'The Coffee Guide', category: 'Books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 0 },
-      { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'Books', description: 'A local Filipino author\'s take on resilience and beauty', price: 0 },
-      { id: 17, name: 'Quiet: The Power of Introverts', category: 'Books', description: 'Bestseller on the strength of quiet people', price: 0 },
-      { id: 18, name: 'Manila After Dark', category: 'Books', description: 'Short stories set in the city', price: 0 },
-      { id: 19, name: 'Atomic Habits', category: 'Books', description: 'Build good habits and break bad ones', price: 0 },
-      { id: 20, name: 'The Alchemist', category: 'Books', description: 'A timeless fable about following your dreams', price: 0 },
-    ])}\n\n(Prices for books are available at the cashier desk.)`;
+    const books = [
+      { name: 'The Coffee Guide', description: 'A beginner-friendly guide to brewing the perfect cup' },
+      { name: 'Kintugi: Embracing Imperfection', description: 'A local Filipino author\'s take on resilience and beauty' },
+      { name: 'Quiet: The Power of Introverts', description: 'Bestseller on the strength of quiet people' },
+      { name: 'Manila After Dark', description: 'A collection of short stories set in the city' },
+      { name: 'Atomic Habits', description: 'Build good habits and break bad ones' },
+      { name: 'The Alchemist', description: 'A timeless fable about following your dreams' },
+    ];
+    return `We offer a curated collection of books and a variety of boardgames!\n\nGrab a seat, pick your activity, and enjoy. You can browse and read in-store, and books are available for purchase — just ask at the cashier desk for pricing.\n\nAvailable titles include:\n${books.map((b) => `• ${b.name} — ${b.description}`).join('\n')}\n\n(Prices for books are available at the cashier desk.)`;
   }
 
   if (contains(text, ['under', 'below', 'cheap', 'cheapest', 'budget', 'affordable', 'mura', 'less than'])) {
     const cheap = MENU.filter((i) => i.price > 0 && i.price <= 150);
     return `Items at or under ${formatPrice(150)}:\n\n${listItems(cheap)}`;
-  }
-
-  if (contains(text, ['price', 'how much', 'cost', 'menu', 'food', 'drink', 'what do you have', 'offer', 'available', 'catalog', 'products', 'items'])) {
-    return `Here's our menu at a glance:\n\n☕ Coffee — ${formatPrice(120)} to ${formatPrice(180)}\n🍃 Matcha — ${formatPrice(180)} to ${formatPrice(195)}\n🥤 Frappe — ${formatPrice(190)}\n✨ Signature Drinks — ${formatPrice(210)}\n🍚 Rice Meal — ${formatPrice(190)}\n🍳 Silog Serye — ${formatPrice(130)} to ${formatPrice(135)}\n🍝 Pasta — ${formatPrice(189)}\n🥪 Sandwich & Snack — ${formatPrice(150)} to ${formatPrice(210)}\n🍹 Spritzers — ${formatPrice(120)}\n📚 Books — ask at the cashier desk\n\nAsk me about any category (e.g. "frappe", "coffee", "silog") or a specific item for full details!`;
   }
 
   if (contains(text, ['hour', 'open', 'close', 'time', 'schedule', 'when'])) {
@@ -204,15 +248,7 @@ function getBotResponse(rawInput: string): string {
   }
 
   if (contains(text, ['contact', 'phone', 'number', 'email', 'call', 'reach', 'email us'])) {
-    return `You can reach us through:\n\n📞 Phone: 0948 751 0923\n📧 Email: official.181lounge@gmail.com\n✉️ hello@181lounge.ph\n💼 careers@181lounge.ph\n\nOr visit our Facebook: facebook.com/profile.php?id=61564700682320\nInstagram: @181lounge`;
-  }
-
-  if (contains(text, ['delivery', 'deliver', 'grab', 'foodpanda', 'panda', 'takeout', 'take out', 'take-out', 'pickup', 'pick up', 'pick-up', 'to-go', 'to go'])) {
-    return `We offer several ways to get your order:\n\n🛍️ Dine In or Pick Up — order through our website order flow\n🚚 GrabFood — https://food.grab.com/ph/en/restaurants/181-lounge-delivery\n🐼 foodpanda — https://www.foodpanda.ph/restaurant/181-lounge\n\n🚀 Fast service: 30 mins or less\n💸 FREE delivery on orders over ${formatPrice(300)}`;
-  }
-
-  if (contains(text, ['how to order', 'order', 'cart', 'buy', 'purchase', 'online'])) {
-    return `Ordering is easy!\n\n1️⃣ Browse our menu (click "Order Now" in the header)\n2️⃣ Tap an item to customize (size, add-ons, Dine In or Pick Up)\n3️⃣ Add to cart, then checkout\n\nWe also deliver via GrabFood and foodpanda. Free delivery on orders over ₱300!`;
+    return `You can reach us through:\n\n📞 Phone: 0948 751 0923\n📧 Email: official.181lounge@gmail.com\n\nOr visit our Facebook: facebook.com/profile.php?id=61564700682320\nInstagram: @181lounge`;
   }
 
   if (contains(text, ['franchise', 'get a branch', 'own a branch', 'invest', 'business', 'capital', 'open a branch'])) {
@@ -235,12 +271,16 @@ function getBotResponse(rawInput: string): string {
     return `We're located in Mamatid, Cabuyao, near academic institutions. For specific parking details, it's best to check with our team or view our location on Google Maps: https://maps.google.com/?q=35+Mamatid+Cabuyao+Philippines+4025 🚗`;
   }
 
+  if (contains(text, ['price', 'how much', 'cost', 'menu', 'food', 'drink', 'what do you have', 'offer', 'available', 'catalog', 'products', 'items'])) {
+    return `Here's our menu at a glance:\n\n☕ Coffee — ${formatPrice(120)} to ${formatPrice(180)}\n🍃 Matcha — ${formatPrice(180)} to ${formatPrice(195)}\n🥤 Frappe — ${formatPrice(190)}\n✨ Signature Drinks — ${formatPrice(210)}\n🍚 Rice Meal — ${formatPrice(190)}\n🍳 Silog Serye — ${formatPrice(130)} to ${formatPrice(135)}\n🍝 Pasta — ${formatPrice(189)}\n🥪 Sandwich & Snack — ${formatPrice(190)} to ${formatPrice(210)}\n🍹 Spritzers — ${formatPrice(120)}\n📚 Books — ask at the cashier desk\n\nAsk me about any category (e.g. "frappe", "coffee", "silog") or a specific item for full details!`;
+  }
+
   if (contains(text, ['today', 'brand', 'what is']) || /^what(s| is)? 181?/.test(text) || contains(text, ['181 lounge'])) {
     return `181 Lounge is a premium specialty café in Cabuyao offering coffee, frappes, matcha, silog, pasta, books, and boardgames — a curated space where you can slow down, connect, and enjoy. ☕✨`;
   }
 
   if (contains(text, ['help', 'what can you do', 'options', 'commands'])) {
-    return `Here's what I can help you with:\n\n• Menu & prices (try "menu", "frappe", "coffee", "silog")\n• Recommendations ("what do you recommend?")\n• Business hours\n• Location & directions\n• Contact details\n• Delivery options (GrabFood, foodpanda)\n• Franchise & investment\n• Our story\n• Books & boardgames\n• Add-ons\n\nJust type your question! 😊`;
+    return `Here's what I can help you with:\n\n• Menu & prices (try "menu", "frappe", "coffee", "silog")\n• Recommendations ("what do you recommend?")\n• Business hours\n• Location & directions\n• Contact details\n• Delivery options (GrabFood & foodpanda — coming soon)\n• Franchise & investment\n• Our story\n• Books & boardgames\n• Add-ons\n\nJust type your question! 😊`;
   }
 
   if (contains(text, ['thank', 'thanks', 'salamat', 'appreciate'])) {
@@ -251,12 +291,14 @@ function getBotResponse(rawInput: string): string {
     return `Thanks for chatting with 181 Lounge AI! ☕ See you at 35 Mamatid, Cabuyao. Have a great day!`;
   }
 
-  const greetings = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'kumusta', 'kamusta', 'magandang'];
-  if (greetings.some((g) => text.includes(g)) && text.length < 30) {
+  const isGreeting =
+    text.length < 30 &&
+    /^\s*(hi|hii+|hello+|hey+|yo|good (morning|afternoon|evening)|kumusta|kamusta|magandang araw)[.!]?\s*$/.test(text);
+  if (isGreeting) {
     return `Hello! 👋 Welcome to 181 Lounge — your cozy spot for coffee, books, and boardgames in Cabuyao!\n\nTry asking about our menu, prices, hours, or delivery. What can I help you with today?`;
   }
 
-  return `I'm not sure about that one yet. 🤔\n\nI can help with:\n• Menu & prices\n• Recommendations\n• Hours & location\n• Delivery (GrabFood / foodpanda)\n• Franchise info\n• Our story\n\nTry asking "Show me the menu" or "Business hours"!`;
+  return `I'm not sure about that one yet. 🤔\n\nI can help with:\n• Menu & prices\n• Recommendations\n• Hours & location\n• Delivery (coming soon)\n• Franchise info\n• Our story\n\nTry asking "Show me the menu" or "Business hours"!`;
 }
 
 export function AiChatbot() {
@@ -299,7 +341,7 @@ export function AiChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute bottom-20 right-0 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-[#d4cfc7] overflow-hidden"
+            className="absolute bottom-20 right-0 w-[calc(100vw-3rem)] max-w-96 sm:w-96 bg-white rounded-2xl shadow-2xl border border-[#d4cfc7] overflow-hidden"
           >
             <div className="bg-[#525A40] p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -322,11 +364,13 @@ export function AiChatbot() {
               </button>
             </div>
 
-            <div ref={scrollRef} className="h-80 p-4 overflow-y-auto bg-[#F3F0E8]/50 flex flex-col gap-3">
+            <div ref={scrollRef} className="h-80 p-4 overflow-y-auto overflow-x-hidden bg-[#F3F0E8]/50 flex flex-col gap-3">
               {messages.map((message, i) => (
                 <div
                   key={i}
-                  className={`flex items-start gap-2 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
+                  className={`flex items-start gap-2 w-full min-w-0 ${
+                    message.role === 'user' ? 'flex-row-reverse' : ''
+                  }`}
                 >
                   {message.role === 'bot' ? (
                     <img
@@ -336,7 +380,7 @@ export function AiChatbot() {
                     />
                   ) : null}
                   <div
-                    className={`rounded-2xl px-4 py-2.5 shadow-sm max-w-[80%] whitespace-pre-line text-sm ${
+                    className={`rounded-2xl px-4 py-2.5 shadow-sm max-w-[80%] min-w-0 break-words [overflow-wrap:anywhere] whitespace-pre-line text-sm ${
                       message.role === 'bot'
                         ? 'bg-white rounded-tl-sm text-[#44362A]'
                         : 'bg-[#525A40] rounded-tr-sm text-white'

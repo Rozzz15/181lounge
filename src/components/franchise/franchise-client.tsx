@@ -20,7 +20,8 @@ import {
 const PesoSign = ({ className }: { className?: string }) => (
   <span className={className} style={{ fontSize: '1.5rem', fontWeight: 'bold', lineHeight: 1 }}>₱</span>
 );
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { IdentityCardBody, RevealCardContainer } from '@/components/ui/animated-profile-card';
 
 const fadeInUp = {
@@ -244,25 +245,25 @@ export function BranchFranchiseClient() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <a href="#apply">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    className="bg-[#927557] hover:bg-[#7d6248] text-white px-8 h-14 rounded-xl group text-base"
-                  >
-                    Start Your Journey
-                    <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                <a
+                  href="#apply"
+                  className={cn(
+                    buttonVariants({ variant: 'primary', size: 'lg' }),
+                    'bg-[#927557] hover:bg-[#7d6248] text-white px-8 h-14 rounded-xl group text-base'
+                  )}
+                >
+                  Start Your Journey
+                  <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                 </a>
-                <a href="tel:09487510923">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-white/20 text-white hover:bg-white/10 px-8 h-14 rounded-xl text-base"
-                  >
-                    <Phone className="w-5 h-5 mr-2" />
-                    Talk to Us
-                  </Button>
+                <a
+                  href="tel:09487510923"
+                  className={cn(
+                    buttonVariants({ variant: 'outline', size: 'lg' }),
+                    'border-white/20 text-white hover:bg-white/10 px-8 h-14 rounded-xl text-base'
+                  )}
+                >
+                  <Phone className="w-5 h-5 mr-2" />
+                  Talk to Us
                 </a>
               </div>
 
@@ -675,7 +676,7 @@ export function BranchFranchiseClient() {
       </div>
 
       {/* CTA Section */}
-      <section id="apply" className="py-20 sm:py-28 bg-[#44362A] relative overflow-hidden">
+      <section id="apply" className="scroll-mt-20 sm:scroll-mt-24 py-20 sm:py-28 bg-[#44362A] relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-5"
           style={{
@@ -712,25 +713,25 @@ export function BranchFranchiseClient() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/contact">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="bg-[#927557] hover:bg-[#7d6248] text-white px-10 h-14 rounded-xl group text-base"
-                >
-                  Apply Now
-                  <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-                </Button>
+              <Link
+                to="/contact"
+                className={cn(
+                  buttonVariants({ variant: 'primary', size: 'lg' }),
+                  'bg-[#927557] hover:bg-[#7d6248] text-white px-10 h-14 rounded-xl group text-base'
+                )}
+              >
+                Apply Now
+                <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
               </Link>
-              <a href="tel:09487510923">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-white/20 text-white hover:bg-white/10 px-10 h-14 rounded-xl text-base"
-                >
-                  <Phone className="w-5 h-5 mr-2" />
-                  Call 0948 751 0923
-                </Button>
+              <a
+                href="tel:09487510923"
+                className={cn(
+                  buttonVariants({ variant: 'outline', size: 'lg' }),
+                  'border-white/20 text-white hover:bg-white/10 px-10 h-14 rounded-xl text-base'
+                )}
+              >
+                <Phone className="w-5 h-5 mr-2" />
+                Call 0948 751 0923
               </a>
             </div>
 

@@ -29,8 +29,6 @@ const contactInfo = [
     title: 'Email Us',
     details: [
       { text: 'official.181lounge@gmail.com', href: 'mailto:official.181lounge@gmail.com' },
-      { text: 'hello@181lounge.ph', href: 'mailto:hello@181lounge.ph' },
-      { text: 'careers@181lounge.ph', href: 'mailto:careers@181lounge.ph' },
     ],
   },
   {
@@ -369,7 +367,7 @@ export function ContactClient() {
           <div className="max-w-3xl mx-auto space-y-3">
             {[
               { q: 'What are your operating hours?', a: 'We are open from 11:00 AM to 12:00 AM, seven days a week. Hours may vary during holidays.' },
-              { q: 'Do you offer delivery?', a: 'Yes! You can order through our website, mobile app, or third-party delivery platforms like GrabFood and Foodpanda.' },
+              { q: 'Do you offer delivery?', a: 'Yes! You can order dine in or pick up through our website. GrabFood and foodpanda delivery is coming soon — stay tuned!' },
               { q: 'How can I apply for a job?', a: 'You can submit your resume through our contact form below and our team will reach out if there are relevant openings.' },
               { q: 'Do you offer franchise opportunities?', a: 'Yes, we offer franchise opportunities. Please contact our franchise team through the form above for more information.' },
               { q: 'Where are your stores located?', a: 'We are located at 35 Mamatid, Cabuyao, Philippines, 4025. You can find us easily using Google Maps.' },

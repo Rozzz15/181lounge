@@ -61,13 +61,14 @@ const products = [
   { id: 52, name: 'Hot Silog', category: 'silog-serye', description: 'Spicy hotdog with garlic rice and fried egg', price: 130, image: '/images/hotsilog.jpg', featured: false, rating: 4.8, popular: false },
   { id: 53, name: 'Hungarian Silog', category: 'silog-serye', description: 'Hungarian sausage with garlic rice and fried egg', price: 130, image: '/images/hungariansilog.jpg', featured: false, rating: 4.9, popular: false },
   { id: 54, name: 'Sisig Silog', category: 'silog-serye', description: 'Sizzling sisig with garlic rice and fried egg', price: 135, image: '/images/sisigsilog.jpg', featured: true, rating: 5, popular: true },
+  { id: 55, name: 'Adobo Silog', category: 'silog-serye', description: 'Savory Filipino adobo with garlic rice and fried egg', price: 135, image: '/images/adobosilog.jpg', featured: false, rating: 4.9, popular: true },
   // Pasta
   { id: 25, name: 'Mushroom White', category: 'pasta', description: 'Creamy white sauce pasta with mushrooms', price: 189, image: '/images/mushroom.jpg', featured: true, rating: 5, popular: true },
   { id: 26, name: 'Charlie Chan', category: 'pasta', description: 'Signature pasta with savory sauce and toppings', price: 189, image: '/images/charliechan.jpg', featured: true, rating: 4.9, popular: true },
   { id: 27, name: 'Aglio Olio', category: 'pasta', description: 'Classic garlic and olive oil pasta', price: 189, image: '/images/aglio.jpg', featured: false, rating: 4.8, popular: false },
   // Sandwich & Snack
   { id: 28, name: 'Truffle Cheese', category: 'sandwich-snack', description: 'Grilled sandwich with truffle and cheese', price: 210, image: '/images/truffle.jpg', featured: true, rating: 5, popular: true },
-  { id: 29, name: 'Nachos', category: 'sandwich-snack', description: 'Crispy nachos with cheese dip', price: 150, image: '/images/nat.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 29, name: 'Nachos', category: 'sandwich-snack', description: 'Crispy nachos with cheese dip', price: 190, image: '/images/nat.jpg', featured: true, rating: 4.9, popular: true },
   // Spritzers
   { id: 44, name: 'Strawberry Spritz', category: 'spritzers', description: 'Refreshing strawberry spritzer', price: 120, image: '/images/strawberryspritz.jpg', featured: false, rating: 4.8, popular: false },
   { id: 45, name: 'Blueberry Spritz', category: 'spritzers', description: 'Refreshing blueberry spritzer', price: 120, image: '/images/blueberryspritz.jpg', featured: false, rating: 4.8, popular: false },

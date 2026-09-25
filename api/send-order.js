@@ -30,6 +30,18 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Customer name and table number are required' });
     }
 
+    const invalidItems = data.items.some(
+      (item) => !item || typeof item.name !== 'string' || typeof item.price !== 'number'
+    );
+    if (invalidItems) {
+      return res.status(400).json({ error: 'Invalid item data' });
+    }
+
+    // Fallback: recompute total the same way the website cart does
+    if (typeof data.total !== 'number') {
+      data.total = data.items.reduce((sum, item) => sum + itemLineTotal(item), 0);
+    }
+
     const message = buildTelegramMessage(data);
     const chatIds = CHAT_IDS.split(',').map((id) => id.trim());
 
@@ -93,10 +105,9 @@ function formatPhone(phone) {
 
 const CATEGORY_LABELS = {
   'frappe': 'Frappe',
-  'ice-coffee': 'Ice Coffee',
-  'hot-coffee': 'Hot Coffee',
+  'ice-coffee': 'Coffee',
   'matcha': 'Matcha',
-  'signature': 'Signature',
+  'signature': 'Signature Drinks',
   'rice-meal': 'Rice Meal',
   'silog-serye': 'Silog Serye',
   'pasta': 'Pasta',
@@ -104,6 +115,51 @@ const CATEGORY_LABELS = {
   'spritzers': 'Spritzers',
   'books': 'Books',
 };
+
+const DOUBLE = '\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550';
+const SINGLE = '\u2500\u2500\u2500\u2500\u2550\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500';
+const DOTS = '\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7';
+
+function quantityOf(item) {
+  const qty = Number(item.quantity);
+  return Number.isFinite(qty) && qty > 0 ? Math.floor(qty) : 1;
+}
+
+function addOnsTotal(item) {
+  if (!item.selectedAddOns || item.selectedAddOns.length === 0) return 0;
+  return item.selectedAddOns.reduce((sum, addOn) => sum + (Number(addOn.price) || 0), 0);
+}
+
+// Matches the website cart math: (price + add-ons) * quantity
+function itemLineTotal(item) {
+  return (Number(item.price) + addOnsTotal(item)) * quantityOf(item);
+}
+
+function pushItemBlock(lines, items) {
+  items.forEach((item) => {
+    const isBook = item.category === 'books';
+    const qty = '\u00D7' + quantityOf(item);
+    const categoryLabel = CATEGORY_LABELS[item.category] || item.category;
+
+    lines.push('  *' + item.name + '*  `' + categoryLabel + '`');
+    if (item.selectedAddOns && item.selectedAddOns.length > 0) {
+      item.selectedAddOns.forEach((addOn) => {
+        lines.push('    +' + addOn.name + ' ' + formatPrice(addOn.price));
+      });
+    }
+    if (isBook) {
+      lines.push('    ' + qty + '   Ask at Cashier');
+    } else {
+      lines.push('    ' + qty + '   ' + formatPrice(itemLineTotal(item)));
+    }
+    if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
+    lines.push('');
+  });
+}
+
+function subtotalOf(items) {
+  return items.reduce((sum, item) => sum + (item.category === 'books' ? 0 : itemLineTotal(item)), 0);
+}
 
 function buildTelegramMessage(data) {
   const now = new Date();
@@ -120,10 +176,6 @@ function buildTelegramMessage(data) {
     hour12: true,
   });
 
-  const DOUBLE = '\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550';
-  const SINGLE = '\u2500\u2500\u2500\u2500\u2550\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500';
-  const DOTS = '\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7\u00B7';
-
   const dineInItems = data.items.filter((i) => i.orderType === 'dine-in');
   const takeOutItems = data.items.filter((i) => i.orderType === 'take-out');
 
@@ -136,6 +188,7 @@ function buildTelegramMessage(data) {
   lines.push('');
   lines.push(data.customerName);
   if (data.customerPhone) lines.push(data.customerPhone);
+  if (data.customerEmail) lines.push(data.customerEmail);
   lines.push(data.paymentMethod === 'cash' ? 'Cash' : 'E-Wallet');
   lines.push('');
   lines.push(SINGLE);
@@ -146,8 +199,8 @@ function buildTelegramMessage(data) {
     lines.push('');
     dineInItems.forEach((item) => {
       const isBook = item.category === 'books';
-      const lineTotal = item.price * item.quantity;
-      const qty = '\u00D7' + item.quantity;
+      const lineTotal = itemLineTotal(item);
+      const qty = '\u00D7' + quantityOf(item);
       const categoryLabel = CATEGORY_LABELS[item.category] || item.category;
 
       lines.push('  *' + item.name + '*  `' + categoryLabel + '`');
@@ -164,8 +217,7 @@ function buildTelegramMessage(data) {
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
       lines.push('');
     });
-    const dineInSubtotal = dineInItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(dineInSubtotal) + '*');
+    lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(subtotalOf(dineInItems)) + '*');
     lines.push('');
     lines.push(SINGLE);
   }
@@ -176,8 +228,8 @@ function buildTelegramMessage(data) {
     lines.push('');
     takeOutItems.forEach((item) => {
       const isBook = item.category === 'books';
-      const lineTotal = item.price * item.quantity;
-      const qty = '\u00D7' + item.quantity;
+      const lineTotal = itemLineTotal(item);
+      const qty = '\u00D7' + quantityOf(item);
       const categoryLabel = CATEGORY_LABELS[item.category] || item.category;
 
       lines.push('  *' + item.name + '*  `' + categoryLabel + '`');
@@ -194,8 +246,7 @@ function buildTelegramMessage(data) {
       if (item.specialRequest) lines.push('    \u21B3 _' + item.specialRequest + '_');
       lines.push('');
     });
-    const takeOutSubtotal = takeOutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(takeOutSubtotal) + '*');
+    lines.push('  Subtotal ' + DOTS + '  *' + formatPrice(subtotalOf(takeOutItems)) + '*');
     lines.push('');
     lines.push(SINGLE);
   }

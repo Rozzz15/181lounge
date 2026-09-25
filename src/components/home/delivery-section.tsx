@@ -1,29 +1,27 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Truck, Clock, ShoppingBag, ChevronRight, ArrowUpRight } from 'lucide-react';
+import { Truck, Clock, ShoppingBag, ArrowUpRight } from 'lucide-react';
 import { MagnetButton } from '@/components/ui/magnet-button';
 import { Button } from '@/components/ui/button';
 
 const partners = [
   {
     name: 'GrabFood',
-    description: 'Order via Grab',
+    description: 'Coming soon — stay tuned!',
     color: '#00B14F',
     image: '/images/grab.jpg',
-    href: 'https://food.grab.com/ph/en/restaurants/181-lounge-delivery',
   },
   {
     name: 'Foodpanda',
-    description: 'Order via foodpanda',
+    description: 'Coming soon — stay tuned!',
     color: '#D70F64',
     image: '/images/panda.jpg',
-    href: 'https://www.foodpanda.ph/restaurant/181-lounge',
   },
 ];
 
 const features = [
-  { icon: Truck, title: 'Free Delivery', description: 'On orders over ₱300' },
+  { icon: Truck, title: 'Delivery', description: 'Coming soon' },
   { icon: Clock, title: 'Fast Service', description: '30 mins or less' },
   { icon: ShoppingBag, title: 'Easy Ordering', description: 'Via app or website' },
 ];
@@ -112,11 +110,8 @@ export function DeliverySection() {
             className="space-y-5"
           >
             {partners.map((partner, i) => (
-              <motion.a
+              <motion.div
                 key={partner.name}
-                href={partner.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -127,23 +122,21 @@ export function DeliverySection() {
                 <img
                   src={partner.image}
                   alt={partner.name}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover grayscale-[40%] transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Gradient overlay */}
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: `linear-gradient(135deg, ${partner.color}dd 0%, ${partner.color}88 50%, transparent 100%)`,
+                    background: `linear-gradient(135deg, ${partner.color}cc 0%, ${partner.color}77 50%, rgba(42,36,29,0.85) 100%)`,
                   }}
                 />
                 {/* Content */}
                 <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between">
                   <div className="flex items-center justify-between">
-                    <span className="text-white/80 text-xs font-medium tracking-widest uppercase">
-                      Order Now
-                    </span>
-                    <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                      <ArrowUpRight className="w-4 h-4 text-white" />
+                    <span className="inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-sm px-3 py-1 text-white text-[11px] font-semibold tracking-widest uppercase">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#d4a574] animate-pulse" />
+                      Coming Soon
                     </span>
                   </div>
                   <div>
@@ -153,7 +146,7 @@ export function DeliverySection() {
                     <p className="text-white/70 text-sm">{partner.description}</p>
                   </div>
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
           </motion.div>
         </div>
