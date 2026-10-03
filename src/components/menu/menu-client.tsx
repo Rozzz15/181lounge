@@ -30,6 +30,7 @@ const products = [
   { id: 5, name: 'White Mocha', category: 'frappe', description: 'Smooth white chocolate mocha frappe', price: 190, image: '/images/whitemocha.jpg', featured: false, rating: 4.8, popular: false },
   { id: 6, name: 'Choco Chip Frappe', category: 'frappe', description: 'Blended frappe with chocolate chips', price: 190, image: '/images/chocochipfrappe.jpg', featured: false, rating: 4.9, popular: false },
   { id: 7, name: 'Strawberry Frappe', category: 'frappe', description: 'Refreshing strawberry blended frappe', price: 190, image: '/images/strawberryfrappe.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 58, name: 'Biscoff Frappe', category: 'frappe', description: 'Blended frappe with Biscoff cookie butter and cream', price: 195, image: '/images/biscofffrappe.jpg', featured: true, rating: 5, popular: true },
   // Coffee (Iced & Hot)
   { id: 8, name: 'Americano', category: 'ice-coffee', coffeeType: 'both', description: 'Bold espresso with cold water over ice', price: 120, image: '/images/americano.jpg', hotImage: '/images/americanohot.jpg', featured: false, rating: 5, popular: true },
   { id: 9, name: 'Hazelnut Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Espresso with hazelnut syrup and cold milk', price: 165, image: '/images/hazelnutlatte.jpg', hotImage: '/images/hazellatte.jpg', featured: false, rating: 4.8, popular: false },
@@ -40,6 +41,7 @@ const products = [
   { id: 43, name: 'White Mocha Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Espresso with smooth white chocolate and cold milk', price: 165, image: '/images/whitemochaice.jpg', hotImage: '/images/whitemochalatte.jpg', featured: false, rating: 4.9, popular: false },
   { id: 47, name: 'Cappuccino', category: 'ice-coffee', coffeeType: 'hot', description: 'Espresso with steamed milk and a thick layer of foam', price: 180, image: '/images/cappuccino.jpg', featured: false, rating: 5, popular: false },
   { id: 48, name: 'Caramel Macchiato', category: 'ice-coffee', coffeeType: 'iced', description: 'Espresso layered with vanilla syrup, milk, and caramel drizzle', price: 175, image: '/images/caramelmachato.jpg', featured: false, rating: 4.9, popular: false },
+  { id: 57, name: 'Biscoff Latte', category: 'ice-coffee', coffeeType: 'iced', description: 'Espresso with Biscoff cookie butter syrup and cold milk', price: 175, image: '/images/biscofflatte.jpg', featured: true, rating: 5, popular: true },
   // Matcha
   { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, image: '/images/strawberrymatcha.jpg', featured: true, rating: 5, popular: true, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 180, image: '/images/machalatte.jpg', featured: false, rating: 4.8, popular: false, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
@@ -62,6 +64,7 @@ const products = [
   { id: 53, name: 'Hungarian Silog', category: 'silog-serye', description: 'Hungarian sausage with garlic rice and fried egg', price: 130, image: '/images/hungariansilog.jpg', featured: false, rating: 4.9, popular: false },
   { id: 54, name: 'Sisig Silog', category: 'silog-serye', description: 'Sizzling sisig with garlic rice and fried egg', price: 135, image: '/images/sisigsilog.jpg', featured: true, rating: 5, popular: true },
   { id: 55, name: 'Adobo Silog', category: 'silog-serye', description: 'Savory Filipino adobo with garlic rice and fried egg', price: 135, image: '/images/adobosilog.jpg', featured: false, rating: 4.9, popular: true },
+  { id: 56, name: 'Liempo Silog', category: 'silog-serye', description: 'Grilled pork belly with garlic rice and fried egg', price: 170, image: '/images/liemposilog.jpg', featured: true, rating: 5, popular: true },
   // Pasta
   { id: 25, name: 'Mushroom White', category: 'pasta', description: 'Creamy white sauce pasta with mushrooms', price: 189, image: '/images/mushroom.jpg', featured: true, rating: 5, popular: true },
   { id: 26, name: 'Charlie Chan', category: 'pasta', description: 'Signature pasta with savory sauce and toppings', price: 189, image: '/images/charliechan.jpg', featured: true, rating: 4.9, popular: true },

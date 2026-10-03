@@ -21,6 +21,7 @@ const MENU: MenuItem[] = [
   { id: 5, name: 'White Mocha', category: 'Frappe', description: 'Smooth white chocolate mocha frappe', price: 190 },
   { id: 6, name: 'Choco Chip Frappe', category: 'Frappe', description: 'Blended frappe with chocolate chips', price: 190 },
   { id: 7, name: 'Strawberry Frappe', category: 'Frappe', description: 'Refreshing strawberry blended frappe', price: 190 },
+  { id: 58, name: 'Biscoff Frappe', category: 'Frappe', description: 'Blended frappe with Biscoff cookie butter and cream', price: 195 },
   { id: 8, name: 'Americano', category: 'Coffee', description: 'Bold espresso with cold water over ice', price: 120 },
   { id: 9, name: 'Hazelnut Latte', category: 'Coffee', description: 'Espresso with hazelnut syrup and cold milk', price: 165 },
   { id: 10, name: 'Cafe Latte', category: 'Coffee', description: 'Classic espresso with smooth cold milk', price: 150 },
@@ -30,6 +31,7 @@ const MENU: MenuItem[] = [
   { id: 43, name: 'White Mocha Latte', category: 'Coffee', description: 'Espresso with smooth white chocolate and cold milk', price: 165 },
   { id: 47, name: 'Cappuccino', category: 'Coffee', description: 'Espresso with steamed milk and a thick layer of foam', price: 180 },
   { id: 48, name: 'Caramel Macchiato', category: 'Coffee', description: 'Espresso layered with vanilla syrup, milk, and caramel drizzle', price: 175 },
+  { id: 57, name: 'Biscoff Latte', category: 'Coffee', description: 'Espresso with Biscoff cookie butter syrup and cold milk', price: 175 },
   { id: 13, name: 'Strawberry Matcha', category: 'Matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 14, name: 'Matcha Latte', category: 'Matcha', description: 'Premium matcha whisked with steamed milk', price: 180, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 34, name: 'Dirty Matcha', category: 'Matcha', description: 'Matcha with a shot of espresso', price: 180 },
@@ -48,6 +50,7 @@ const MENU: MenuItem[] = [
   { id: 53, name: 'Hungarian Silog', category: 'Silog Serye', description: 'Hungarian sausage with garlic rice and fried egg', price: 130 },
   { id: 54, name: 'Sisig Silog', category: 'Silog Serye', description: 'Sizzling sisig with garlic rice and fried egg', price: 135 },
   { id: 55, name: 'Adobo Silog', category: 'Silog Serye', description: 'Savory Filipino adobo with garlic rice and fried egg', price: 135 },
+  { id: 56, name: 'Liempo Silog', category: 'Silog Serye', description: 'Grilled pork belly with garlic rice and fried egg', price: 170 },
   { id: 25, name: 'Mushroom White', category: 'Pasta', description: 'Creamy white sauce pasta with mushrooms', price: 189 },
   { id: 26, name: 'Charlie Chan', category: 'Pasta', description: 'Signature pasta with savory sauce and toppings', price: 189 },
   { id: 27, name: 'Aglio Olio', category: 'Pasta', description: 'Classic garlic and olive oil pasta', price: 189 },
@@ -272,7 +275,7 @@ function getBotResponse(rawInput: string): string {
   }
 
   if (contains(text, ['price', 'how much', 'cost', 'menu', 'food', 'drink', 'what do you have', 'offer', 'available', 'catalog', 'products', 'items'])) {
-    return `Here's our menu at a glance:\n\n☕ Coffee — ${formatPrice(120)} to ${formatPrice(180)}\n🍃 Matcha — ${formatPrice(180)} to ${formatPrice(195)}\n🥤 Frappe — ${formatPrice(190)}\n✨ Signature Drinks — ${formatPrice(210)}\n🍚 Rice Meal — ${formatPrice(190)}\n🍳 Silog Serye — ${formatPrice(130)} to ${formatPrice(135)}\n🍝 Pasta — ${formatPrice(189)}\n🥪 Sandwich & Snack — ${formatPrice(190)} to ${formatPrice(210)}\n🍹 Spritzers — ${formatPrice(120)}\n📚 Books — ask at the cashier desk\n\nAsk me about any category (e.g. "frappe", "coffee", "silog") or a specific item for full details!`;
+    return `Here's our menu at a glance:\n\n☕ Coffee — ${formatPrice(120)} to ${formatPrice(180)}\n🍃 Matcha — ${formatPrice(180)} to ${formatPrice(195)}\n🥤 Frappe — ${formatPrice(190)} to ${formatPrice(195)}\n✨ Signature Drinks — ${formatPrice(210)}\n🍚 Rice Meal — ${formatPrice(190)}\n🍳 Silog Serye — ${formatPrice(130)} to ${formatPrice(170)}\n🍝 Pasta — ${formatPrice(189)}\n🥪 Sandwich & Snack — ${formatPrice(190)} to ${formatPrice(210)}\n🍹 Spritzers — ${formatPrice(120)}\n📚 Books — ask at the cashier desk\n\nAsk me about any category (e.g. "frappe", "coffee", "silog") or a specific item for full details!`;
   }
 
   if (contains(text, ['today', 'brand', 'what is']) || /^what(s| is)? 181?/.test(text) || contains(text, ['181 lounge'])) {
