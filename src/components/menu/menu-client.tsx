@@ -42,6 +42,7 @@ const products = [
   { id: 47, name: 'Cappuccino', category: 'ice-coffee', coffeeType: 'hot', description: 'Espresso with steamed milk and a thick layer of foam', price: 180, image: '/images/cappuccino.jpg', featured: false, rating: 5, popular: false },
   { id: 48, name: 'Caramel Macchiato', category: 'ice-coffee', coffeeType: 'iced', description: 'Espresso layered with vanilla syrup, milk, and caramel drizzle', price: 175, image: '/images/caramelmachato.jpg', featured: false, rating: 4.9, popular: false },
   { id: 57, name: 'Biscoff Latte', category: 'ice-coffee', coffeeType: 'iced', description: 'Espresso with Biscoff cookie butter syrup and cold milk', price: 175, image: '/images/biscofflatte.jpg', featured: true, rating: 5, popular: true },
+  { id: 60, name: 'Honey Oat Latte', category: 'ice-coffee', coffeeType: 'iced', description: 'Espresso with honey oat syrup and cold milk', price: 175, image: '/images/honeyoatlatte.jpg', featured: false, rating: 4.9, popular: true },
   // Matcha
   { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, image: '/images/strawberrymatcha.jpg', featured: true, rating: 5, popular: true, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 180, image: '/images/machalatte.jpg', featured: false, rating: 4.8, popular: false, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
@@ -53,7 +54,7 @@ const products = [
   { id: 33, name: 'Sea Salt Spanish Latte', category: 'signature', description: 'Spanish latte with a sea salt twist', price: 210, image: '/images/seasalt.jpg', featured: true, rating: 5, popular: true },
   // Rice Meal
   { id: 21, name: 'Chicken Souvlaki', category: 'rice-meal', description: 'Grilled chicken souvlaki served with rice', price: 190, image: '/images/chickensouvlaki.jpg', featured: true, rating: 5, popular: true },
-  { id: 22, name: 'Hickory Pork', category: 'rice-meal', description: 'Hickory-smoked pork served with rice', price: 190, image: '/images/hickorypork.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 22, name: 'Chicken Ala King', category: 'rice-meal', description: 'Creamy chicken ala king served with rice', price: 190, image: '/images/alaking.jpg', featured: true, rating: 4.9, popular: true },
   { id: 23, name: 'Chicken Tenders', category: 'rice-meal', description: 'Crispy chicken tenders served with rice', price: 190, image: '/images/chickentenders.jpg', featured: false, rating: 4.8, popular: false },
   { id: 24, name: 'Adobo Flakes', category: 'rice-meal', description: 'Classic Filipino adobo flakes served with rice', price: 190, image: '/images/adoboflakes.jpg', featured: true, rating: 5, popular: true },
   // Silog Serye
@@ -67,10 +68,11 @@ const products = [
   { id: 56, name: 'Liempo Silog', category: 'silog-serye', description: 'Grilled pork belly with garlic rice and fried egg', price: 170, image: '/images/liemposilog.jpg', featured: true, rating: 5, popular: true },
   // Pasta
   { id: 25, name: 'Mushroom White', category: 'pasta', description: 'Creamy white sauce pasta with mushrooms', price: 189, image: '/images/mushroom.jpg', featured: true, rating: 5, popular: true },
-  { id: 26, name: 'Charlie Chan', category: 'pasta', description: 'Signature pasta with savory sauce and toppings', price: 189, image: '/images/charliechan.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 26, name: 'Creamy Pesto Pasta', category: 'pasta', description: 'Penne pasta tossed in rich creamy pesto sauce', price: 189, image: '/images/creamypasta.jpg', featured: true, rating: 4.9, popular: true },
   { id: 27, name: 'Aglio Olio', category: 'pasta', description: 'Classic garlic and olive oil pasta', price: 189, image: '/images/aglio.jpg', featured: false, rating: 4.8, popular: false },
   // Sandwich & Snack
-  { id: 28, name: 'Truffle Cheese', category: 'sandwich-snack', description: 'Grilled sandwich with truffle and cheese', price: 210, image: '/images/truffle.jpg', featured: true, rating: 5, popular: true },
+  { id: 28, name: 'Sour Cream Fries', category: 'sandwich-snack', description: 'Crispy fries tossed in savory sour cream seasoning', price: 150, image: '/images/sourcreamflavor.jpg', featured: true, rating: 5, popular: true },
+  { id: 59, name: 'Cheese Friends', category: 'sandwich-snack', description: 'Golden cheese bites perfect for sharing', price: 150, image: '/images/cheeseflavor.jpg', featured: true, rating: 4.9, popular: true },
   { id: 29, name: 'Nachos', category: 'sandwich-snack', description: 'Crispy nachos with cheese dip', price: 190, image: '/images/nat.jpg', featured: true, rating: 4.9, popular: true },
   // Spritzers
   { id: 44, name: 'Strawberry Spritz', category: 'spritzers', description: 'Refreshing strawberry spritzer', price: 120, image: '/images/strawberryspritz.jpg', featured: false, rating: 4.8, popular: false },
