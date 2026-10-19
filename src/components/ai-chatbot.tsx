@@ -57,7 +57,7 @@ const MENU: MenuItem[] = [
   { id: 27, name: 'Aglio Olio', category: 'Pasta', description: 'Classic garlic and olive oil pasta', price: 189 },
   { id: 28, name: 'Sour Cream Fries', category: 'Sandwich & Snack', description: 'Crispy fries tossed in savory sour cream seasoning', price: 150 },
   { id: 29, name: 'Nachos', category: 'Sandwich & Snack', description: 'Crispy nachos with cheese dip', price: 190 },
-  { id: 59, name: 'Cheese Friends', category: 'Sandwich & Snack', description: 'Golden cheese bites perfect for sharing', price: 150 },
+  { id: 59, name: 'Cheese Fries', category: 'Sandwich & Snack', description: 'Golden cheese fries perfect for sharing', price: 150 },
   { id: 44, name: 'Strawberry Spritz', category: 'Spritzers', description: 'Refreshing strawberry spritzer', price: 120 },
   { id: 45, name: 'Blueberry Spritz', category: 'Spritzers', description: 'Refreshing blueberry spritzer', price: 120 },
   { id: 46, name: 'Mixed Berry Spritz', category: 'Spritzers', description: 'Refreshing mixed berry spritzer', price: 120 },

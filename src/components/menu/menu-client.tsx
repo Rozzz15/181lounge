@@ -72,7 +72,7 @@ const products = [
   { id: 27, name: 'Aglio Olio', category: 'pasta', description: 'Classic garlic and olive oil pasta', price: 189, image: '/images/aglio.jpg', featured: false, rating: 4.8, popular: false },
   // Sandwich & Snack
   { id: 28, name: 'Sour Cream Fries', category: 'sandwich-snack', description: 'Crispy fries tossed in savory sour cream seasoning', price: 150, image: '/images/sourcreamflavor.jpg', featured: true, rating: 5, popular: true },
-  { id: 59, name: 'Cheese Friends', category: 'sandwich-snack', description: 'Golden cheese bites perfect for sharing', price: 150, image: '/images/cheeseflavor.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 59, name: 'Cheese Fries', category: 'sandwich-snack', description: 'Golden cheese fries perfect for sharing', price: 150, image: '/images/cheeseflavor.jpg', featured: true, rating: 4.9, popular: true },
   { id: 29, name: 'Nachos', category: 'sandwich-snack', description: 'Crispy nachos with cheese dip', price: 190, image: '/images/nat.jpg', featured: true, rating: 4.9, popular: true },
   // Spritzers
   { id: 44, name: 'Strawberry Spritz', category: 'spritzers', description: 'Refreshing strawberry spritzer', price: 120, image: '/images/strawberryspritz.jpg', featured: false, rating: 4.8, popular: false },
