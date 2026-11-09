@@ -36,6 +36,13 @@ const MENU: MenuItem[] = [
   { id: 13, name: 'Strawberry Matcha', category: 'Matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 14, name: 'Matcha Latte', category: 'Matcha', description: 'Premium matcha whisked with steamed milk', price: 180, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 34, name: 'Dirty Matcha', category: 'Matcha', description: 'Matcha with a shot of espresso', price: 180 },
+  { id: 35, name: 'Ube Matcha', category: 'Matcha', description: 'Matcha blended with creamy ube', price: 170 },
+  { id: 61, name: 'Oreo Einspanner', category: 'Einspanner', description: 'Espresso topped with thick cream and crushed Oreo', price: 170 },
+  { id: 62, name: 'Biscoff Einspanner', category: 'Einspanner', description: 'Espresso topped with thick cream and Biscoff cookie butter', price: 185 },
+  { id: 63, name: 'Ube Einspanner', category: 'Einspanner', description: 'Espresso topped with thick cream and creamy ube', price: 170 },
+  { id: 64, name: 'Matcha Einspanner', category: 'Einspanner', description: 'Espresso topped with thick matcha cream', price: 170 },
+  { id: 65, name: 'Strawberry Einspanner', category: 'Einspanner', description: 'Espresso topped with thick cream and strawberry', price: 170 },
+  { id: 66, name: 'Choco Einspanner', category: 'Einspanner', description: 'Espresso topped with thick cream and chocolate', price: 170 },
   { id: 30, name: 'Offwhite Latte', category: 'Signature Drinks', description: 'Our signature offwhite latte blend', price: 210 },
   { id: 31, name: 'Salted Mocha', category: 'Signature Drinks', description: 'Rich mocha with a hint of salt', price: 210 },
   { id: 32, name: '181 Signature', category: 'Signature Drinks', description: 'Our iconic 181 signature drink', price: 210 },
@@ -61,6 +68,7 @@ const MENU: MenuItem[] = [
   { id: 44, name: 'Strawberry Spritz', category: 'Spritzers', description: 'Refreshing strawberry spritzer', price: 120 },
   { id: 45, name: 'Blueberry Spritz', category: 'Spritzers', description: 'Refreshing blueberry spritzer', price: 120 },
   { id: 46, name: 'Mixed Berry Spritz', category: 'Spritzers', description: 'Refreshing mixed berry spritzer', price: 120 },
+  { id: 47, name: 'Dracula Spritz', category: 'Spritzers', description: 'Refreshing dark berry spritzer', price: 120 },
 ];
 
 const ADDONS = [
@@ -73,6 +81,7 @@ const ADDONS = [
 
 const QUICK_REPLIES = [
   'What do you recommend?',
+  'What\'s new?',
   'Ano ang maganda?',
   'Show me the menu',
   'Anong oras kayo?',
@@ -149,6 +158,7 @@ const STOP_WORDS = new Set([
 
 const CATEGORY_WORDS = new Set([
   'frappe', 'frappes', 'matcha', 'latte', 'lattes', 'coffee', 'coffees', 'espresso', 'cafe',
+  'einspanner', 'einspanners',
   'pasta', 'pastas', 'silog', 'spritz', 'spritzer', 'spritzers', 'sandwich', 'sandwiches',
   'snack', 'snacks', 'rice', 'meal', 'meals', 'drink', 'drinks', 'beverage', 'beverages',
   'book', 'books', 'boardgame', 'boardgames', 'menu', 'item', 'items', 'signature', 'addon', 'add', 'on', 'extras',
@@ -232,12 +242,26 @@ function getBotResponse(rawInput: string): string {
     return `Here's what I found on our menu:\n\n${listItems(matchedItems)}\n\nTap "Show me the menu" to browse everything.`;
   }
 
+  if (/\b(new|bago|bagong|latest)\b/.test(cleaned) || contains(text, ['what\'s new', 'whats new', 'new product', 'new drink', 'new item', 'new flavor', 'new menu'])) {
+    const newItems = [
+      'Dracula Spritz',
+      'Ube Matcha',
+      'Oreo Einspanner',
+      'Biscoff Einspanner',
+      'Ube Einspanner',
+      'Matcha Einspanner',
+      'Strawberry Einspanner',
+      'Choco Einspanner',
+    ].map((name) => MENU.find((i) => i.name === name)).filter((i): i is MenuItem => Boolean(i));
+    return `🆕 New on the menu:\n\n${listItems(newItems)}\n\nAsk me about any of them for full details!`;
+  }
+
   const asksRecommendation =
     /(what should i|recommend|best seller|most popular|popular drink|suggest|favorite|famous)/.test(text) ||
     /\b(maganda|paborito|sikat|mungkahi|iminumungkahi|irekomenda|rekomenda|masarap)\b/.test(text) ||
     contains(text, ['pinakamaganda', 'anong ok', 'ano bang ok']);
   if (asksRecommendation) {
-    const favorites = ['Matcha Frappe', 'Cafe Latte', 'Caramel Latte', 'Strawberry Matcha', 'Dirty Matcha', '181 Signature', 'Adobo Flakes', 'Sisig Silog', 'Sour Cream Fries'].map((name) => MENU.find((i) => i.name === name)).filter((i): i is MenuItem => Boolean(i));
+    const favorites = ['Matcha Frappe', 'Cafe Latte', 'Caramel Latte', 'Strawberry Matcha', 'Dirty Matcha', 'Biscoff Einspanner', '181 Signature', 'Adobo Flakes', 'Sisig Silog', 'Sour Cream Fries'].map((name) => MENU.find((i) => i.name === name)).filter((i): i is MenuItem => Boolean(i));
     return `Some crowd favorites:\n\n${listItems(favorites)}\n\nPopular picks are also marked on our /menu page. Tap "Show me the menu" to browse everything.`;
   }
 
@@ -284,6 +308,10 @@ function getBotResponse(rawInput: string): string {
 
   if (contains(text, ['matcha'])) {
     return `Matcha Collection:\n\n${listItems(categoryItems('Matcha'))}`;
+  }
+
+  if (contains(text, ['einspanner', 'einspanners'])) {
+    return `Einspanner Collection:\n\n${listItems(categoryItems('Einspanner'))}`;
   }
 
   if (contains(text, ['pasta'])) {
@@ -364,7 +392,7 @@ function getBotResponse(rawInput: string): string {
   }
 
   if (contains(text, ['price', 'how much', 'cost', 'menu', 'food', 'drink', 'what do you have', 'offer', 'available', 'catalog', 'products', 'items', 'magkano', 'presyo', 'ano ang meron', 'ano meron', 'kainin', 'inumin', 'pagkain', 'pricelist'])) {
-    return `Here's our menu at a glance:\n\n☕ Coffee — ${formatPrice(120)} to ${formatPrice(180)}\n🍃 Matcha — ${formatPrice(180)} to ${formatPrice(195)}\n🥤 Frappe — ${formatPrice(190)} to ${formatPrice(195)}\n✨ Signature Drinks — ${formatPrice(210)}\n🍚 Rice Meal — ${formatPrice(190)}\n🍳 Silog Serye — ${formatPrice(130)} to ${formatPrice(170)}\n🍝 Pasta — ${formatPrice(189)}\n🥪 Sandwich & Snack — ${formatPrice(150)} to ${formatPrice(190)}\n🍹 Spritzers — ${formatPrice(120)}\n📚 Books — ask at the cashier desk\n\nAsk me about any category (e.g. "frappe", "coffee", "silog") or a specific item for full details!`;
+    return `Here's our menu at a glance:\n\n☕ Coffee — ${formatPrice(120)} to ${formatPrice(180)}\n🍃 Matcha — ${formatPrice(180)} to ${formatPrice(195)}\n🍨 Einspanner — ${formatPrice(170)} to ${formatPrice(185)}\n🥤 Frappe — ${formatPrice(190)} to ${formatPrice(195)}\n✨ Signature Drinks — ${formatPrice(210)}\n🍚 Rice Meal — ${formatPrice(190)}\n🍳 Silog Serye — ${formatPrice(130)} to ${formatPrice(170)}\n🍝 Pasta — ${formatPrice(189)}\n🥪 Sandwich & Snack — ${formatPrice(150)} to ${formatPrice(190)}\n🍹 Spritzers — ${formatPrice(120)}\n📚 Books — ask at the cashier desk\n\nAsk me about any category (e.g. "frappe", "coffee", "silog") or a specific item for full details!`;
   }
 
   if (contains(text, ['today', 'brand', 'what is']) || /^what(s| is)? 181?/.test(text) || contains(text, ['181 lounge'])) {

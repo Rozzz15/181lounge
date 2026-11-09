@@ -107,6 +107,7 @@ const CATEGORY_LABELS = {
   'frappe': 'Frappe',
   'ice-coffee': 'Coffee',
   'matcha': 'Matcha',
+  'einspanner': 'Einspanner',
   'signature': 'Signature Drinks',
   'rice-meal': 'Rice Meal',
   'silog-serye': 'Silog Serye',

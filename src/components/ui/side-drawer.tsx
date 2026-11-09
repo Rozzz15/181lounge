@@ -38,7 +38,7 @@ export function SideDrawer({ product, onClose, coffeeType = 'all' }: SideDrawerP
   const addOnsTotal = selectedAddOns.reduce((sum, addOn) => sum + addOn.price, 0);
   const itemTotal = (currentPrice + addOnsTotal) * quantity;
 
-  const drinkCategories = ['frappe', 'ice-coffee', 'matcha', 'coffee', 'drinks'];
+  const drinkCategories = ['frappe', 'ice-coffee', 'matcha', 'einspanner', 'coffee', 'drinks'];
   const isDrink = product ? drinkCategories.includes(product.category.toLowerCase()) : false;
 
   // Close on escape key

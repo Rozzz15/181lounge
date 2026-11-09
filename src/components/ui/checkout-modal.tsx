@@ -11,6 +11,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   'ice-coffee': 'Ice Coffee',
   'hot-coffee': 'Hot Coffee',
   'matcha': 'Matcha',
+  'einspanner': 'Einspanner',
   'signature': 'Signature',
   'rice-meal': 'Rice Meal',
   'pasta': 'Pasta',

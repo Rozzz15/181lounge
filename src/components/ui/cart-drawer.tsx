@@ -230,6 +230,7 @@ function CartItemCard({
     'ice-coffee': 'Ice Coffee',
     'hot-coffee': 'Hot Coffee',
     'matcha': 'Matcha',
+    'einspanner': 'Einspanner',
     'signature': 'Signature',
     'rice-meal': 'Rice Meal',
     'pasta': 'Pasta',

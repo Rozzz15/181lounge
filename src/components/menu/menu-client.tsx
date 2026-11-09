@@ -12,6 +12,7 @@ const categories = [
   { id: 'frappe', name: 'Frappe' },
   { id: 'ice-coffee', name: 'Coffee' },
   { id: 'matcha', name: 'Matcha' },
+  { id: 'einspanner', name: 'Einspanner' },
   { id: 'signature', name: 'Signature Drinks' },
   { id: 'rice-meal', name: 'Rice Meal' },
   { id: 'silog-serye', name: 'Silog Serye' },
@@ -47,6 +48,14 @@ const products = [
   { id: 13, name: 'Strawberry Matcha', category: 'matcha', description: 'Layered matcha with fresh strawberry puree', price: 180, image: '/images/strawberrymatcha.jpg', featured: true, rating: 5, popular: true, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 14, name: 'Matcha Latte', category: 'matcha', description: 'Premium matcha whisked with steamed milk', price: 180, image: '/images/machalatte.jpg', featured: false, rating: 4.8, popular: false, sizes: [{ name: 'Medium', price: 180 }, { name: 'Large', price: 195 }] },
   { id: 34, name: 'Dirty Matcha', category: 'matcha', description: 'Matcha with a shot of espresso', price: 180, image: '/images/dirtymatcha.jpg', featured: true, rating: 5, popular: true },
+  { id: 35, name: 'Ube Matcha', category: 'matcha', description: 'Matcha blended with creamy ube', price: 170, image: '/images/ubematcha.jpg', featured: false, rating: 4.8, popular: false },
+  // Einspanner
+  { id: 61, name: 'Oreo Einspanner', category: 'einspanner', description: 'Espresso topped with thick cream and crushed Oreo', price: 170, image: '/images/oreoeinspanner.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 62, name: 'Biscoff Einspanner', category: 'einspanner', description: 'Espresso topped with thick cream and Biscoff cookie butter', price: 185, image: '/images/biscoffeinspanner.jpg', featured: true, rating: 4.9, popular: true },
+  { id: 63, name: 'Ube Einspanner', category: 'einspanner', description: 'Espresso topped with thick cream and creamy ube', price: 170, image: '/images/ubeeinspanner.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 64, name: 'Matcha Einspanner', category: 'einspanner', description: 'Espresso topped with thick matcha cream', price: 170, image: '/images/matchaeinspanner.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 65, name: 'Strawberry Einspanner', category: 'einspanner', description: 'Espresso topped with thick cream and strawberry', price: 170, image: '/images/strawberryeinspanner.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 66, name: 'Choco Einspanner', category: 'einspanner', description: 'Espresso topped with thick cream and chocolate', price: 170, image: '/images/chocoeinspanner.jpg', featured: false, rating: 4.8, popular: false },
   // Signature Drinks
   { id: 30, name: 'Offwhite Latte', category: 'signature', description: 'Our signature offwhite latte blend', price: 210, image: '/images/offwhitelatte.jpg', featured: true, rating: 5, popular: true },
   { id: 31, name: 'Salted Mocha', category: 'signature', description: 'Rich mocha with a hint of salt', price: 210, image: '/images/saltedmocha.jpg', featured: true, rating: 5, popular: true },
@@ -78,6 +87,7 @@ const products = [
   { id: 44, name: 'Strawberry Spritz', category: 'spritzers', description: 'Refreshing strawberry spritzer', price: 120, image: '/images/strawberryspritz.jpg', featured: false, rating: 4.8, popular: false },
   { id: 45, name: 'Blueberry Spritz', category: 'spritzers', description: 'Refreshing blueberry spritzer', price: 120, image: '/images/blueberryspritz.jpg', featured: false, rating: 4.8, popular: false },
   { id: 46, name: 'Mixed Berry Spritz', category: 'spritzers', description: 'Refreshing mixed berry spritzer', price: 120, image: '/images/mixedberryspritz.jpg', featured: false, rating: 4.8, popular: false },
+  { id: 47, name: 'Dracula Spritz', category: 'spritzers', description: 'Refreshing dark berry spritzer', price: 120, image: '/images/draculaspritz.jpg', featured: false, rating: 4.8, popular: false },
   // Books
   { id: 15, name: 'The Coffee Guide', category: 'books', description: 'A beginner-friendly guide to brewing the perfect cup', price: 0, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', featured: true, rating: 4.9, popular: true },
   { id: 16, name: 'Kintugi: Embracing Imperfection', category: 'books', description: 'A local Filipino author\'s take on resilience and beauty', price: 0, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80', featured: false, rating: 4.8, popular: false },
