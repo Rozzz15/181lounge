@@ -5,51 +5,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MagnetButton } from '@/components/ui/magnet-button';
-import { ProductCard3D } from '@/components/ui/product-card-3d';
-
-const bestSellers = [
-  {
-    id: 1,
-    name: 'Strawberry Matcha',
-    category: 'Matcha',
-    description: 'Layered matcha with fresh strawberry puree',
-    price: 150,
-    image: '/images/strawberrymatcha.jpg',
-    rating: 4.9,
-  },
-  {
-    id: 2,
-    name: 'Cafe Latte',
-    category: 'Ice Coffee',
-    description: 'Classic espresso with smooth cold milk',
-    price: 120,
-    image: '/images/cafelatte.jpg',
-    rating: 4.7,
-  },
-  {
-    id: 3,
-    name: 'Strawberry Frappe',
-    category: 'Frappe',
-    description: 'Refreshing strawberry blended frappe',
-    price: 190,
-    image: '/images/strawberryfrappe.jpg',
-    rating: 4.7,
-  },
-  {
-    id: 4,
-    name: 'Caramel Latte',
-    category: 'Ice Coffee',
-    description: 'Espresso with caramel syrup and cold milk',
-    price: 150,
-    image: '/images/caramellatte.jpg',
-    rating: 4.8,
-  },
-];
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-};
 
 export function BestSellersSection() {
   return (
@@ -61,43 +16,44 @@ export function BestSellersSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
           <span className="inline-block px-4 py-1 bg-[#525A40]/20 text-[#525A40] rounded-full text-sm font-semibold mb-4">
-            Customer Favorites
+            Just Landed
           </span>
           <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-[#44362A]">
-            OUR BEST SELLERS
+            OUR NEW PRODUCTS
           </h2>
-          <p className="mt-4 text-[#948D82] text-lg max-w-2xl mx-auto">
-            Discover why our customers keep coming back for more. These customer favorites 
-            are just the beginning of your 181 Lounge journey.
+          <p className="mt-4 text-base sm:text-lg text-[#948D82] max-w-2xl mx-auto">
+            Fresh off the menu — meet our newest drinks. The Einspanner (Soft Cream)
+            series comes in Oreo, Biscoff, Ube, Matcha, Strawberry, and Choco. There's
+            something new to love at 181 Lounge.
           </p>
         </motion.div>
 
-        {/* Products Grid */}
+        {/* Banner */}
         <motion.div
-          initial="initial"
-          whileInView="animate"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={{
-            animate: { transition: { staggerChildren: 0.1 } },
-          }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          transition={{ duration: 0.7 }}
         >
-          {bestSellers.map((product) => (
-            <motion.div key={product.id} variants={fadeInUp} className="h-[28rem]">
-              <ProductCard3D
-                name={product.name}
-                category={product.category}
-                description={product.description}
-                price={product.price}
-                image={product.image}
-                rating={product.rating}
-                onActionClick={() => {}}
-              />
-            </motion.div>
-          ))}
+          <Link
+            to="/menu"
+            className="group relative block overflow-hidden rounded-2xl sm:rounded-3xl border border-[#44362A]/10 shadow-xl shadow-[#44362A]/10"
+          >
+            <img
+              src="/images/Newprod.jpg"
+              alt="181 Lounge Einspanner (Soft Cream) Series — Oreo, Biscoff, Ube, Matcha, Strawberry, and Choco Einspanner"
+              loading="lazy"
+              className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#44362A]/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <span className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 hidden sm:inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#F3F0E8]/95 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-[#44362A] shadow-sm opacity-0 transition-opacity duration-500 sm:group-hover:opacity-100">
+              View Full Menu
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          </Link>
         </motion.div>
 
         {/* CTA */}
@@ -106,7 +62,7 @@ export function BestSellersSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+          className="text-center mt-8 sm:mt-12"
         >
           <Link to="/menu">
             <MagnetButton>

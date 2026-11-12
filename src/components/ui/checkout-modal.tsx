@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Phone, Mail, Hash, MessageSquare, Loader2, CheckCircle2, AlertCircle, Store, Package, CreditCard, ImageIcon } from 'lucide-react';
+import { X, User, Phone, Mail, Hash, MessageSquare, Loader2, CheckCircle2, AlertCircle, Store, Package, CreditCard, ImageIcon, Download } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { formatPrice } from '@/lib/utils';
 
@@ -35,7 +35,17 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [errorMessage, setErrorMessage] = useState('');
   const [paymentImage, setPaymentImage] = useState<File | null>(null);
   const [paymentImagePreview, setPaymentImagePreview] = useState<string | null>(null);
+  const [showQr, setShowQr] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!showQr) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowQr(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [showQr]);
 
   const dineInItems = items.filter((i) => i.orderType === 'dine-in');
   const takeOutItems = items.filter((i) => i.orderType === 'take-out');
@@ -126,6 +136,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     removeImage();
     setStatus('idle');
     setErrorMessage('');
+    setShowQr(false);
     onClose();
   };
 
@@ -381,9 +392,57 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       <p className="text-xs text-[#948D82]">
                         {paymentMethod === 'cash'
                           ? 'Pay with cash when you pick up your order.'
-                          : 'Pay via GCash, Maya, or other e-wallets at the counter.'}
+                          : 'Scan the QR code below to pay via GCash, then upload your payment screenshot.'}
                       </p>
                     </div>
+
+                    {/* GCash QR (E-Wallet only) */}
+                    {paymentMethod === 'ewallet' && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="space-y-3">
+                          <h4 className="font-heading text-sm font-bold text-[#44362A] uppercase tracking-wider">
+                            Scan to Pay
+                          </h4>
+                          <div className="rounded-2xl border border-[#e8e2da] bg-[#F3F0E8]/40 p-4 text-center">
+                            <button
+                              type="button"
+                              onClick={() => setShowQr(true)}
+                              className="mx-auto block w-48 h-48 sm:w-56 sm:h-56 rounded-xl bg-white p-2 border border-[#e8e2da] hover:border-[#927557]/50 transition-colors"
+                              aria-label="View GCash QR code full size"
+                            >
+                              <img
+                                src="/images/gcash.jpg"
+                                alt="181 Lounge GCash QR code"
+                                className="w-full h-full object-contain"
+                              />
+                            </button>
+                            <p className="mt-3 text-sm font-medium text-[#44362A]">
+                              Scan with your GCash app
+                            </p>
+                            <p className="text-xs text-[#948D82]">
+                              Amount due:{' '}
+                              <span className="font-bold text-[#525A40]">{formatPrice(total)}</span>
+                            </p>
+                            <p className="mt-1 text-[10px] text-[#948D82]">
+                              Tap the QR code to view it full size
+                            </p>
+                            <a
+                              href="/images/gcash.jpg"
+                              download="181-lounge-gcash-qr.jpg"
+                              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#525A40] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#44362A] transition-colors"
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                              Download QR
+                            </a>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
 
                     {/* Payment Proof Upload (E-Wallet only) */}
                     {paymentMethod === 'ewallet' && (
@@ -471,6 +530,67 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
               )}
             </div>
           </motion.div>
+
+          {/* GCash QR Lightbox */}
+          <AnimatePresence>
+            {showQr && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4"
+                onClick={() => setShowQr(false)}
+              >
+                <motion.div
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.95, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="relative w-full max-w-sm"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setShowQr(false)}
+                    aria-label="Close QR code"
+                    className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                  <div className="bg-white rounded-2xl p-4 shadow-2xl">
+                    <img
+                      src="/images/gcash.jpg"
+                      alt="181 Lounge GCash QR code"
+                      className="w-full h-auto rounded-xl"
+                    />
+                    <div className="mt-3 flex justify-between items-center text-xs text-[#948D82]">
+                      <span>
+                        Amount due:{' '}
+                        <span className="font-bold text-[#525A40]">{formatPrice(total)}</span>
+                      </span>
+                      <span className="font-medium text-[#44362A]">181 Lounge</span>
+                    </div>
+                    <a
+                      href="/images/gcash.jpg"
+                      download="181-lounge-gcash-qr.jpg"
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#525A40] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#44362A] transition-colors"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download QR Code
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setShowQr(false)}
+                      className="mt-2 w-full rounded-xl border border-[#e8e2da] px-4 py-2.5 text-sm font-semibold text-[#948D82] hover:bg-[#F3F0E8] transition-colors"
+                    >
+                      Back
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </AnimatePresence>
