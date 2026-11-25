@@ -32,6 +32,7 @@ const products = [
   { id: 6, name: 'Choco Chip Frappe', category: 'frappe', description: 'Blended frappe with chocolate chips', price: 190, image: '/images/chocochipfrappe.jpg', featured: false, rating: 4.9, popular: false },
   { id: 7, name: 'Strawberry Frappe', category: 'frappe', description: 'Refreshing strawberry blended frappe', price: 190, image: '/images/strawberryfrappe.jpg', featured: false, rating: 4.8, popular: false },
   { id: 58, name: 'Biscoff Frappe', category: 'frappe', description: 'Blended frappe with Biscoff cookie butter and cream', price: 195, image: '/images/biscofffrappe.jpg', featured: true, rating: 5, popular: true },
+  { id: 67, name: 'Ube Frappe', category: 'frappe', description: 'Blended frappe with creamy ube and milk', price: 190, image: '/images/ubefrappe.jpg', featured: false, rating: 4.8, popular: false },
   // Coffee (Iced & Hot)
   { id: 8, name: 'Americano', category: 'ice-coffee', coffeeType: 'both', description: 'Bold espresso with cold water over ice', price: 120, image: '/images/americano.jpg', hotImage: '/images/americanohot.jpg', featured: false, rating: 5, popular: true },
   { id: 9, name: 'Hazelnut Latte', category: 'ice-coffee', coffeeType: 'both', description: 'Espresso with hazelnut syrup and cold milk', price: 165, image: '/images/hazelnutlatte.jpg', hotImage: '/images/hazellatte.jpg', featured: false, rating: 4.8, popular: false },

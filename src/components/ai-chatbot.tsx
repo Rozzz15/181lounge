@@ -22,6 +22,7 @@ const MENU: MenuItem[] = [
   { id: 6, name: 'Choco Chip Frappe', category: 'Frappe', description: 'Blended frappe with chocolate chips', price: 190 },
   { id: 7, name: 'Strawberry Frappe', category: 'Frappe', description: 'Refreshing strawberry blended frappe', price: 190 },
   { id: 58, name: 'Biscoff Frappe', category: 'Frappe', description: 'Blended frappe with Biscoff cookie butter and cream', price: 195 },
+  { id: 67, name: 'Ube Frappe', category: 'Frappe', description: 'Blended frappe with creamy ube and milk', price: 190 },
   { id: 8, name: 'Americano', category: 'Coffee', description: 'Bold espresso with cold water over ice', price: 120 },
   { id: 9, name: 'Hazelnut Latte', category: 'Coffee', description: 'Espresso with hazelnut syrup and cold milk', price: 165 },
   { id: 10, name: 'Cafe Latte', category: 'Coffee', description: 'Classic espresso with smooth cold milk', price: 150 },
